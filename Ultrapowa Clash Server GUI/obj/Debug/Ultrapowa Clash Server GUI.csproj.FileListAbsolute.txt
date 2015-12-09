@@ -1,0 +1,36 @@
+c:\users\adeltax\documents\visual studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\bin\Debug\Ultrapowa Clash Server GUI.exe.config
+c:\users\adeltax\documents\visual studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\bin\Debug\Ultrapowa Clash Server GUI.exe
+c:\users\adeltax\documents\visual studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\bin\Debug\Ultrapowa Clash Server GUI.pdb
+c:\users\adeltax\documents\visual studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\MainWindow.g.cs
+c:\users\adeltax\documents\visual studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\App.g.cs
+c:\users\adeltax\documents\visual studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI_MarkupCompile.cache
+c:\users\adeltax\documents\visual studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI_MarkupCompile.lref
+c:\users\adeltax\documents\visual studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\MainWindow.baml
+c:\users\adeltax\documents\visual studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.g.resources
+c:\users\adeltax\documents\visual studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa_Clash_Server_GUI.Properties.Resources.resources
+c:\users\adeltax\documents\visual studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.csproj.GenerateResource.Cache
+c:\users\adeltax\documents\visual studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.exe
+c:\users\adeltax\documents\visual studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.pdb
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI_Content.g.cs
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\bin\Debug\EntityFramework.dll
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\bin\Debug\Ionic.Zlib.dll
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\bin\Debug\MySql.Data.dll
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\bin\Debug\MySql.Data.Entity.EF6.dll
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\bin\Debug\Newtonsoft.Json.dll
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\bin\Debug\System.Data.SQLite.dll
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\bin\Debug\System.Data.SQLite.EF6.dll
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\bin\Debug\EntityFramework.xml
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\bin\Debug\Newtonsoft.Json.xml
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\bin\Debug\System.Data.SQLite.xml
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\Feedback.g.cs
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\Feedback.baml
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\Styles\Styles.baml
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\App.baml
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\Popup.g.cs
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\Popup.baml
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\SplashScreen.g.cs
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\SplashScreen.baml
+C:\Users\ADeltaX\Documents\Visual Studio 2015\Projects\Ultrapowa Clash Server GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.csprojResolveAssemblyReference.cache

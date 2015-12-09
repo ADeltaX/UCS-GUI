@@ -1,0 +1,1 @@
+"Ultrapowa Clash Server GUI.exe" /console
