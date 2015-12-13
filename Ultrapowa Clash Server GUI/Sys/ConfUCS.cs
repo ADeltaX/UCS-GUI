@@ -13,6 +13,7 @@ namespace Ultrapowa_Clash_Server_GUI.Sys
         public static string Language = "en-US";
         public static bool EnableRemoteControl = false;
         public static bool IsConsoleMode = false;
+        public static bool IsDefaultMode = false;
 
         public static bool IsUpdateAvailable = false;
         public static Version NewVer = new Version();

@@ -20,7 +20,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
         {
             while (true)
             {
-                Console.WriteLine("");
+                MainWindow.RemoteWindow.WriteConsole("", (int)MainWindow.level.WARNING);
                 string line = Console.ReadLine();
                 if (line == "/shutdown")
                 {

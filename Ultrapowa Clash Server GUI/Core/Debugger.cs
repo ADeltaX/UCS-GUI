@@ -35,7 +35,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                 content += ex.ToString();
             if (Convert.ToBoolean(ConfigurationManager.AppSettings["consoleDebug"]))
             {
-                Console.WriteLine(content);
+                MainWindow.RemoteWindow.WriteConsole(content, (int)MainWindow.level.WARNING);
             }
             else
             {

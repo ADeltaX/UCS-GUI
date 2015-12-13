@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="UCS Server" Height="450" Width="600" 
         MinWidth="600" MinHeight="450" Loaded="Window_Loaded" Closing="Window_Closing" Activated="Window_Activated" Deactivated="Window_Deactivated">
-   
+
     <Window.Background>
         <ImageBrush ImageSource="BG/UCS BG.png"/>
     </Window.Background>
@@ -26,7 +26,7 @@
             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="#4aa3df" Opacity="0.8"/>
             <MenuItem Header="_Commands" Height="22" BorderBrush="{x:Null}" Foreground="#39c8e2" Background="{x:Null}">
                 <MenuItem Header="Ban" x:Name="MI_Ban" Foreground="#FF1700FF" Click="MI_Ban_Click">
-                    <MenuItem Header="_Ban IP" />
+                <MenuItem Header="_Ban IP" />
                 </MenuItem>
                 <MenuItem Header="Kick" Foreground="#FF0023FF" />
                 <Separator />
@@ -49,22 +49,17 @@
             </MenuItem>
         </Menu>
         <Grid Grid.Row="1">
-            <Label x:Name="label_console" Content="Console:" HorizontalAlignment="Left" Margin="16,40,0,0" VerticalAlignment="Top" Height="16" Padding="0,0,0,0" Foreground="White"/>
-            <Label x:Name="label_player" Content="Player online:" Margin="0,40,90,0" VerticalAlignment="Top" Height="16" Padding="0,0,0,0" Foreground="White" HorizontalAlignment="Right" Width="71"/>
-            <Rectangle Fill="#2980b9" Margin="0,65,172,80" Width="1" HorizontalAlignment="Right" Opacity="0.8">
+            <Label x:Name="label_console" Content="Console:" HorizontalAlignment="Left" Margin="16,40,0,0" VerticalAlignment="Top" Height="16" Padding="0,0,0,0" Foreground="White">
+            </Label>
+            <Label x:Name="label_player" Content="Player online:" Margin="0,40,90,0" VerticalAlignment="Top" Height="16" Padding="0,0,0,0" Foreground="White" HorizontalAlignment="Right" Width="71">
+            </Label>
+            <Rectangle Fill="#2980b9" Margin="0,65,172,80" Width="2" HorizontalAlignment="Right" Opacity="0.8">
             </Rectangle>
-            <Rectangle Fill="#2980b9" Height="1" Margin="24,0,24,63" VerticalAlignment="Bottom" Opacity="0.8">
+            <Rectangle Fill="#2980b9" Height="2" Margin="24,0,24,63" VerticalAlignment="Bottom" Opacity="0.8">
             </Rectangle>
-            <Rectangle Fill="#2980b9" Margin="12,35,0,0" Height="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="449" Opacity="0.8">
+            <Rectangle Fill="#2980b9" Margin="12,35,0,0" Height="2" VerticalAlignment="Top" HorizontalAlignment="Left" Width="449" Opacity="0.8">
             </Rectangle>
             <RichTextBox Template="{StaticResource FlatRichTextBoxStyle}" Padding="2" x:Name="RTB_Console" x:FieldModifier="public" Margin="10,60,180,70" AllowDrop="False" BorderThickness="2" IsReadOnly="True" Background="Transparent" SelectionBrush="#FF005DB9" VerticalScrollBarVisibility="Auto" FontFamily="Consolas" BorderBrush="#39c8e2">
-                <FlowDocument>
-                    <Paragraph>
-                        <Run Text=""/>
-                    </Paragraph>
-                </FlowDocument>
-            </RichTextBox>
-            <RichTextBox Template="{StaticResource FlatRichTextBoxStyle}" x:Name="RTB_Players" Margin="0,60,15,72" AllowDrop="False" BorderThickness="2" HorizontalAlignment="Right" Width="150" IsReadOnly="True" Background="Transparent" BorderBrush="#39c8e2">
                 <FlowDocument>
                     <Paragraph>
                         <Run Text=""/>
@@ -80,7 +75,15 @@
             <TextBox Template="{StaticResource FlatTextBoxStyle}" CaretBrush="#39c8e2" Padding="4" x:Name="CommandLine" TextWrapping="Wrap" Text="" Margin="12,0,215,33" Height="22" VerticalAlignment="Bottom" Background="#A500697C" Foreground="White" KeyDown="CommandLine_KeyDown" BorderBrush="#39c8e2" SelectionBrush="#FF1B60A6">
             </TextBox>
             <ListBox x:Name="LB_CommandTypedList" Margin="12,0,215,55" VerticalAlignment="Bottom" Visibility="Collapsed" SelectionChanged="LB_CommandTypedList_SelectionChanged"/>
-            <CheckBox Style="{StaticResource CheckBoxStyle}" x:Name="CB_Debug" Content="Debug mode" HorizontalAlignment="Right" Margin="0,0,179,0" VerticalAlignment="Bottom" Foreground="White" IsChecked="True" BorderBrush="#FF2980B9"/>
+            <CheckBox Style="{StaticResource CheckBoxStyle}" x:Name="CB_Debug" Content="Debug mode" HorizontalAlignment="Right" Margin="0,0,179,0" VerticalAlignment="Bottom" Foreground="White" IsChecked="True" BorderBrush="#FF2980B9">
+            </CheckBox>
+            <ListBox x:Name="listBox" HorizontalAlignment="Right" Margin="0,60,15,72" Width="150" BorderBrush="#FF39C8E2" Background="#A500697C" BorderThickness="2">
+                <ListBox.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </ListBox.Resources>
+            </ListBox>
         </Grid>
     </Grid>
 </Window>

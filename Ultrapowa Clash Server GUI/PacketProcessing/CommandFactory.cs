@@ -74,10 +74,11 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             else
             {
 
-
-                Console.Write("\t");
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Unhandled Command " + cm.ToString() + " (ignored)");
+                //Console.ForegroundColor = ConsoleColor.Red;
+                MainWindow.RemoteWindow.Dispatcher.BeginInvoke((Action)delegate ()
+                {
+                    MainWindow.RemoteWindow.WriteConsole("      (CM) Unhandled Command " + cm.ToString() + " (ignored)", (int)MainWindow.level.LOG);
+                });
                 Console.ResetColor();
                 return null;
             }

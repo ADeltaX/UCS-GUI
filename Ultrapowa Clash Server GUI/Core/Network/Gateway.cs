@@ -47,13 +47,20 @@ namespace Ultrapowa_Clash_Server_GUI.Network
             try
             {
                 Socket clientSocket = m_vServerSocket.EndAccept(result);
-                Console.WriteLine("Client connected (" + ((IPEndPoint)clientSocket.RemoteEndPoint).Address.ToString() + ":" + ((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString() + ")");
+                MainWindow.RemoteWindow.Dispatcher.BeginInvoke((Action)delegate ()
+                {
+                    MainWindow.RemoteWindow.WriteConsole("Client connected (" + ((IPEndPoint)clientSocket.RemoteEndPoint).Address.ToString() + ":" + ((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString() + ")", (int)MainWindow.level.WARNING);
+                });
+
                 ResourcesManager.AddClient(new Client(clientSocket));
                 SocketRead.Begin(clientSocket, OnReceive, OnReceiveError);
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception when accepting incoming connection: " + e);
+                MainWindow.RemoteWindow.Dispatcher.BeginInvoke((Action)delegate ()
+                {
+                    MainWindow.RemoteWindow.WriteConsole("Exception when accepting incoming connection: " + e, (int)MainWindow.level.FATAL);
+                });
             }
             try
             {
@@ -61,7 +68,10 @@ namespace Ultrapowa_Clash_Server_GUI.Network
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception when starting new accept process: " + e);
+                MainWindow.RemoteWindow.Dispatcher.BeginInvoke((Action)delegate ()
+                {
+                    MainWindow.RemoteWindow.WriteConsole("Exception when starting new accept process: " + e, (int)MainWindow.level.WARNING);
+                });
             }
         }
 
@@ -128,7 +138,10 @@ namespace Ultrapowa_Clash_Server_GUI.Network
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception when attempting to host (" + port + "): " + e);
+                MainWindow.RemoteWindow.Dispatcher.BeginInvoke((Action)delegate ()
+                {
+                    MainWindow.RemoteWindow.WriteConsole("Exception when attempting to host (" + port + "): " + e, (int)MainWindow.level.WARNING);
+                });
 
                 m_vServerSocket = null;
 

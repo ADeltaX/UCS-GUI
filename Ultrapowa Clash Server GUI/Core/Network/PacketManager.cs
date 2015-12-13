@@ -44,7 +44,7 @@ namespace Ultrapowa_Clash_Server_GUI.Network
 
             m_vIsRunning = true;
 
-            Console.WriteLine("Packet Manager started");
+            MainWindow.RemoteWindow.WriteConsole("Packet Manager started", (int)MainWindow.level.WARNING);
         }
 
         private void IncomingProcessing()

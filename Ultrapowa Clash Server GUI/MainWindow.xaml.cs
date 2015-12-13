@@ -300,7 +300,7 @@ namespace Ultrapowa_Clash_Server_GUI
             RTB_Console.ScrollToEnd();
         }
 
-        enum level
+       public enum level
         {
             LOG = 1,
             WARNING = 2,

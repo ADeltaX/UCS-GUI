@@ -61,7 +61,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             System.Threading.Timer TimerItem = new System.Threading.Timer(TimerDelegate, null, 60000, 60000);
             TimerReference = TimerItem;
 
-            Console.WriteLine("Database Sync started");
+            MainWindow.RemoteWindow.WriteConsole("Database Sync started", (int)MainWindow.level.WARNING);
             m_vRandomSeed = new Random();
         }
 
@@ -141,7 +141,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                     NpcLevels.Add(i, sr.ReadToEnd());
                 }
             }
-            Console.WriteLine("done");
+            MainWindow.RemoteWindow.WriteConsole("done", (int)MainWindow.level.WARNING);
             
         }
 
@@ -164,12 +164,14 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             gameFiles.Add(new Tuple<string, string, int>("Traps", @"gamefiles/logic/traps.csv", 11));
             gameFiles.Add(new Tuple<string, string, int>("Resources", @"gamefiles/logic/resources.csv", 2));
 
-            Console.WriteLine("Loading server data...");
+            MainWindow.RemoteWindow.WriteConsole("Loading server data...", (int)MainWindow.level.WARNING);
             foreach(var data in gameFiles)
             {
-                Console.Write("\t" + data.Item1);
                 DataTables.InitDataTable(new CSVTable(data.Item2),data.Item3);
-                Console.WriteLine(" done");
+                MainWindow.RemoteWindow.Dispatcher.BeginInvoke((Action)delegate ()
+                {
+                    MainWindow.RemoteWindow.WriteConsole(data.Item1 +"done", (int)MainWindow.level.WARNING);
+                });
             }
         }
 

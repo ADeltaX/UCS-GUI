@@ -24,11 +24,14 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
                     fpstring = sr.ReadToEnd();
                 }
                 LoadFromJson(fpstring);
-                Console.WriteLine("ObjectManager: fingerprint loaded");
+                MainWindow.RemoteWindow.Dispatcher.BeginInvoke((Action)delegate ()
+                {
+                    MainWindow.RemoteWindow.WriteConsole("ObjectManager: fingerprint loaded", (int)MainWindow.level.WARNING);
+                });
             }
             else
             {
-                Console.WriteLine("LoadFingerPrint: error! tried to load FingerPrint without file, run gen_patch first");
+                MainWindow.RemoteWindow.WriteConsole("LoadFingerPrint: error! tried to load FingerPrint without file, run gen_patch first", (int)MainWindow.level.WARNING);
             }
         }
 

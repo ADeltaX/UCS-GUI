@@ -42,12 +42,20 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
         {
             if (m_vMessages.ContainsKey(packetType))
             {
+                MainWindow.RemoteWindow.Dispatcher.BeginInvoke((Action)delegate ()
+                {
+                    MainWindow.RemoteWindow.WriteConsole("Received Package N° " + packetType.ToString(), (int)MainWindow.level.WARNING);
+                });
+
                 return Activator.CreateInstance(m_vMessages[packetType], c, br);
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("[U] " + packetType.ToString() + " Unhandled Message (ignored)");
+                MainWindow.RemoteWindow.Dispatcher.BeginInvoke((Action)delegate ()
+                {
+                    MainWindow.RemoteWindow.WriteConsole("(PK) Unhandled Command " + packetType.ToString() + " (ignored)", (int)MainWindow.level.WARNING);
+                });
                 Console.ResetColor();
                 return null;
             }

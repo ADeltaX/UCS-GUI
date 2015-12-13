@@ -131,7 +131,11 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
             this.Client.ClientSeed = m_vClientSeed;
             PacketManager.ProcessOutgoingPacket(new SessionKeyMessage(this.Client));
-            Console.WriteLine("[D] Retrieve Player Data for player " + m_vAccountId);
+
+            MainWindow.RemoteWindow.Dispatcher.BeginInvoke((Action)delegate () {
+                MainWindow.RemoteWindow.WriteConsole("[D] Retrieve Player Data for player " + m_vAccountId, (int)MainWindow.level.WARNING);
+            });
+            
             //New player
             if (level == null)
             {
