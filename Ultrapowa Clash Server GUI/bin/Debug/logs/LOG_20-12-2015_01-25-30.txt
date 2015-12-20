@@ -1,0 +1,36 @@
+[LOG]<01:25:30>: Line arg typed: /console
+[LOG]<01:25:30>: Running in Console mode...
+[LOG]<01:25:30>: Local IP: 192.168.229.1
+[LOG]<01:25:30>: Ready
+[LOG]<01:25:30>: Write /start to start the server or write /help to get all commands
+[WARNING]<01:25:34>: Starting server...
+[DEBUG-LOG]<01:25:36>: Database synchronized!
+[DEBUG-LOG]<01:25:36>: Hosting on port 9339
+[DEBUG-LOG]<01:25:36>: 	
+[DEBUG-LOG]<01:25:36>: Server Thread's:
+[DEBUG-LOG]<01:25:36>: 	Server Running On Thread 0
+[DEBUG-LOG]<01:25:36>: 	Server Running On Thread 1
+[DEBUG-LOG]<01:25:36>: 	Server Running On Thread 2
+[DEBUG-LOG]<01:25:36>: 	Server Running On Thread 3
+[DEBUG-LOG]<01:25:36>: 	
+[DEBUG-LOG]<01:25:36>: Played ID's:
+[DEBUG-LOG]<01:25:36>: 	
+[LOG]<01:25:36>: Server started on port 9339. Let's play Clash of Clans!
+[WARNING]<01:25:39>: Command not found, try typing /help
+[SERVER] 01:25:41>> /ban <PlayerID>                    <-- Ban a client
+[SERVER] 01:25:41>> /banip <PlayerID>                  <-- Ban a client by IP
+[SERVER] 01:25:41>> /kick <PlayerID>                   <-- Kick a client from the server
+[SERVER] 01:25:41>> /unban <PlayerID>                  <-- Unban a client
+[SERVER] 01:25:41>> /unbanip <PlayerID>                <-- Unban a client
+[SERVER] 01:25:41>> /tempban <PlayerID> <Seconds>      <-- Temporary ban a client
+[SERVER] 01:25:41>> /tempbanip <PlayerID> <Seconds>    <-- Temporary ban a client by IP
+[SERVER] 01:25:41>> /mute <PlayerID>                   <-- Mute a client
+[SERVER] 01:25:41>> /unmute <PlayerID>                 <-- Unmute a client
+[SERVER] 01:25:41>> /update                            <-- Check if update is available
+[SERVER] 01:25:41>> /tempbanip <PlayerID> <Seconds>    <-- Temporary ban a client by IP
+[SERVER] 01:25:41>> /say <Text>                        <-- Send a text to all
+[SERVER] 01:25:41>> ...
+[SERVER] 01:25:41>> I'll build the list of command lol
+[WARNING]<01:25:44>: Command not found, try typing /help
+[WARNING]<01:25:48>: Command not found, try typing /help
+[WARNING]<01:25:50>: Shutting down... Saving all data, wait.
