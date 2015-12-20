@@ -53,15 +53,14 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                                   ")";
                     try
                     {
-                        Debugger.WriteLine("[R] " + p.GetMessageType() + " " + p.GetType().Name + player);
+                        MainWindow.RemoteWindow.WriteConsoleDebug("[R] " + p.GetMessageType() + " " + p.GetType().Name + player, (int)MainWindow.level.DEBUGLOG);
                         p.Decode();
                         p.Process(pl);
-
                         //Debugger.WriteLine("finished processing of message " + p.GetType().Name + player);
                     }
                     catch (Exception ex)
                     {
-                        Debugger.WriteLine("An exception occured during processing of message " + p.GetType().Name + player, ex, 4, ConsoleColor.Red);
+                        MainWindow.RemoteWindow.WriteConsoleDebug("An exception occured during processing of message " + p.GetType().Name + player + " " + ex, (int)MainWindow.level.DEBUGFATAL);
                     }
                 }
             }

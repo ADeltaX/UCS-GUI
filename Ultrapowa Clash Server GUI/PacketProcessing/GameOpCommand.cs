@@ -19,7 +19,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public void SendCommandFailedMessage(Client c)
         {
-            Debugger.WriteLine("GameOp command failed. Insufficient privileges", null, 5);
+            MainWindow.RemoteWindow.WriteConsoleDebug("GameOp command failed. Insufficient privileges", (int)MainWindow.level.DEBUGFATAL);
             var p = new GlobalChatLineMessage(c);
             p.SetChatMessage("GameOp command failed. Insufficient privileges.");
             p.SetPlayerId(0);

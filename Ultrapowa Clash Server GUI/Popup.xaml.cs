@@ -25,7 +25,7 @@ namespace Ultrapowa_Clash_Server_GUI
 
         public Popup(int Slc_cause = -1)
         {
-            this.Opacity = 0;
+            Opacity = 0;
             InitializeComponent();
 
             LB_Main.Content = Slc_cause == (int)cause.BAN ? "Select a player to ban" : Slc_cause == (int)cause.BANIP ?

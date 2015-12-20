@@ -79,10 +79,9 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
                             }
                         }
                     }
-                    Debugger.WriteLine(
-                        string.Format("Old Resources: {0} New Resources: {1} Resource Cap: {2}",
-                            GetResourceCount((ResourceData) data), newResourceValue, GetResourceCap((ResourceData) data)),
-                        null, 5);
+
+                    MainWindow.RemoteWindow.WriteConsoleDebug(string.Format("Old Resources: {0} New Resources: {1} Resource Cap: {2}",
+                            GetResourceCount((ResourceData) data), newResourceValue, GetResourceCap((ResourceData) data)), (int)MainWindow.level.DEBUGLOG);
                     SetResourceCount((ResourceData) data, newResourceValue);
                 }
             }

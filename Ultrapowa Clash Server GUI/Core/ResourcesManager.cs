@@ -34,6 +34,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             var TimerItem = new Timer(TimerDelegate, null, 1000, 1000);
             TimerReference = TimerItem;
             
+
         }
 
         private static void CheckClients()
@@ -49,7 +50,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                     }
                     catch (Exception ex)
                     {
-                        Debugger.WriteLine("Error when dropping client.. : ", ex, 4, ConsoleColor.Red);
+                        MainWindow.RemoteWindow.WriteConsoleDebug("Error when dropping client: "+ ex, (int)MainWindow.level.DEBUGFATAL);
                     }
                 }
             }

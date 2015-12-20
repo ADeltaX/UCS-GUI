@@ -109,3 +109,6 @@ C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\U
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.csproj.GenerateResource.Cache
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.exe
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.pdb
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.csprojResolveAssemblyReference.cache
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\LoadingServerScreen.g.cs
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\LoadingServerScreen.baml

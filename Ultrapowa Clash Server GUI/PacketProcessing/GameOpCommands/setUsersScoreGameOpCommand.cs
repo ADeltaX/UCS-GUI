@@ -32,7 +32,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                             }
                             else
                             {
-                                Debugger.WriteLine("SetUserScore failed: id " + id + " not found");
+                                MainWindow.RemoteWindow.WriteConsoleDebug("SetUserScore failed: id " + id + " not found", (int)MainWindow.level.DEBUGLOG);
                             }
                         }
                     }

@@ -97,7 +97,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                     p.SetLeagueId(22);
                     p.SetPlayerName("System Manager");
                     PacketManager.ProcessOutgoingPacket(p);
-                    Debugger.WriteLine("Exception on PM caught.\n{0}", e, 4, ConsoleColor.Red);
+                    MainWindow.RemoteWindow.WriteConsoleDebug("Exception on PM caught.: " + e, (int)MainWindow.level.DEBUGFATAL);
                 }
             }
             else

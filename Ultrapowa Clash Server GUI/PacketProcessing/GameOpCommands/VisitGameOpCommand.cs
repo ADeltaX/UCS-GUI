@@ -33,12 +33,12 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                         }
                         else
                         {
-                            Debugger.WriteLine("Visit failed: id " + id + " not found");
+                            MainWindow.RemoteWindow.WriteConsoleDebug("Visit failed: id " + id + " not found", (int)MainWindow.level.DEBUGLOG);
                         }
                     }
                     catch (Exception ex)
                     {
-                        Debugger.WriteLine("Visit failed with error: " + ex);
+                        MainWindow.RemoteWindow.WriteConsoleDebug("Visit failed with error: " + ex, (int)MainWindow.level.DEBUGFATAL);
                     }
                 }
             }

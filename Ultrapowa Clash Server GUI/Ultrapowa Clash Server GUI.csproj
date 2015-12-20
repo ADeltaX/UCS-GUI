@@ -128,6 +128,9 @@
     <Compile Include="Core\ProgramThread.cs" />
     <Compile Include="Core\SaveThread.cs" />
     <Compile Include="Helpers\Utils.cs" />
+    <Compile Include="LoadingServerScreen.xaml.cs">
+      <DependentUpon>LoadingServerScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Logic\Manager\ObstacleManager.cs" />
     <Compile Include="Logic\StreamEntry\DonationStreamEntry.cs" />
     <Compile Include="PacketProcessing\GameOpCommands\FaqGameOpCommand.cs" />
@@ -162,6 +165,10 @@
     <Compile Include="Sys\LoadLanguage.cs" />
     <Compile Include="Sys\UpdateChecker.cs" />
     <Page Include="Feedback.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoadingServerScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

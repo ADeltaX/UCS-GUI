@@ -32,7 +32,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
         public override void Execute(Level level)
         {
             var go = level.GameObjectManager.GetGameObjectByID(BuildingId);
-            Debugger.WriteLine(string.Format("X: {0} Y: {1}", X, Y));
+            MainWindow.RemoteWindow.WriteConsoleDebug(string.Format("X: {0} Y: {1}", X, Y), (int)MainWindow.level.DEBUGLOG);
             go.SetPositionXY(X, Y);
         }
     }

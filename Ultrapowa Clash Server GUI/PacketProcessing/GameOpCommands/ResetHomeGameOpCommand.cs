@@ -29,7 +29,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 }
                 else
                 {
-                    Debugger.WriteLine("ResetPlayer failed: id " + id + " not found");
+                    MainWindow.RemoteWindow.WriteConsoleDebug("ResetPlayer failed: id " + id + " not found", (int)MainWindow.level.DEBUGLOG);
                 }
             }
             else

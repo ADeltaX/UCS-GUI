@@ -40,7 +40,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                             var player = "";
                             if (level != null)
                                 player += " (" + avatar.GetId() + ", " + avatar.GetAvatarName() + ")";
-                            Debugger.WriteLine("\t" + obj.GetType().Name + player);
+                            MainWindow.RemoteWindow.WriteConsoleDebug("\t" + obj.GetType().Name + player, (int)MainWindow.level.DEBUGLOG);
                             ((GameOpCommand) obj).Execute(level);
                         }
                     }

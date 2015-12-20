@@ -41,7 +41,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             {
                 return Activator.CreateInstance(m_vMessages[packetType], c, br);
             }
-            Debugger.WriteLine("[U] " + packetType + " Unhandled Message (ignored)", null, 5, ConsoleColor.Red);
+            MainWindow.RemoteWindow.WriteConsoleDebug("[U] " + packetType + " Unhandled Message (ignored)", (int)MainWindow.level.DEBUGLOG);
             return null;
         }
     }

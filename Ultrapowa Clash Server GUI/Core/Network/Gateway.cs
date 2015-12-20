@@ -48,7 +48,7 @@ namespace Ultrapowa_Clash_Server_GUI.Network
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception when attempting to host (" + port + "): " + e);
+                MainWindow.RemoteWindow.WriteConsole("Exception when attempting to host (" + port + "): " + e, (int)MainWindow.level.FATAL);
 
                 Socket = null;
 
@@ -60,12 +60,14 @@ namespace Ultrapowa_Clash_Server_GUI.Network
 
         public void Start()
         {
-            if (Host(kPort))
+            if (!Host(kPort))
             {
-                Console.WriteLine("Gateway started on port " + kPort);
-                Console.WriteLine("Message Manager started");
-                Console.WriteLine("Packet Manager started");
+                MainWindow.RemoteWindow.WriteConsole("Gateway started on port " + kPort, (int)MainWindow.level.LOG);
+                MainWindow.RemoteWindow.WriteConsole("Message Manager started", (int)MainWindow.level.LOG);
+                MainWindow.RemoteWindow.WriteConsole("Packet Manager started", (int)MainWindow.level.LOG);
             }
+
+            
         }
 
         private void OnClientConnect(IAsyncResult result)
@@ -75,12 +77,12 @@ namespace Ultrapowa_Clash_Server_GUI.Network
                 var clientSocket = Socket.EndAccept(result);
                 ResourcesManager.AddClient(new Client(clientSocket));
                 SocketRead.Begin(clientSocket, OnReceive, OnReceiveError);
-                Console.WriteLine("Client connected (" + ((IPEndPoint) clientSocket.RemoteEndPoint).Address + ":" +
-                                  ((IPEndPoint) clientSocket.RemoteEndPoint).Port + ")");
+                MainWindow.RemoteWindow.WriteConsole("Client connected (" + ((IPEndPoint) clientSocket.RemoteEndPoint).Address + ":" +
+                                  ((IPEndPoint) clientSocket.RemoteEndPoint).Port + ")", (int)MainWindow.level.LOG);
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception when accepting incoming connection: " + e);
+                MainWindow.RemoteWindow.WriteConsole("Exception when accepting incoming connection: " + e, (int)MainWindow.level.WARNING);
             }
             try
             {
@@ -88,7 +90,7 @@ namespace Ultrapowa_Clash_Server_GUI.Network
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception when starting new accept process: " + e);
+                MainWindow.RemoteWindow.WriteConsole("Exception when starting new accept process: " + e, (int)MainWindow.level.WARNING);
             }
         }
 
@@ -107,13 +109,13 @@ namespace Ultrapowa_Clash_Server_GUI.Network
             }
             catch (Exception ex)
             {
-               Debugger.WriteLine("Error when receiving packet from client : ", ex, 4, ConsoleColor.Red);
+                MainWindow.RemoteWindow.WriteConsoleDebug("Error when receiving packet from client: " + ex, (int)MainWindow.level.DEBUGFATAL);
             }
         }
 
         private void OnReceiveError(SocketRead read, Exception exception)
         {
-            Debugger.WriteLine("Error received: " + exception, null, 5);
+            MainWindow.RemoteWindow.WriteConsoleDebug("Error received: " + exception, (int)MainWindow.level.DEBUGLOG);
         }
     }
 }

@@ -75,8 +75,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             {
                 return Activator.CreateInstance(m_vCommands[cm], br);
             }
-            Console.Write("\t");
-            Debugger.WriteLine("Unhandled Command " + cm + " (ignored)", null, 4, ConsoleColor.Red);
+            MainWindow.RemoteWindow.WriteConsoleDebug("Unhandled Command " + cm + " (ignored)", (int)MainWindow.level.DEBUGLOG);
             return null;
         }
     }

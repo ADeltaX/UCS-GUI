@@ -106,7 +106,8 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             {
                 try
                 {
-                    Console.WriteLine("Pro API Manager : Online");
+                    Console.WriteLine();
+                    MainWindow.RemoteWindow.WriteConsole("Pro API Manager : Online", (int)MainWindow.level.LOG);
                     while (_listener.IsListening)
                     {
                         ThreadPool.QueueUserWorkItem(c =>
@@ -129,7 +130,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("APIManagerPro : Error when starting API => " + ex);
+                    MainWindow.RemoteWindow.WriteConsole("APIManagerPro : Error when starting API => " + ex, (int)MainWindow.level.WARNING);
                 }
             });
         }

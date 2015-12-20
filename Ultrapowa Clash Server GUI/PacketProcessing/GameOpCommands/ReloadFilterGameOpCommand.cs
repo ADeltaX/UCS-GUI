@@ -19,7 +19,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             if (level.GetAccountPrivileges() >= GetRequiredAccountPrivileges())
             {
                 Message.ReloadChatFilterList();
-                Debugger.WriteLine("Filterlist is reloaded!", null, 0, ConsoleColor.DarkCyan);
+                MainWindow.RemoteWindow.WriteConsoleDebug("Filterlist is reloaded!", (int)MainWindow.level.DEBUGLOG);
             }
             else
             {

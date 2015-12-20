@@ -30,12 +30,12 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                         }
                         else
                         {
-                            Debugger.WriteLine("Unban failed: id " + id + " not found");
+                            MainWindow.RemoteWindow.WriteConsoleDebug("Unban failed: id " + id + " not found", (int)MainWindow.level.DEBUGLOG);
                         }
                     }
                     catch (Exception ex)
                     {
-                        Debugger.WriteLine("Unban failed with error: " + ex);
+                        MainWindow.RemoteWindow.WriteConsoleDebug("Unban failed with error: " + ex, (int)MainWindow.level.DEBUGFATAL);
                     }
                 }
             }

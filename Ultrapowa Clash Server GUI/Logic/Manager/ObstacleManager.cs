@@ -166,7 +166,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
         {
             while (m_vObstacleClearCount > 0 && m_vNormalTimer.GetRemainingSeconds(m_vLevel.GetTime()) <= 0)
             {
-                Debugger.WriteLine("Start adding new Obstacle", null, 5, ConsoleColor.DarkMagenta);
+                MainWindow.RemoteWindow.WriteConsoleDebug("Start adding new Obstacle", (int)MainWindow.level.DEBUGLOG);
                 var ob = GetRandomObstacle();
                 var pos = GetFreePlace(ob);
                 if (pos != null)
@@ -182,7 +182,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
                     {
                         m_vNormalTimer.StartTimer(m_vObstacleRespawnSeconds, m_vLevel.GetTime());
                     }
-                    Debugger.WriteLine("Finished adding new Obstacle " + ob.GetName(), null, 5, ConsoleColor.DarkMagenta);
+                    MainWindow.RemoteWindow.WriteConsoleDebug("Finished adding new Obstacle " + ob.GetName(), (int)MainWindow.level.DEBUGLOG);
                 }
                 else
                 {
@@ -194,15 +194,14 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             {
                 if (new Random().Next(0, 4) == 0)
                 {
-                    Debugger.WriteLine("Start adding new Obstacle", null, 5, ConsoleColor.DarkMagenta);
+                    MainWindow.RemoteWindow.WriteConsoleDebug("Start adding new Obstacle", (int)MainWindow.level.DEBUGLOG);
                     var ob = m_vGemBoxes[new Random().Next(0, m_vGemBoxes.Count)];
                     var pos = GetFreePlace(ob);
                     if (pos != null)
                     {
                         SpawnObstacle(pos, ob);
                         m_vGemBoxTimer.StartTimer(m_vObstacleRespawnSeconds*2, m_vLevel.GetTime());
-                        Debugger.WriteLine("Finished adding new Obstacle " + ob.GetName(), null, 5,
-                            ConsoleColor.DarkMagenta);
+                        MainWindow.RemoteWindow.WriteConsoleDebug("Finished adding new Obstacle " + ob.GetName(), (int)MainWindow.level.DEBUGLOG);
                     }
                 }
                 else
@@ -314,7 +313,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
                         }
                         sb.Append("\n");
                     }
-                    Debugger.WriteLine(sb.ToString(), null, 5, ConsoleColor.DarkCyan);
+                    MainWindow.RemoteWindow.WriteConsoleDebug(sb.ToString(), (int)MainWindow.level.DEBUGLOG);
                 }
 
                 //Debug Message END
@@ -323,7 +322,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             }
             catch (Exception e)
             {
-                Debugger.WriteLine("An Exception occured during GetFreePlace", e, 0, ConsoleColor.DarkRed);
+                MainWindow.RemoteWindow.WriteConsoleDebug("An Exception occured during GetFreePlace: " + e, (int)MainWindow.level.DEBUGFATAL);
                 return null;
             }
         }

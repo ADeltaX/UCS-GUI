@@ -29,8 +29,9 @@ namespace Ultrapowa_Clash_Server_GUI
             RTB_Console.Document.Blocks.Clear();
             RTB_Console.AppendText(Sys.ConfUCS.Changelog);
             Version thisAppVer = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            lbl_CurVer.Content = "Current UCS version: " + thisAppVer.Major +"." + thisAppVer.Minor + "." + thisAppVer.Build + "." + thisAppVer.MinorRevision;
+            lbl_CurVer.Content = "Current UCS version: " + thisAppVer.Major + "." + thisAppVer.Minor + "." + thisAppVer.Build + "." + thisAppVer.MinorRevision;
             lbl_NewVer.Content = "New UCS version: " + Sys.ConfUCS.NewVer.Major + "." + Sys.ConfUCS.NewVer.Minor + "." + Sys.ConfUCS.NewVer.Build + "." + Sys.ConfUCS.NewVer.MinorRevision;
+
         }
 
         private void btn_Cancel_Click(object sender, RoutedEventArgs e)
@@ -47,8 +48,8 @@ namespace Ultrapowa_Clash_Server_GUI
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             OpInW();
+           
             int DeltaVariation = 100;
-
             AnimationLib.MoveToTarget(btn_Cancel, DeltaVariation, 0.25);
             AnimationLib.MoveToTarget(btn_GoPage, DeltaVariation, 0.25, 50);
             AnimationLib.MoveToTarget(RTB_Console, DeltaVariation, 0.25, 100);

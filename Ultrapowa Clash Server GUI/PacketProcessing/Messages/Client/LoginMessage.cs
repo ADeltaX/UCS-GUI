@@ -78,7 +78,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 br.ReadByte(); //01
                 m_vSignature4 = br.ReadScString();
                 m_vClientSeed = br.ReadUInt32WithEndian();
-                Debugger.WriteLine("[M] Client with user id " + m_vAccountId + " accessing with " + m_vDevice + " and " + m_vPassToken + " as users token", null, 5);
+                MainWindow.RemoteWindow.WriteConsoleDebug("[M] Client with user id " + m_vAccountId + " accessing with " + m_vDevice + " and " + m_vPassToken + " as users token", (int)MainWindow.level.DEBUGLOG);
                 if (GetMessageVersion() > 8) //7.200
                 {
                     br.ReadByte();
@@ -148,7 +148,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             }
             else
             {
-                Debugger.WriteLine("Connection failed. UCS config key clientVersion is not properly set.");
+                MainWindow.RemoteWindow.WriteConsoleDebug("Connection failed. UCS config key clientVersion is not properly set.", (int)MainWindow.level.DEBUGFATAL);
             }
 
             level = ResourcesManager.GetPlayer(m_vAccountId);
@@ -179,7 +179,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
             Client.ClientSeed = m_vClientSeed;
             PacketManager.ProcessOutgoingPacket(new SessionKeyMessage(Client));
-            Debugger.WriteLine("[M] Retrieve Player Data for player " + m_vAccountId, null, 5);
+            MainWindow.RemoteWindow.WriteConsoleDebug("[M] Retrieve Player Data for player " + m_vAccountId, (int)MainWindow.level.DEBUGLOG);
 
             //New player
             if (level == null)

@@ -83,9 +83,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
                     {
                         m_vTimeSinceLastClick = ci.GetLevel().GetTime();
                     }
-                    Debugger.WriteLine(
-                        string.Format("Collect {0} {1}", (int) currentResources, m_vProductionResourceData.GetName()),
-                        null, 5, ConsoleColor.Blue);
+                    MainWindow.RemoteWindow.WriteConsoleDebug(string.Format("Collect {0} {1}", (int) currentResources, m_vProductionResourceData.GetName()), (int)MainWindow.level.DEBUGLOG);
 
                     ca.CommodityCountChangeHelper(0, m_vProductionResourceData, (int) currentResources);
                 }

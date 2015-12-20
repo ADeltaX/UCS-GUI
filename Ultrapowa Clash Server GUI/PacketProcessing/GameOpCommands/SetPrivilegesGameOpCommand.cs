@@ -33,17 +33,17 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                             }
                             else
                             {
-                                Debugger.WriteLine("SetPrivileges failed: id " + id + " not found");
+                                MainWindow.RemoteWindow.WriteConsoleDebug("SetPrivileges failed: id " + id + " not found", (int)MainWindow.level.DEBUGLOG);
                             }
                         }
                         else
                         {
-                            Debugger.WriteLine("SetPrivileges failed: target privileges too high");
+                            MainWindow.RemoteWindow.WriteConsoleDebug("SetPrivileges failed: target privileges too high", (int)MainWindow.level.DEBUGLOG);
                         }
                     }
                     catch (Exception ex)
                     {
-                        Debugger.WriteLine("SetPrivileges failed with error: " + ex);
+                        MainWindow.RemoteWindow.WriteConsoleDebug("SetPrivileges failed with error: " + ex, (int)MainWindow.level.DEBUGFATAL);
                     }
                 }
             }

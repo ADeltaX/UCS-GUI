@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using Ultrapowa_Clash_Server_GUI.GameFiles;
 using Ultrapowa_Clash_Server_GUI.Logic;
+using Ultrapowa_Clash_Server_GUI.Network;
 using Timer = System.Threading.Timer;
 
 namespace Ultrapowa_Clash_Server_GUI.Core
@@ -66,6 +67,8 @@ namespace Ultrapowa_Clash_Server_GUI.Core
 
             MainWindow.RemoteWindow.WriteConsoleDebug("Database synchronized!", (int)MainWindow.level.DEBUGLOG);
             m_vRandomSeed = new Random();
+
+            
         }
 
         //public static ConcurrentDictionary<Client, Level> OnlinePlayers { get; set; }
@@ -181,16 +184,17 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             gameFiles.Add(new Tuple<string, string, int>("Resources", @"gamefiles/logic/resources.csv", 2));
             gameFiles.Add(new Tuple<string, string, int>("Wars", @"gamefiles/logic/war.csv", 1));
             var dataCount = 0;
-            Console.WriteLine("ObjectManager: Loading gamefiles...");
+
+            MainWindow.RemoteWindow.WriteConsole("ObjectManager: Loading gamefiles...", (int)MainWindow.level.LOG);
             foreach (var data in gameFiles)
             {
-                Console.Write("\t" + data.Item1);
+                MainWindow.RemoteWindow.WriteConsole(data.Item1, (int)MainWindow.level.LOG);
                 dataCount++;
                 DataTables.InitDataTable(new CSVTable(data.Item2), data.Item3);
-                Console.WriteLine(" done");
+                MainWindow.RemoteWindow.WriteConsole("\t...done", (int)MainWindow.level.LOG);
             }
-            Console.WriteLine("ObjectManager: " + dataCount + " objects successfully loaded on " +
-                              ConfigurationManager.AppSettings["programThreadCount"] + " thread!");
+            MainWindow.RemoteWindow.WriteConsole("ObjectManager: " + dataCount + " objects successfully loaded on " +
+                              ConfigurationManager.AppSettings["programThreadCount"] + " thread!", (int)MainWindow.level.LOG);
         }
 
         public static void LoadNpcLevels()

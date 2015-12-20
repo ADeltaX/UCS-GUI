@@ -92,9 +92,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 0xD3, 0x48, 0xED, 0xA2, 0x8C, 0x73, 0x6B, 0x88, 0x04, 0x5E, 0x73, 0xF9, 0x20, 0x7F, 0x10, 0xCD, 0x65,
                 0x7B, 0x05, 0x7E, 0xFC, 0x07, 0xCA, 0xF2, 0x7C, 0x89
             };
-            Debugger.WriteLine(ZlibStream.UncompressString(home2), null, 5);
-            ;
-
+            MainWindow.RemoteWindow.WriteConsoleDebug(ZlibStream.UncompressString(home2), (int)MainWindow.level.DEBUGLOG);
             SetData(data.ToArray());
         }
     }

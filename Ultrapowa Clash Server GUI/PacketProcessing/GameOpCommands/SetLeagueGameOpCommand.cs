@@ -32,7 +32,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                             }
                             else
                             {
-                                Debugger.WriteLine("SetLeague failed: id " + id + " not found");
+                                MainWindow.RemoteWindow.WriteConsoleDebug("SetLeague failed: id " + id + " not found", (int)MainWindow.level.DEBUGLOG);
                             }
                         }
                     }

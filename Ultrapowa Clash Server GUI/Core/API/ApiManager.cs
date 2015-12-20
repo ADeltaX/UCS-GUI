@@ -132,7 +132,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
         private void RunServer()
         {
             var DebugPort = ConfigurationManager.AppSettings["debugPort"];
-            Console.WriteLine("API Manager started on http://localhost:" + DebugPort + "/Debug/");
+            MainWindow.RemoteWindow.WriteConsoleDebug("API Manager started on http://localhost:" + DebugPort + "/Debug/", (int)MainWindow.level.DEBUGLOG);
             while (m_vListener.IsListening)
             {
                 var result = m_vListener.BeginGetContext(Handle, m_vListener);
@@ -150,6 +150,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                MainWindow.RemoteWindow.WriteConsole(ex.ToString(), (int)MainWindow.level.WARNING);
             }
         }
 

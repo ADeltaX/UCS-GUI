@@ -73,6 +73,7 @@ namespace Ultrapowa_Clash_Server_GUI
                 WriteConsole("Loading GUI...", (int)level.LOG);
                 CheckThings();
                 LBL_IP.Content = "Local IP: " + GetIP();
+                LBL_PORT.Content = "PORT: " + port;
                 CommandLine.TextChanged += new TextChangedEventHandler(CommandLine_TextChanged);
             }
             
@@ -146,9 +147,7 @@ namespace Ultrapowa_Clash_Server_GUI
         {
             if (IsServerOnline==false)
             {
-                //Thread LS = new Thread(LaunchServer);
-                //LS.Start();
-                LaunchServer();
+               LaunchServer();
             }
             else
             {
@@ -281,8 +280,10 @@ namespace Ultrapowa_Clash_Server_GUI
             }
         }
 
-        //public static readonly int port = Utils.parseConfigInt("serverPort");
-        public static readonly int port = 9339;
+        public static readonly int port = Utils.parseConfigInt("serverPort");
+        //public static readonly int port = 9339;
+
+
 
         private void LaunchServer()
         {
@@ -317,7 +318,7 @@ namespace Ultrapowa_Clash_Server_GUI
 
             Logger.SetLogLevel(Utils.parseConfigInt("loggingLevel"));
 
-            InitProgramThreads();
+            InitProgramThreads(); //With this, InitializeComponent will do a lot of time to finish the work.
 
             if (Utils.parseConfigInt("loggingLevel") >= 5)
             {
@@ -352,15 +353,10 @@ namespace Ultrapowa_Clash_Server_GUI
         private static void InitProgramThreads()
         {
             RemoteWindow.WriteConsoleDebug("\t", (int)level.DEBUGLOG);
-            RemoteWindow.WriteConsoleDebug("Server Thread's:", (int)level.DEBUGLOG);
             var programThreads = new List<Thread>();
-            for (var i = 0; i < int.Parse(ConfigurationManager.AppSettings["programThreadCount"]); i++)
-            {
-                var pt = new ProgramThread();
-                programThreads.Add(new Thread(pt.Start));
-                programThreads[i].Start();
-                RemoteWindow.WriteConsoleDebug("\tServer Running On Thread " + i, (int)level.DEBUGLOG);
-            }
+            var pt = new ProgramThread();
+            pt.Start();
+            RemoteWindow.WriteConsoleDebug("\tServer Running On Thread 1", (int)level.DEBUGLOG);
 
         }
 
@@ -413,18 +409,20 @@ namespace Ultrapowa_Clash_Server_GUI
         #endregion
 
         #region Console RTB Setup
-
-        public delegate void nomedelegate();
-
         public void SetupRTB(SolidColorBrush color, string text, string pretext, bool IsDebugMode=false)
         {
             Dispatcher.BeginInvoke((Action)delegate ()
-            {
-            TextRange Sec_Text = new TextRange(RTB_Console.Document.ContentEnd, RTB_Console.Document.ContentEnd);
-            Sec_Text.Text = pretext + text + "\u2028";
-            Sec_Text.ApplyPropertyValue(TextElement.ForegroundProperty, color);
-            //if (IsDebugMode == true) { Sec_Text.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.DarkMagenta); Sec_Text.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline); }
-            RTB_Console.ScrollToEnd();
+            {     
+                
+                    Dispatcher.Invoke(() => {
+                        TextRange Sec_Text = new TextRange(RTB_Console.Document.ContentEnd, RTB_Console.Document.ContentEnd);
+                        Sec_Text.Text = pretext + text + "\u2028";
+                        Sec_Text.ApplyPropertyValue(TextElement.ForegroundProperty, color);
+                    },DispatcherPriority.Send);
+                
+                
+                //if (IsDebugMode == true) { Sec_Text.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.DarkMagenta); Sec_Text.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline); }
+                RTB_Console.ScrollToEnd();
             });
         }
 

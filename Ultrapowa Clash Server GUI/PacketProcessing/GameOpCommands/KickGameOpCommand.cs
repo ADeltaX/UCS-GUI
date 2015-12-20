@@ -33,12 +33,12 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                         }
                         else
                         {
-                            Debugger.WriteLine("Kick failed: id " + id + " not found");
+                            MainWindow.RemoteWindow.WriteConsoleDebug("Kick failed: id " + id + " not found", (int)MainWindow.level.DEBUGLOG);
                         }
                     }
                     catch (Exception ex)
                     {
-                        Debugger.WriteLine("Kick failed with error: " + ex);
+                        MainWindow.RemoteWindow.WriteConsoleDebug("Kick failed with error: " + ex, (int)MainWindow.level.DEBUGFATAL);
                     }
                 }
             }

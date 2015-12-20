@@ -50,8 +50,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
         {
             try
             {
-                MainWindow.RemoteWindow.WriteConsoleDebug("Saving new account to database (player id: " + l.GetPlayerAvatar().GetId() + ")",
-                    (int)MainWindow.level.DEBUGLOG);
+                MainWindow.RemoteWindow.WriteConsoleDebug("Saving new account to database (player id: " + l.GetPlayerAvatar().GetId() + ")", (int)MainWindow.level.DEBUGLOG);
                 using (var db = new ucsdbEntities(m_vConnectionString))
                 {
                     db.player.Add(
@@ -120,7 +119,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             }
             catch (Exception ex)
             {
-                Debugger.WriteLine("An exception occured during GetAccount processing:", ex, 0, ConsoleColor.DarkRed);
+                MainWindow.RemoteWindow.WriteConsoleDebug("An exception occured during GetAccount processing: " + ex, (int)MainWindow.level.DEBUGFATAL);
             }
             return account;
         }
@@ -146,7 +145,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             }
             catch (Exception ex)
             {
-                Debugger.WriteLine("An exception occured during GetAlliance processing:", ex, 0, ConsoleColor.DarkRed);
+                MainWindow.RemoteWindow.WriteConsoleDebug("An exception occured during GetAlliance processing: " + ex, (int)MainWindow.level.DEBUGFATAL);
             }
             return alliances;
         }
@@ -169,7 +168,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             }
             catch (Exception ex)
             {
-                Debugger.WriteLine("An exception occured during GetAlliance processing:", ex, 0, ConsoleColor.DarkRed);
+                MainWindow.RemoteWindow.WriteConsoleDebug("An exception occured during GetAlliance processing: " + ex, (int)MainWindow.level.DEBUGFATAL);
             }
             return alliance;
         }
@@ -211,17 +210,13 @@ namespace Ultrapowa_Clash_Server_GUI.Core
 
         public void Save(Level avatar)
         {
-            Debugger.WriteLine(
-                "Starting saving player " + avatar.GetPlayerAvatar().GetAvatarName() + " from memory to database at " +
-                DateTime.Now, null, 5, ConsoleColor.DarkGreen);
+            MainWindow.RemoteWindow.WriteConsoleDebug("Starting saving player " + avatar.GetPlayerAvatar().GetAvatarName() + " from memory to database" , (int)MainWindow.level.DEBUGLOG);
             var context = new ucsdbEntities(m_vConnectionString);
             context.Configuration.AutoDetectChangesEnabled = false;
             context.Configuration.ValidateOnSaveEnabled = false;
             context = avatar.SaveToDatabse(context);
             context.SaveChanges();
-            Debugger.WriteLine(
-                "Finished saving player " + avatar.GetPlayerAvatar().GetAvatarName() + " from memory to database at " +
-                DateTime.Now, null, 5, ConsoleColor.DarkGreen);
+            MainWindow.RemoteWindow.WriteConsoleDebug("Finished saving player " + avatar.GetPlayerAvatar().GetAvatarName() + " from memory to database", (int)MainWindow.level.DEBUGLOG);
         }
 
         public void RemoveAlliance(Alliance alliance)
@@ -235,8 +230,8 @@ namespace Ultrapowa_Clash_Server_GUI.Core
 
         public void Save(List<Level> avatars)
         {
-            Debugger.WriteLine("Starting saving players from memory to database at " + DateTime.Now, null, 0);
-             try
+            MainWindow.RemoteWindow.WriteConsoleDebug("Starting saving players from memory to database", (int)MainWindow.level.DEBUGLOG);
+            try
              {
                  var parts = avatars.Split(saveThreadCount);
 
@@ -261,19 +256,17 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                             }
                         });
                 }
-
-                 Debugger.WriteLine("Finished saving players from memory to database at " + DateTime.Now, null, 0);
-             }
+                MainWindow.RemoteWindow.WriteConsoleDebug("Finished saving players from memory to database", (int)MainWindow.level.DEBUGLOG);
+            }
              catch (Exception ex)
              {
-                 Debugger.WriteLine("An exception occured during Save processing for avatars:", ex, 0,
-                     ConsoleColor.DarkRed);
-             }
+                MainWindow.RemoteWindow.WriteConsoleDebug("An exception occured during Save processing for avatars: "+ ex, (int)MainWindow.level.DEBUGFATAL);
+            }
         }
 
         public void Save(List<Alliance> alliances)
          {
-            MainWindow.RemoteWindow.WriteConsoleDebug("Starting saving alliances from memory to database at " + DateTime.Now, (int)MainWindow.level.DEBUGLOG);
+            MainWindow.RemoteWindow.WriteConsoleDebug("Starting saving alliances from memory to database", (int)MainWindow.level.DEBUGLOG);
              try
              {
                  var parts = alliances.Split(saveThreadCount);
@@ -300,13 +293,12 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                         });
                 }
 
-                 Debugger.WriteLine("Finished saving alliances from memory to database at " + DateTime.Now, null, 0);
-             }
+                MainWindow.RemoteWindow.WriteConsoleDebug("Finished saving alliances from memory to database", (int)MainWindow.level.DEBUGLOG);
+            }
              catch (Exception ex)
              {
-                 Debugger.WriteLine("An exception occured during Save processing for alliances:", ex, 0,
-                     ConsoleColor.DarkRed);
-             }
+                MainWindow.RemoteWindow.WriteConsoleDebug("An exception occured during Save processing for alliances: " + ex, (int)MainWindow.level.DEBUGFATAL);
+            }
          }
         }
     }
