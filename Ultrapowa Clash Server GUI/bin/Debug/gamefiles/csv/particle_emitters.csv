@@ -729,7 +729,6 @@
 ,,,,,,,,,,,,,,,,,,,,,"smallStone_C",,,,,,,,,,,,
 "Earthquake_bottleDrop",1,1,800,800,,,,,,,,,,100,100,,,,,"sc/buildings.sc","EarthQuake_bottleDrop","true",,,,,,,,,,,
 "toxic_bottleDrop",1,1,800,800,,,,,,,,,,100,100,,,,,"sc/buildings.sc","toxic_bottleDrop","true",,,,,,,,,,,
-"toxic_bottleDrop_halloween",1,1,800,800,,,,,,,,,,100,100,,,,,"sc/buildings.sc","toxic_bottleDrop_halloween","true",,,,,,,,,,,
 "speedup_bottleDrop",1,1,800,800,,,,,,,,,,100,100,,,,,"sc/buildings.sc","speedup_bottleDrop","true",,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "dragonFire",30,600,1300,2800,-8,8,-23,-17,250,1200,180,-90,15,80,160,-240,240,400,180,"sc/buildings.sc","dragon_fireball_varA","true","true","true","true",,,,,,,85,115

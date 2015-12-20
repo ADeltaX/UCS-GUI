@@ -18,6 +18,8 @@ using System.Windows.Threading;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
+using Ultrapowa_Clash_Server_GUI.Helpers;
+using System.IO;
 
 namespace Ultrapowa_Clash_Server_GUI
 {
@@ -27,46 +29,53 @@ namespace Ultrapowa_Clash_Server_GUI
         public static MainWindow RemoteWindow = new MainWindow();
         public static bool IsFocusOk = true;
         bool ChangeUpdatePopup = false;
+        static string LogPath = "NONE";
+        StreamWriter LogStream = null;
+
 
         List<string> CommandList;
 
         bool IsServerOnline = false;
 
-       [DllImport("kernel32.dll")]
-        static extern bool AttachConsole(int dwProcessId);
-        private const int ATTACH_PARENT_PROCESS = -1;
         public MainWindow()
         {
             InitializeComponent();
             RemoteWindow = this;
+
+            if (Sys.ConfUCS.IsLogEnabled) PrepareLog();
+            
+
             CommandList = new List<string>
             {
                 "/say", "/ban", "/banip", "/tempban", "/tempbanip", "/unban",
                 "/unbanip", "/mute","/unmute","/makeadmin", "/removeadmin",
                 "/kick", "/help", "/start", "/restart", "/stop"
             };
-
+            Version thisAppVer = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             GetArgs();
 
             if (Sys.ConfUCS.IsConsoleMode==true)
             {
-                this.Hide();
-                AttachConsole(ATTACH_PARENT_PROCESS);
                 Console.Clear();
-                Console.Title = "UCS Server";
+                WindowState = WindowState.Minimized;
+                Console.Title = "UCS Server " + thisAppVer.Major + "." + thisAppVer.Minor + "." + thisAppVer.Build + "." + thisAppVer.MinorRevision + " OFFLINE";
                 WriteConsole("Line arg typed: /console", (int)level.LOG);
                 WriteConsole("Running in Console mode...", (int)level.LOG);
                 WriteConsole("Local IP: " + GetIP(), (int)level.LOG);
                 WriteConsole("Ready", (int)level.LOG);
                 WriteConsole("Write /start to start the server or write /help to get all commands", (int)level.LOG);
+                Console.WriteLine("\n");
+                Console.CursorVisible = true;
             }
             else
             {
+                Title = "UCS Server " + thisAppVer.Major + "." + thisAppVer.Minor + "." + thisAppVer.Build + "." + thisAppVer.MinorRevision + " OFFLINE";
                 WriteConsole("Loading GUI...", (int)level.LOG);
                 CheckThings();
                 LBL_IP.Content = "Local IP: " + GetIP();
                 CommandLine.TextChanged += new TextChangedEventHandler(CommandLine_TextChanged);
             }
+            
 
         }
 
@@ -117,7 +126,15 @@ namespace Ultrapowa_Clash_Server_GUI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            WriteConsole("GUI loaded", (int)level.LOG);
+            if (Sys.ConfUCS.IsConsoleMode)
+            {
+                Hide();
+                ManageConsole();
+            }
+            else
+            {
+                WriteConsole("GUI loaded", (int)level.LOG);
+            }
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -129,7 +146,13 @@ namespace Ultrapowa_Clash_Server_GUI
         {
             if (IsServerOnline==false)
             {
+                //Thread LS = new Thread(LaunchServer);
+                //LS.Start();
                 LaunchServer();
+            }
+            else
+            {
+                WriteConsole("Server already online!", (int)level.WARNING);
             }
         }
 
@@ -187,9 +210,39 @@ namespace Ultrapowa_Clash_Server_GUI
             }
         }
 
+        private void CB_Debug_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Sys.ConfUCS.DebugMode = false;
+        }
+
+        private void CB_Debug_Checked(object sender, RoutedEventArgs e)
+        {
+            Sys.ConfUCS.DebugMode = true;
+        }
+
         #endregion
 
         #region Do stuff
+
+        private void PrepareLog()
+        {
+            if (!Directory.Exists(Sys.ConfUCS.LogDirectory)) Directory.CreateDirectory(Sys.ConfUCS.LogDirectory);
+
+            string DTT = DateTime.Now.ToString("HH:mm:ss");
+            string DTD = DateTime.Now.ToString("dd/MM/yyyy");
+
+            LogPath = Sys.ConfUCS.LogDirectory + string.Format("LOG_{0}_{1}.txt", DTD.Replace("/", "-"), DTT.Replace(":", "-"));
+
+            try
+            {
+                LogStream = File.CreateText(LogPath);
+            }
+            catch (Exception)
+            {
+                WriteConsole("Cannot create log. Disabling log mode.", (int)level.FATAL);
+                Sys.ConfUCS.IsLogEnabled = false;
+            }
+        }
 
         private string GetIP()
         {
@@ -228,17 +281,87 @@ namespace Ultrapowa_Clash_Server_GUI
             }
         }
 
+        //public static readonly int port = Utils.parseConfigInt("serverPort");
+        public static readonly int port = 9339;
+
         private void LaunchServer()
         {
             WriteConsole("Starting server...", (int)level.WARNING);
-            Gateway g = new Gateway();
-            PacketManager ph = new PacketManager();
-            MessageManager dp = new MessageManager();
-            ResourcesManager rm = new ResourcesManager();
-            ObjectManager pm = new ObjectManager();
-            dp.Start();
-            ph.Start();
-            g.Start();
+
+            if (Sys.ConfUCS.IsConsoleMode) Console.CursorVisible = false;
+
+            new ResourcesManager();
+            new ObjectManager();
+            new Gateway().Start();
+            new ApiManager();
+
+            if (!Directory.Exists("logs"))
+            {
+                WriteConsole("Folder \"logs/\" does not exist. Let me create one..",(int)level.WARNING);
+                Directory.CreateDirectory("logs");
+            }
+
+            if (Convert.ToBoolean(Utils.parseConfigString("apiManagerPro")))
+            {
+                if (ConfigurationManager.AppSettings["ApiKey"] == null)
+                {
+                    var random = new Random();
+                    var chars = "A1b5B6b7C1c5D3";
+                    var ch = Convert.ToString(chars[random.Next(chars.Length)]);
+                    ConfigurationManager.AppSettings.Set("ApiKey", ch);
+                }
+                var ws = new ApiManagerPro(ApiManagerPro.SendResponse,
+                    "http://+:" + Utils.parseConfigInt("proDebugPort") + "/" + Utils.parseConfigString("ApiKey") + "/");
+                ws.Run();
+            }
+
+            Logger.SetLogLevel(Utils.parseConfigInt("loggingLevel"));
+
+            InitProgramThreads();
+
+            if (Utils.parseConfigInt("loggingLevel") >= 5)
+            {
+                WriteConsoleDebug("\t",(int)level.DEBUGLOG);
+                WriteConsoleDebug("Played ID's:", (int)level.DEBUGLOG);
+                foreach (var id in ResourcesManager.GetAllPlayerIds())
+                {
+                    WriteConsoleDebug("Played ID's:", (int)level.DEBUGLOG);
+                    WriteConsoleDebug("\t" + id, (int)level.DEBUGLOG);
+                }
+                WriteConsoleDebug("\t", (int)level.DEBUGLOG);
+            }
+            WriteConsole("Server started on port " + port + ". Let's play Clash of Clans!", (int)level.LOG);
+            IsServerOnline = true;
+
+            if (Sys.ConfUCS.IsConsoleMode)
+            {
+                Console.CursorVisible = true;
+                ManageConsole();
+            }
+
+            if (Convert.ToBoolean(Utils.parseConfigString("consoleCommand")))
+            {
+                //new Core.Menu();            //PLACEHOLDER DEBUG 
+            }
+            else
+            {
+                //Application.Run(new UCSManager());
+            }
+        }
+
+        private static void InitProgramThreads()
+        {
+            RemoteWindow.WriteConsoleDebug("\t", (int)level.DEBUGLOG);
+            RemoteWindow.WriteConsoleDebug("Server Thread's:", (int)level.DEBUGLOG);
+            var programThreads = new List<Thread>();
+            for (var i = 0; i < int.Parse(ConfigurationManager.AppSettings["programThreadCount"]); i++)
+            {
+                var pt = new ProgramThread();
+                programThreads.Add(new Thread(pt.Start));
+                programThreads[i].Start();
+                RemoteWindow.WriteConsoleDebug("\tServer Running On Thread " + i, (int)level.DEBUGLOG);
+            }
+
         }
 
         private void LoadDefaultConfig()
@@ -291,14 +414,37 @@ namespace Ultrapowa_Clash_Server_GUI
 
         #region Console RTB Setup
 
+        public delegate void nomedelegate();
+
         public void SetupRTB(SolidColorBrush color, string text, string pretext, bool IsDebugMode=false)
         {
+            Dispatcher.BeginInvoke((Action)delegate ()
+            {
             TextRange Sec_Text = new TextRange(RTB_Console.Document.ContentEnd, RTB_Console.Document.ContentEnd);
             Sec_Text.Text = pretext + text + "\u2028";
             Sec_Text.ApplyPropertyValue(TextElement.ForegroundProperty, color);
-            if (IsDebugMode == true) { Sec_Text.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.DarkMagenta); Sec_Text.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline); }
+            //if (IsDebugMode == true) { Sec_Text.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.DarkMagenta); Sec_Text.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline); }
             RTB_Console.ScrollToEnd();
+            });
         }
+
+        public void WriteOnLog(string text,string pretext)
+        {
+            if (Sys.ConfUCS.IsLogEnabled)
+            {
+                try
+                {
+                    LogStream.AutoFlush = true;
+                    LogStream.WriteLine(pretext + text);
+                }
+                catch (Exception ex)
+                {
+                    Sys.ConfUCS.IsLogEnabled = false;
+                    WriteConsole("Error during saving log to file. ::" + ex.Message, (int)level.FATAL);
+                }
+            }
+        }
+
 
        public enum level
         {
@@ -317,11 +463,14 @@ namespace Ultrapowa_Clash_Server_GUI
                 switch (level)
                 {
                     case 1:
-                        SetupRTB(new SolidColorBrush(Color.FromRgb(22, 160, 133)), text, "[LOG]" + Type()); break;
+                        SetupRTB(new SolidColorBrush(Color.FromRgb(22, 160, 133)), text, "[LOG]" + Type());
+                        WriteOnLog(text, "[LOG]" + Type());  break;
                     case 2:
-                        SetupRTB(Brushes.Orange, text, "[WARNING]" + Type()); break;
+                        SetupRTB(Brushes.Orange, text, "[WARNING]" + Type());
+                        WriteOnLog(text, "[WARNING]" + Type()); break;
                     case 3:
-                        SetupRTB(Brushes.Red, text, "[FATAL]" + Type()); break;
+                        SetupRTB(Brushes.Red, text, "[FATAL]" + Type());
+                        WriteOnLog(text, "[FATAL]" + Type()); break;
                 }
             }
             else
@@ -331,15 +480,21 @@ namespace Ultrapowa_Clash_Server_GUI
                     case 1:
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("[LOG]" + Type() + text); 
-                        Console.ResetColor(); break;
+                        Console.ResetColor();
+                        WriteOnLog(text, "[LOG]" + Type());
+                        break;
                     case 2:
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine("[WARNING]"  + Type() + text);
-                        Console.ResetColor(); break;
+                        Console.ResetColor();
+                        WriteOnLog(text, "[WARNING]" + Type());
+                        break;
                     case 3:
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("[FATAL]" + Type() + text);
-                        Console.ResetColor(); break;
+                        Console.ResetColor();
+                        WriteOnLog(text, "[FATAL]" + Type());
+                        break;
                 }
             }
         }
@@ -353,9 +508,11 @@ namespace Ultrapowa_Clash_Server_GUI
                     switch (level)
                     {
                         case 6:
-                            SetupRTB(Brushes.Yellow, text, "[DEBUG-LOG]" + Type(), true); break;
+                            SetupRTB(Brushes.Yellow, text, "[DEBUG-LOG]" + Type(), true); 
+                            WriteOnLog(text, "[DEBUG-LOG]" + Type()); break;
                         case 7:
-                            SetupRTB(Brushes.LightYellow, text, "[DEBUG-FATAL]" + Type(), true); break;
+                            SetupRTB(Brushes.LightYellow, text, "[DEBUG-FATAL]" + Type(), true); 
+                            WriteOnLog(text, "[DEBUG-FATAL]" + Type()); break;
                     }
                 }
                 else
@@ -365,27 +522,34 @@ namespace Ultrapowa_Clash_Server_GUI
                         case 6:
                             Console.ForegroundColor = ConsoleColor.Yellow;
                             Console.WriteLine("[DEBUG-LOG]" + Type() + text);
-                            Console.ResetColor(); break;
+                            Console.ResetColor();
+                            WriteOnLog(text, "[DEBUG-LOG]" + Type());
+                            break;
                         case 7:
                             Console.ForegroundColor = ConsoleColor.DarkRed;
-                            Console.WriteLine("[DEBUG-WARNING]" + Type() + text);
-                            Console.ResetColor(); break;
+                            Console.WriteLine("[DEBUG-FATAL]" + Type() + text);
+                            Console.ResetColor();
+                            WriteOnLog(text, "[DEBUG-FATAL]" + Type());
+                            break;
+
                     }
                 }
             }
 
         }
 
-        public void WriteMessageConsole(string text, int level, string sender)
+        public void WriteMessageConsole(string text, int level, string sender = "")
         {
             if (Sys.ConfUCS.IsConsoleMode == false)
             {
                 switch (level)
                 {
                     case 4:
-                        SetupRTB(Brushes.White, text, TypeMSG() + " <" + sender + "> "); break;
+                        SetupRTB(Brushes.White, text,  "<" + sender + "> " + TypeMSG() + " "); 
+                        WriteOnLog(text, "<" + sender + "> " + TypeMSG() + " "); break;
                     case 5:
-                        SetupRTB(Brushes.Violet, text, TypeMSG() + " [SERVER] "); break;
+                        SetupRTB(Brushes.Violet, text, "[SERVER] " + TypeMSG() + " "); 
+                        WriteOnLog(text, "[SERVER] " + TypeMSG() + " "); break;
                 }
             }
             else
@@ -394,12 +558,16 @@ namespace Ultrapowa_Clash_Server_GUI
                 {
                     case 4:
                         Console.ForegroundColor = ConsoleColor.White;
-                        Console.WriteLine(" <" + sender + "> " + TypeMSG() + text);
-                        Console.ResetColor(); break;
+                        Console.WriteLine("<" + sender + "> " + TypeMSG()+ " " + text);
+                        Console.ResetColor();
+                        WriteOnLog(text, "<" + sender + "> " + TypeMSG() + " ");
+                        break;
                     case 5:
                         Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                        Console.WriteLine(" [SERVER] " + TypeMSG() + text);
-                        Console.ResetColor(); break;
+                        Console.WriteLine("[SERVER] " + TypeMSG() + " " + text);
+                        Console.ResetColor();
+                        WriteOnLog(text, "[SERVER] " + TypeMSG() + " ");
+                        break;
                 }
 
             }
@@ -413,20 +581,75 @@ namespace Ultrapowa_Clash_Server_GUI
         string TypeMSG()
         {
             string x =DateTime.Now.ToString("HH:mm:ss");
-            return x;
+            return x + ">>";
         }
 
         #endregion
 
-        #region Console Helper Commands
+        #region Console Helper Commands & Console
 
         private void CommandRead(string cmd)
         {
+            if (!Sys.ConfUCS.IsConsoleMode) SetupRTB(Brushes.White, cmd, ">");
+            if (cmd == "/help")
+            {
+
+                WriteMessageConsole("/ban <PlayerID>                    <-- Ban a client", 5);
+                WriteMessageConsole("/banip <PlayerID>                  <-- Ban a client by IP", 5);
+                WriteMessageConsole("/kick <PlayerID>                   <-- Kick a client from the server", 5);
+                WriteMessageConsole("/unban <PlayerID>                  <-- Unban a client", 5);
+                WriteMessageConsole("/unbanip <PlayerID>                <-- Unban a client", 5);
+                WriteMessageConsole("/tempban <PlayerID> <Seconds>      <-- Temporary ban a client", 5);
+                WriteMessageConsole("/tempbanip <PlayerID> <Seconds>    <-- Temporary ban a client by IP", 5);
+                WriteMessageConsole("/mute <PlayerID>                   <-- Mute a client", 5);
+                WriteMessageConsole("/unmute <PlayerID>                 <-- Unmute a client", 5);
+
+                WriteMessageConsole("/update                            <-- Check if update is available", 5);
+                WriteMessageConsole("/tempbanip <PlayerID> <Seconds>    <-- Temporary ban a client by IP", 5);
+                WriteMessageConsole("/say <Text>                        <-- Send a text to all", 5);
+                
+                WriteMessageConsole("...", 5);
+                WriteMessageConsole("I'll build the list of command lol", 5);
+
+            }
+            else if (cmd == "/start")
+            {
+                if (!IsServerOnline) LaunchServer();
+                else WriteConsole("Server already online!", 2);
+            }
+            else if (cmd == "/stop" || cmd == "/shutdown")
+            {
+                WriteConsole("Shutting down... Saving all data, wait.", 2);
+                //EXECUTE
+                Environment.Exit(0);
+            }
+            else if (cmd == "/forcestop")
+            {
+                WriteConsole("Force shutting down... All progress not saved will be lost!", 2);
+                Application.Current.Shutdown();
+                Environment.Exit(0);
+            }
+            else
+            {
+                WriteConsole("Command not found, try typing /help", 2);
+            }
 
             //Verify and execute
 
             CommandLine.Clear();
             //Clear
+
+            if (Sys.ConfUCS.IsConsoleMode) ManageConsole();
+
+        }
+
+        
+
+        private void ManageConsole()
+        {
+
+            CommandRead(Console.ReadLine());
+
         }
 
 

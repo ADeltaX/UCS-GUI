@@ -27,7 +27,7 @@ namespace Ultrapowa_Clash_Server_GUI
         {
             this.Opacity = 0;
             InitializeComponent();
-            //MessageBox.Show(Convert.ToString(Slc_cause));
+
             LB_Main.Content = Slc_cause == (int)cause.BAN ? "Select a player to ban" : Slc_cause == (int)cause.BANIP ?
                 "Select a player to ban ip" : Slc_cause == (int)cause.TEMPBAN ? "Select a player to ban temporarily" :
                 Slc_cause == (int)cause.TEMPBANIP ? "Select a player to ban ip" : Slc_cause == (int)cause.UNBAN ?
@@ -48,6 +48,15 @@ namespace Ultrapowa_Clash_Server_GUI
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             OpInW();
+
+            int DeltaVariation = 50;
+
+            AnimationLib.MoveToTarget(btn_cancel, DeltaVariation, 0.25);
+            AnimationLib.MoveToTarget(btn_ok, DeltaVariation, 0.25, 50);
+            AnimationLib.MoveToTarget(CB_Player, DeltaVariation, 0.25, 100);
+            AnimationLib.MoveToTarget(LB_Main, DeltaVariation, 0.25, 150);
+
+            AnimationLib.MoveWindowToTarget(this, DeltaVariation, Top, 0.25);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -58,16 +67,16 @@ namespace Ultrapowa_Clash_Server_GUI
         private void OpInW()
         {
             var OpIn = new DoubleAnimation(1, (Duration)TimeSpan.FromSeconds(0.125));
-            this.BeginAnimation(UIElement.OpacityProperty, OpIn);
+            this.BeginAnimation(Window.OpacityProperty, OpIn);
         }
 
         private void OpOutW(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Closing -= Window_Closing;
             e.Cancel = true;
-            var OpOut = new DoubleAnimation(0, (Duration)TimeSpan.FromSeconds(0.125));
+            var OpOut = new DoubleAnimation(0, TimeSpan.FromSeconds(0.125));
             OpOut.Completed += (s, _) => { this.Close(); MainWindow.IsFocusOk = true; };
-            this.BeginAnimation(UIElement.OpacityProperty, OpOut);
+            BeginAnimation(Window.OpacityProperty, OpOut);
         }
 
 

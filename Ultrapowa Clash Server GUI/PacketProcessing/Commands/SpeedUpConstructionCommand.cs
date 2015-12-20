@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Threading.Tasks;
-using Ultrapowa_Clash_Server_GUI.Logic;
+﻿using System.IO;
 using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
-using Ultrapowa_Clash_Server_GUI.Core;
+using Ultrapowa_Clash_Server_GUI.Logic;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
     //Commande 0x1F8
-    class SpeedUpConstructionCommand : Command
+    internal class SpeedUpConstructionCommand : Command
     {
-        private int m_vBuildingId;
+        private readonly int m_vBuildingId;
 
         public SpeedUpConstructionCommand(BinaryReader br)
         {
@@ -24,12 +17,12 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Execute(Level level)
         {
-            GameObject go = level.GameObjectManager.GetGameObjectByID(m_vBuildingId);
+            var go = level.GameObjectManager.GetGameObjectByID(m_vBuildingId);
             if (go != null)
             {
                 if (go.ClassId == 0 || go.ClassId == 4)
                 {
-                    ((ConstructionItem)go).SpeedUpConstruction();
+                    ((ConstructionItem) go).SpeedUpConstruction();
                 }
             }
         }

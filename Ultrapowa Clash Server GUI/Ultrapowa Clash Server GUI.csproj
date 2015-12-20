@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ultrapowa_Clash_Server_GUI</RootNamespace>
     <AssemblyName>Ultrapowa Clash Server GUI</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -31,6 +31,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -86,16 +87,16 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Data.SQLite, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.Core.1.0.98.1\lib\net46\System.Data.SQLite.dll</HintPath>
+    <Reference Include="System.Data.SQLite, Version=1.0.99.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.99.0\lib\net46\System.Data.SQLite.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Data.SQLite.EF6, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.98.1\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.99.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.99.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.98.1\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.99.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.99.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Drawing" />
@@ -122,15 +123,42 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\API\ApiManagerPro.cs" />
+    <Compile Include="Core\ExitHandler.cs" />
+    <Compile Include="Core\ProgramThread.cs" />
+    <Compile Include="Core\SaveThread.cs" />
+    <Compile Include="Helpers\Utils.cs" />
+    <Compile Include="Logic\Manager\ObstacleManager.cs" />
+    <Compile Include="Logic\StreamEntry\DonationStreamEntry.cs" />
+    <Compile Include="PacketProcessing\GameOpCommands\FaqGameOpCommand.cs" />
+    <Compile Include="PacketProcessing\GameOpCommands\GetIdCommand.cs" />
+    <Compile Include="PacketProcessing\GameOpCommands\HelpGameOpCommand.cs" />
+    <Compile Include="PacketProcessing\GameOpCommands\InfoGameOpCommand.cs" />
+    <Compile Include="PacketProcessing\GameOpCommands\MaxResourcesGameOpCommand.cs" />
+    <Compile Include="PacketProcessing\GameOpCommands\MinResourcesGameOpCommand.cs" />
+    <Compile Include="PacketProcessing\GameOpCommands\PrivateMessageCommand.cs" />
+    <Compile Include="PacketProcessing\GameOpCommands\ReloadFilterGameOpCommand.cs" />
+    <Compile Include="PacketProcessing\GameOpCommands\ResetHomeGameOpCommand.cs" />
+    <Compile Include="PacketProcessing\GameOpCommands\SetLeagueGameOpCommand.cs" />
+    <Compile Include="PacketProcessing\GameOpCommands\setUsersScoreGameOpCommand.cs" />
+    <Compile Include="PacketProcessing\GameOpCommands\TeamGameOpCommand.cs" />
+    <Compile Include="PacketProcessing\Messages\Client\Askfor20100cs.cs" />
+    <Compile Include="PacketProcessing\Messages\Client\AskForPlayerLeagueList.cs" />
+    <Compile Include="PacketProcessing\Messages\Client\EditClanSettingsMessage.cs" />
+    <Compile Include="PacketProcessing\Messages\Client\PromoteAllianceMemberMessage.cs" />
+    <Compile Include="PacketProcessing\Messages\Server\LeagueListPlayer.cs" />
+    <Compile Include="PacketProcessing\Messages\Server\Send20100.cs" />
     <Compile Include="Popup.xaml.cs">
       <DependentUpon>Popup.xaml</DependentUpon>
     </Compile>
     <Compile Include="PopupUpdater.xaml.cs">
       <DependentUpon>PopupUpdater.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Sys\AnimationLib.cs" />
     <Compile Include="Sys\LoadLanguage.cs" />
     <Compile Include="Sys\UpdateChecker.cs" />
     <Page Include="Feedback.xaml">
@@ -164,31 +192,11 @@
       <DependentUpon>ucsdb.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\ucsdb.Context.cs" />
-    <Compile Include="Database\ucsdb.Context1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ucsdb.Context.tt</DependentUpon>
-    </Compile>
     <Compile Include="Database\ucsdb.cs" />
     <Compile Include="Database\ucsdb.Designer.cs">
       <DependentUpon>ucsdb.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\ucsdb.sqlite.Designer.cs" />
-    <Compile Include="Database\ucsdb.sqlite1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ucsdb.sqlite.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Database\ucsdb1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ucsdb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\ucsdb1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ucsdb.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Feedback.xaml.cs">
       <DependentUpon>Feedback.xaml</DependentUpon>
     </Compile>
@@ -220,7 +228,6 @@
     <Compile Include="GameFiles\Logic\TrapData.cs" />
     <Compile Include="GameFiles\Logic\WarData.cs" />
     <Compile Include="Helpers\GamePlayUtil.cs" />
-    <Compile Include="Helpers\Helpers.cs" />
     <Compile Include="Logic\Achievement.cs" />
     <Compile Include="Logic\Alliance.cs" />
     <Compile Include="Logic\AllianceMemberEntry.cs" />
@@ -425,7 +432,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">
@@ -458,12 +467,12 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\System.Data.SQLite.Core.1.0.98.1\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.98.1\build\net46\System.Data.SQLite.Core.targets')" />
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.99.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.99.0\build\net46\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Questo progetto fa riferimento a uno o più pacchetti NuGet che non sono presenti in questo computer. Usare lo strumento di ripristino dei pacchetti NuGet per scaricarli. Per altre informazioni, vedere http://go.microsoft.com/fwlink/?LinkID=322105. Il file mancante è {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.98.1\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.98.1\build\net46\System.Data.SQLite.Core.targets'))" />
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.99.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.99.0\build\net46\System.Data.SQLite.Core.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

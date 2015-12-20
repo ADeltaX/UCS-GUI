@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Threading.Tasks;
+﻿using Ultrapowa_Clash_Server_GUI.Core;
 using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
-using Ultrapowa_Clash_Server_GUI.Core;
 using Ultrapowa_Clash_Server_GUI.Network;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
-    class ShutdownServerGameOpCommand : GameOpCommand
+    internal class ShutdownServerGameOpCommand : GameOpCommand
     {
         private string[] m_vArgs;
 
@@ -24,7 +16,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Execute(Level level)
         {
-            if(level.GetAccountPrivileges() >= GetRequiredAccountPrivileges())
+            if (level.GetAccountPrivileges() >= GetRequiredAccountPrivileges())
             {
                 foreach (var onlinePlayer in ResourcesManager.GetOnlinePlayers())
                 {

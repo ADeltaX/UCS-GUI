@@ -1,49 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ultrapowa_Clash_Server_GUI.PacketProcessing;
+﻿using System.Collections.Generic;
 using Ultrapowa_Clash_Server_GUI.Helpers;
 
 namespace Ultrapowa_Clash_Server_GUI.Logic
 {
-    class AllianceMailStreamEntry : AvatarStreamEntry
+    internal class AllianceMailStreamEntry : AvatarStreamEntry
     {
-        private string m_vMessage;
-        private long m_vSenderId;
-        private string m_vAllianceName;
         private int m_vAllianceBadgeData;
         private long m_vAllianceId;
+        private string m_vAllianceName;
+        private string m_vMessage;
+        private long m_vSenderId;
 
-        public AllianceMailStreamEntry()
-            : base()
-        {
-        }
-
-        public string GetMessage()
-        {
-            return m_vMessage;
-        }
-
-        public override int GetStreamEntryType()
-        {
-            return 6;
-        }
-
-        //00 00 00 02 
-        //00 00 00 0E 
-        //63 6F 72 72 69 67 C3 A9 20 66 61 75 74 65 
-        //01 
-        //00 00 00 15 00 58 4D 94 
-        //00 00 00 00 
-        //00 1A 8E 98 
-        //00 00 00 0C 
-        //74 68 65 20 38 30 30 20 63 6C 75 62 
+        //00 00 00 02
+        //00 00 00 0E
+        //63 6F 72 72 69 67 C3 A9 20 66 61 75 74 65
+        //01
+        //00 00 00 15 00 58 4D 94
+        //00 00 00 00
+        //00 1A 8E 98
+        //00 00 00 0C
+        //74 68 65 20 38 30 30 20 63 6C 75 62
         //5B 00 09 53
         public override byte[] Encode()
         {
-            List<Byte> data = new List<Byte>();
+            var data = new List<byte>();
 
             data.AddRange(base.Encode());
             data.AddInt32(2);
@@ -57,6 +37,21 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             return data.ToArray();
         }
 
+        public string GetMessage()
+        {
+            return m_vMessage;
+        }
+
+        public override int GetStreamEntryType()
+        {
+            return 6;
+        }
+
+        public void SetAllianceBadgeData(int data)
+        {
+            m_vAllianceBadgeData = data;
+        }
+
         public void SetAllianceId(long id)
         {
             m_vAllianceId = id;
@@ -65,11 +60,6 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
         public void SetAllianceName(string name)
         {
             m_vAllianceName = name;
-        }
-
-        public void SetAllianceBadgeData(int data)
-        {
-            m_vAllianceBadgeData = data;
         }
 
         public void SetMessage(string message)
@@ -81,5 +71,5 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
         {
             m_vSenderId = id;
         }
-    }    
+    }
 }

@@ -1,28 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
-using System.Configuration;
-using Ultrapowa_Clash_Server_GUI.PacketProcessing;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using System.Collections.Generic;
 
 namespace Ultrapowa_Clash_Server_GUI.Logic
 {
-    class GameObjectFilter
+    internal class GameObjectFilter
     {
         //a1 + 4 gameobjecttypes
         //a1 + 8
         //a1 + 12
-        private List<int> m_vIgnoredObjects;//a1 + 16
-        
-        public GameObjectFilter()
-        {
-        }
+        private List<int> m_vIgnoredObjects;
+
+        //a1 + 16
 
         public void AddIgnoreObject(GameObject go)
         {
@@ -47,10 +34,10 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         public bool TestGameObject(GameObject go)
         {
-            bool result = true;
+            var result = true;
             if (m_vIgnoredObjects != null)
             {
-                result = (m_vIgnoredObjects.IndexOf(go.GlobalId) == -1);
+                result = m_vIgnoredObjects.IndexOf(go.GlobalId) == -1;
             }
             return result;
         }

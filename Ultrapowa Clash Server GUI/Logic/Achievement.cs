@@ -1,40 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
-using System.ComponentModel;
-using Newtonsoft.Json;
-using Ultrapowa_Clash_Server_GUI.PacketProcessing;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
-
-namespace Ultrapowa_Clash_Server_GUI.Logic
+﻿namespace Ultrapowa_Clash_Server_GUI.Logic
 {
-    class Achievement 
+    internal class Achievement
     {
         private const int m_vType = 0x015EF3C0;
 
-        public Achievement() { 
+        public Achievement()
+        {
             //Deserialization
         }
 
         public Achievement(int index)
         {
             //this.Name = ObjectManager.AchievementsData.GetData(index, 0).Name;
-            this.Index = index;
-            this.Unlocked = false;
-            this.Value = 0;
+            Index = index;
+            Unlocked = false;
+            Value = 0;
         }
 
-        public string Name { get; set; }
-        public int Id 
+        public int Id
         {
-            get { return m_vType + this.Index; } 
+            get { return m_vType + Index; }
         }
+
         public int Index { get; set; }
+
+        public string Name { get; set; }
+
         public bool Unlocked { get; set; }
+
         public int Value { get; set; }
     }
 }

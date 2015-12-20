@@ -1,42 +1,93 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
-using System.Configuration;
-using Ultrapowa_Clash_Server_GUI.PacketProcessing;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using Ultrapowa_Clash_Server_GUI.Core;
 using Ultrapowa_Clash_Server_GUI.GameFiles;
 using Ultrapowa_Clash_Server_GUI.Helpers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Ultrapowa_Clash_Server_GUI.Logic
 {
-    class Obstacle : GameObject
+    internal class Obstacle : GameObject
     {
-        private Timer m_vTimer;
-        private Level m_vLevel;
+        private readonly Level m_vLevel;
 
-        public override int ClassId
-        {
-            get { return 3; }
-        }
+        private Timer m_vTimer;
 
         public Obstacle(Data data, Level l) : base(data, l)
         {
             m_vLevel = l;
         }
 
+        public override int ClassId
+        {
+            get { return 3; }
+        }
+
+        public void CancelClearing()
+        {
+            m_vLevel.WorkerManager.DeallocateWorker(this);
+            m_vTimer = null;
+            var od = GetObstacleData();
+            var rd = od.GetClearingResource();
+            var cost = od.ClearCost;
+            GetLevel().GetPlayerAvatar().CommodityCountChangeHelper(0, rd, cost);
+        }
+
+        public void ClearingFinished()
+        {
+            //gérer achievement
+            //gérer obstacleclearcounter
+            m_vLevel.GameObjectManager.GetObstacleManager().IncreaseObstacleClearCount();
+
+            //gérer diamond reward
+            m_vLevel.WorkerManager.DeallocateWorker(this);
+            m_vTimer = null;
+
+            //Add exp to client avatar
+            var constructionTime = GetObstacleData().ClearTimeSeconds;
+            var exp = (int) Math.Pow(constructionTime, 0.5f);
+            GetLevel().GetPlayerAvatar().AddExperience(exp);
+
+            var rd = ObjectManager.DataTables.GetResourceByName(GetObstacleData().LootResource);
+
+            GetLevel().GetPlayerAvatar().CommodityCountChangeHelper(0, rd, GetObstacleData().LootCount);
+
+            GetLevel().GameObjectManager.RemoveGameObject(this);
+        }
+
         public ObstacleData GetObstacleData()
         {
-            return (ObstacleData)GetData();
+            return (ObstacleData) GetData();
+        }
+
+        public int GetRemainingClearingTime()
+        {
+            return m_vTimer.GetRemainingSeconds(m_vLevel.GetTime());
+        }
+
+        public bool IsClearingOnGoing()
+        {
+            return m_vTimer != null;
+        }
+
+        public void SpeedUpClearing()
+        {
+            var remainingSeconds = 0;
+            if (IsClearingOnGoing())
+            {
+                remainingSeconds = m_vTimer.GetRemainingSeconds(m_vLevel.GetTime());
+            }
+            var cost = GamePlayUtil.GetSpeedUpCost(remainingSeconds);
+            var ca = GetLevel().GetPlayerAvatar();
+            if (ca.HasEnoughDiamonds(cost))
+            {
+                ca.UseDiamonds(cost);
+                ClearingFinished();
+            }
         }
 
         public void StartClearing()
         {
-            int constructionTime = GetObstacleData().ClearTimeSeconds;
+            var constructionTime = GetObstacleData().ClearTimeSeconds;
             if (constructionTime < 1)
             {
                 ClearingFinished();
@@ -49,21 +100,6 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             }
         }
 
-        public void CancelClearing()
-        {
-            m_vLevel.WorkerManager.DeallocateWorker(this);
-            m_vTimer = null;
-            var od = GetObstacleData();
-            var rd = od.GetClearingResource();
-            int cost = od.ClearCost;
-            GetLevel().GetPlayerAvatar().CommodityCountChangeHelper(0, rd, cost);
-        }
-
-        public int GetRemainingClearingTime()
-        {
-            return m_vTimer.GetRemainingSeconds(m_vLevel.GetTime());
-        }
-
         public override void Tick()
         {
             if (IsClearingOnGoing())
@@ -73,46 +109,16 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             }
         }
 
-        public void ClearingFinished()
-        {
-            //gérer achievement
-            //gérer xp reward
-            //gérer obstacleclearcounter
-            //gérer diamond reward
-            m_vLevel.WorkerManager.DeallocateWorker(this);
-            m_vTimer = null;
-        }
-
-        public void SpeedUpClearing()
-        {
-            int remainingSeconds = 0;
-            if(IsClearingOnGoing())
-            {
-                remainingSeconds = m_vTimer.GetRemainingSeconds(m_vLevel.GetTime());
-            }
-            int cost = GamePlayUtil.GetSpeedUpCost(remainingSeconds);
-            var ca = GetLevel().GetPlayerAvatar();
-            if (ca.HasEnoughDiamonds(cost))
-            {
-                ca.UseDiamonds(cost);
-                ClearingFinished();
-            }
-        }
-
-        public bool IsClearingOnGoing()
-        {
-            return (m_vTimer != null);
-        }
-
         public JObject ToJson()
         {
-            JObject jsonObject = new JObject();
+            var jsonObject = new JObject();
             jsonObject.Add("data", GetObstacleData().GetGlobalID());
+
             //const_t à vérifier pour un obstacle
             if (IsClearingOnGoing())
                 jsonObject.Add("const_t", m_vTimer.GetRemainingSeconds(m_vLevel.GetTime()));
-            jsonObject.Add("x", this.X);
-            jsonObject.Add("y", this.Y);
+            jsonObject.Add("x", X);
+            jsonObject.Add("y", Y);
             return jsonObject;
         }
     }

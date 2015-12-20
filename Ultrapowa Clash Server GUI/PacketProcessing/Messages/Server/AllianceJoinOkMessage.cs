@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.Logic;
+﻿using System.Collections.Generic;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
     //Packet 24303
-    class AllianceJoinOkMessage : Message
+    internal class AllianceJoinOkMessage : Message
     {
-
         public AllianceJoinOkMessage(Client client) : base(client)
         {
             SetMessageType(24303);
@@ -19,7 +12,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Encode()
         {
-            List<Byte> pack = new List<Byte>();
+            var pack = new List<byte>();
             SetData(pack.ToArray());
         }
     }

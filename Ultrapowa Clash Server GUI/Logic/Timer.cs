@@ -1,22 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
-using System.Configuration;
-using Ultrapowa_Clash_Server_GUI.PacketProcessing;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Ultrapowa_Clash_Server_GUI.Logic
 {
-    class Timer
+    internal class Timer
     {
-        private DateTime m_vStartTime;
         private int m_vSeconds;
+
+        private DateTime m_vStartTime;
 
         public Timer()
         {
@@ -29,12 +19,37 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             m_vSeconds -= seconds;
         }
 
-        public int GetRemainingSeconds(DateTime time)
+        public int GetRemainingSeconds(DateTime time, bool boost = false, DateTime boostEndTime = default(DateTime),
+            float multiplier = 0f)
         {
-            int result = m_vSeconds - (int)time.Subtract(m_vStartTime).TotalSeconds;
+            var result = int.MaxValue;
+            if (!boost)
+            {
+                result = m_vSeconds - (int) time.Subtract(m_vStartTime).TotalSeconds;
+            }
+            else
+            {
+                if (boostEndTime >= time)
+                {
+                    result = m_vSeconds - (int) (time.Subtract(m_vStartTime).TotalSeconds*multiplier);
+                }
+                else
+                {
+                    var boostedTime = (float) time.Subtract(m_vStartTime).TotalSeconds -
+                                      (float) (time - boostEndTime).TotalSeconds;
+                    var notBoostedTime = (float) time.Subtract(m_vStartTime).TotalSeconds - boostedTime;
+
+                    result = m_vSeconds - (int) (boostedTime*multiplier + notBoostedTime);
+                }
+            }
             if (result <= 0)
                 result = 0;
             return result;
+        }
+
+        public DateTime GetStartTime()
+        {
+            return m_vStartTime;
         }
 
         public void StartTimer(int seconds, DateTime time)

@@ -1,30 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
-using System.ComponentModel;
-using System.IO;
-using System.Reflection;
-
-namespace Ultrapowa_Clash_Server_GUI.GameFiles
+﻿namespace Ultrapowa_Clash_Server_GUI.GameFiles
 {
-    class GlobalData : Data
+    internal class GlobalData : Data
     {
-
         public GlobalData(CSVRow row, DataTable dt)
             : base(row, dt)
         {
-            LoadData(this, this.GetType(), row);
+            LoadData(this, GetType(), row);
         }
 
-        public int NumberValue { get; set; }
-        public bool BooleanValue { get; set; }
-        public string TextValue { get; set; }
-        public int NumberArray { get; set; }
-        public String StringArray { get; set; }
-        public String AltStringArray { get; set; }
+        public string AltStringArray { get; set; }
 
+        public bool BooleanValue { get; set; }
+
+        public int NumberArray { get; set; }
+
+        public int NumberValue { get; set; }
+
+        public string StringArray { get; set; }
+
+        public string TextValue { get; set; }
     }
 }

@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using System.Threading.Tasks;
+using Ultrapowa_Clash_Server_GUI.Core;
 using Ultrapowa_Clash_Server_GUI.Helpers;
 using Ultrapowa_Clash_Server_GUI.Logic;
 using Ultrapowa_Clash_Server_GUI.Network;
-using Ultrapowa_Clash_Server_GUI.Core;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
     //14315
-    class ChatToAllianceStreamMessage : Message
+    internal class ChatToAllianceStreamMessage : Message
     {
         private string m_vChatMessage;
 
@@ -25,7 +21,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             using (var br = new BinaryReader(new MemoryStream(GetData())))
             {
                 m_vChatMessage = br.ReadScString();
-            }   
+            }
         }
 
         public override void Process(Level level)
@@ -34,23 +30,52 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             var allianceId = avatar.GetAllianceId();
             if (allianceId > 0)
             {
-                ChatStreamEntry cm = new ChatStreamEntry();
-                cm.SetId((int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
-                cm.SetAvatar(avatar);
-                cm.SetMessage(m_vChatMessage);
-
-                Alliance alliance = ObjectManager.GetAlliance(allianceId);
-                if (alliance != null)
+                if (m_vChatMessage.Length > 0)
                 {
-                    alliance.AddChatMessage(cm);
-
-                    foreach (var onlinePlayer in ResourcesManager.GetOnlinePlayers())
+                    if (m_vChatMessage[0] == '/')
                     {
-                        if(onlinePlayer.GetPlayerAvatar().GetAllianceId() == allianceId)
+                        var obj = GameOpCommandFactory.Parse(m_vChatMessage);
+                        if (obj != null)
                         {
-                            var p = new AllianceStreamEntryMessage(onlinePlayer.GetClient());
-                            p.SetStreamEntry(cm);
-                            PacketManager.ProcessOutgoingPacket(p);
+                            var player = "";
+                            if (level != null)
+                                player += " (" + avatar.GetId() + ", " + avatar.GetAvatarName() + ")";
+                            Debugger.WriteLine("\t" + obj.GetType().Name + player);
+                            ((GameOpCommand) obj).Execute(level);
+                        }
+                    }
+                    else
+                    {
+                        var cm = new ChatStreamEntry();
+                        cm.SetId((int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
+                        cm.SetAvatar(avatar);
+                        cm.SetMessage(FilterString(m_vChatMessage));
+
+                        var alliance = ObjectManager.GetAlliance(allianceId);
+                        if (alliance != null)
+                        {
+                            alliance.AddChatMessage(cm);
+
+                            foreach (var onlinePlayer in ResourcesManager.GetOnlinePlayers())
+                            {
+                                if (onlinePlayer.GetPlayerAvatar().GetAllianceId() == allianceId)
+                                {
+                                    var p = new AllianceStreamEntryMessage(onlinePlayer.GetClient());
+                                    var name = cm.GetSenderName();
+                                    if (onlinePlayer.isPermittedUser())
+                                    {
+                                        cm.SetSenderName(name + " #" + cm.GetSenderId());
+                                    }
+
+                                    p.SetStreamEntry(cm);
+                                    PacketManager.ProcessOutgoingPacket(p);
+
+                                    if (onlinePlayer.isPermittedUser())
+                                    {
+                                        cm.SetSenderName(name);
+                                    }
+                                }
+                            }
                         }
                     }
                 }

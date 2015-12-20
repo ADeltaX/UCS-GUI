@@ -1,22 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Threading.Tasks;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
 using Ultrapowa_Clash_Server_GUI.Core;
+using Ultrapowa_Clash_Server_GUI.Logic;
 using Ultrapowa_Clash_Server_GUI.Network;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
-    class BanChatGameOpCommand : GameOpCommand
+    internal class BanChatGameOpCommand : GameOpCommand
     {
-        private string[] m_vArgs;
+        private readonly string[] m_vArgs;
 
-        public  BanChatGameOpCommand(string[] args)
+        public BanChatGameOpCommand(string[] args)
         {
             m_vArgs = args;
             SetRequiredAccountPrivileges(4);
@@ -30,7 +23,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 {
                     try
                     {
-                        long id = Convert.ToInt64(m_vArgs[1]);
+                        var id = Convert.ToInt64(m_vArgs[1]);
                         var l = ResourcesManager.GetPlayer(id);
                         if (ResourcesManager.IsPlayerOnline(l))
                         {
@@ -45,7 +38,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                     }
                     catch (Exception ex)
                     {
-                        Debugger.WriteLine("Chat Mute failed with error: " + ex.ToString());
+                        Debugger.WriteLine("Chat Mute failed with error: " + ex);
                     }
                 }
             }

@@ -1,24 +1,97 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
-using System.ComponentModel;
-using System.IO;
-using System.Reflection;
+﻿using System.Collections.Generic;
 using Ultrapowa_Clash_Server_GUI.Core;
 
 namespace Ultrapowa_Clash_Server_GUI.GameFiles
 {
-    class SpellData : CombatItemData
+    internal class SpellData : CombatItemData
     {
-
         public SpellData(CSVRow row, DataTable dt)
             : base(row, dt)
         {
-            LoadData(this, this.GetType(), row);
+            LoadData(this, GetType(), row);
         }
+
+        public string BigPicture { get; set; }
+
+        public int BoostTimeMS { get; set; }
+
+        public int BuildingDamageBoostPercent { get; set; }
+
+        public string ChargingEffect { get; set; }
+
+        public int ChargingTimeMS { get; set; }
+
+        public int Damage { get; set; }
+
+        public int DamageBoostPercent { get; set; }
+
+        public string DeployEffect { get; set; }
+
+        public string DeployEffect2 { get; set; }
+
+        public int DeployEffect2Delay { get; set; }
+
+        public int DeployTimeMS { get; set; }
+
+        public bool DisableProduction { get; set; }
+
+        public int FreezeTimeMS { get; set; }
+
+        public string HitEffect { get; set; }
+
+        public int HitTimeMS { get; set; }
+
+        public int HousingSpace { get; set; }
+
+        public string IconExportName { get; set; }
+
+        public string IconSWF { get; set; }
+
+        public string InfoTID { get; set; }
+
+        public int JumpBoostMS { get; set; }
+
+        public int JumpHousingLimit { get; set; }
+
+        public List<int> LaboratoryLevel { get; set; }
+
+        public int NumberOfHits { get; set; }
+
+        public int NumObstacles { get; set; }
+
+        public string PreDeployEffect { get; set; }
+
+        public int Radius { get; set; }
+
+        public int RandomRadius { get; set; }
+
+        public bool RandomRadiusAffectsOnlyGfx { get; set; }
+
+        public string SpawnObstacle { get; set; }
+
+        public int SpeedBoost { get; set; }
+
+        public int SpeedBoost2 { get; set; }
+
+        public int SpellForgeLevel { get; set; }
+
+        public int StrengthWeight { get; set; }
+
+        public string TID { get; set; }
+
+        public int TimeBetweenHitsMS { get; set; }
+
+        public List<int> TrainingCost { get; set; }
+
+        public string TrainingResource { get; set; }
+
+        public List<int> TrainingTime { get; set; }
+
+        public List<int> UpgradeCost { get; set; }
+
+        public List<string> UpgradeResource { get; set; }
+
+        public List<int> UpgradeTimeH { get; set; }
 
         public override int GetCombatItemType()
         {
@@ -72,51 +145,7 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
 
         public override int GetUpgradeTime(int level)
         {
-            return UpgradeTimeH[level] * 3600;
+            return UpgradeTimeH[level]*3600;
         }
-
-        public String TID { get; set; }
-        public String InfoTID { get; set; }
-        public bool DisableProduction { get; set; }
-        public int SpellForgeLevel { get; set; }
-        public List<int> LaboratoryLevel { get; set; }
-        public String TrainingResource { get; set; }
-        public List<int> TrainingCost { get; set; }
-        public int HousingSpace { get; set; }
-        public List<int> TrainingTime { get; set; }
-        public int DeployTimeMS { get; set; }
-        public int ChargingTimeMS { get; set; }
-        public int HitTimeMS { get; set; }
-        public List<int> UpgradeTimeH { get; set; }
-        public List<String> UpgradeResource { get; set; }
-        public List<int> UpgradeCost { get; set; }
-        public int BoostTimeMS { get; set; }
-        public int SpeedBoost { get; set; }
-        public int SpeedBoost2 { get; set; }
-        public int JumpHousingLimit { get; set; }
-        public int JumpBoostMS { get; set; }
-        public int DamageBoostPercent { get; set; }
-        public int BuildingDamageBoostPercent { get; set; }
-        public int Damage { get; set; }
-        public int Radius { get; set; }
-        public int NumberOfHits { get; set; }
-        public int RandomRadius { get; set; }
-        public int TimeBetweenHitsMS { get; set; }
-        public String IconSWF { get; set; }
-        public String IconExportName { get; set; }
-        public String BigPicture { get; set; }
-        public String PreDeployEffect { get; set; }
-        public String DeployEffect { get; set; }
-        public int DeployEffect2Delay { get; set; }
-        public String DeployEffect2 { get; set; }
-        public String ChargingEffect { get; set; }
-        public String HitEffect { get; set; }
-        public bool RandomRadiusAffectsOnlyGfx { get; set; }
-        public int FreezeTimeMS { get; set; }
-        public String SpawnObstacle { get; set; }
-        public int NumObstacles { get; set; }
-        public int StrengthWeight { get; set; }
-
-
     }
 }

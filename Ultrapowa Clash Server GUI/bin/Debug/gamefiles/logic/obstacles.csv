@@ -31,9 +31,9 @@
 "Xmas tree2013","TID_OBSTACLE_XMASTREE","sc/buildings.sc","env_xmastree_2","pine_tree2_base","npc_pine_tree2_base",30,2,2,"Gold","false","Gold",25000,"Gold",75000,,"Xmas Tree Pickup",0,"false",,1,,,,,,,,
 "Xmas TombStone","TID_OBSTACLE_XMASPRESENT","sc/buildings.sc","tombstone_xmas",,,0,1,1,"Gold","true","Gold",0,"Elixir",5000,"Clear Tombstone","Stone Pickup",0,"true",1,1,,,,,,,,
 "Bonus Gembox","TID_BONUS_GEMBOX","sc/buildings.sc","bonus_gembox","bonus_gembox_base",,30,2,2,"Gold","false","Elixir",1000,"Diamonds",25,"Clear Bonus Gems","Chest Pickup",0,"false",,1,168,24,,,,,,
-"Halloween2014","TID_OBSTACLE_HALLOWEEN2014","sc/buildings.sc","env_tombArm_Hween","bonus_gembox_base","npc_pine_tree2_base",30,2,2,"Elixir","false","Elixir",25000,"Elixir",75000,,"Headstone Pickup",0,"false",,1,96,0,,,,,,
+"Halloween2014","TID_OBSTACLE_HALLOWEEN2014","sc/buildings.sc","env_tombArm_Hween","bonus_gembox_base","npc_pine_tree2_base",30,2,2,"Elixir","false","Elixir",25000,"Elixir",75000,,"Headstone Pickup",0,"false",,1,97,0,,,,,,
 "Xmas tree2014","TID_OBSTACLE_XMASTREE","sc/buildings.sc","env_xmastree_3","pine_tree2_base","npc_pine_tree2_base",30,2,2,"Gold","false","Gold",25000,"Gold",75000,,"Xmas Tree Pickup",0,"false",,1,120,0,,2,14400,1,5,20
 "Xmas TombStone2014","TID_OBSTACLE_XMASPRESENT","sc/buildings.sc","tombstone_xmas",,,0,1,1,"Gold","true","Gold",0,"Elixir",5000,"Present Open","Chest Pickup",0,"true",2,1,,,,,,,,
 "Npc Plant 1","TID_PASSABLE_STONE","sc/buildings.sc","env_npc_plant1",,,10,3,3,"Gold","true","Gold",0,,,,"Stone Pickup",0,"false",,1,,,,,,,,
 "Npc Plant 2","TID_PASSABLE_STONE","sc/buildings.sc","env_npc_plant2",,,10,3,3,"Gold","true","Gold",0,,,,"Stone Pickup",0,"false",,1,,,,,,,,
-"Halloween2015","TID_HALLOWEEN_CAULDRON","sc/env.sc","env_cauldron","env_sharpstone_2_base","env_sharpstone_2_base",30,2,2,"Elixir","false","Elixir",25000,"Elixir",75000,,"Cauldron Pickup",0,"false",,1,96,0,,,,,,
+"Halloween2015","TID_EVENT_BOOST_EVERYTHING","sc/env.sc","env_cauldron","env_sharpstone_2_base","env_sharpstone_2_base",30,2,2,"Elixir","false","Elixir",25000,"Elixir",75000,,"Headstone Pickup",0,"false",,1,96,0,,,,,,

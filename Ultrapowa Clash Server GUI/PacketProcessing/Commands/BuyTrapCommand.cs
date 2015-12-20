@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Threading.Tasks;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
+﻿using System.IO;
 using Ultrapowa_Clash_Server_GUI.Core;
+using Ultrapowa_Clash_Server_GUI.GameFiles;
+using Ultrapowa_Clash_Server_GUI.Helpers;
+using Ultrapowa_Clash_Server_GUI.Logic;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
     //Commande 0x1FE
-    class BuyTrapCommand : Command
+    internal class BuyTrapCommand : Command
     {
         public BuyTrapCommand(BinaryReader br)
         {
@@ -22,25 +17,27 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             Unknown1 = br.ReadUInt32WithEndian();
         }
 
-        //00 00 01 FE 00 00 00 02 00 00 00 28 00 B7 1B 02 00 00 06 56
+        public int TrapId { get; set; }
 
-        public int X { get; set; } 
-        public int Y { get; set; } 
-        public int TrapId { get; set; } 
+        //00 00 01 FE 00 00 00 02 00 00 00 28 00 B7 1B 02 00 00 06 56
         public uint Unknown1 { get; set; }
+
+        public int X { get; set; }
+
+        public int Y { get; set; }
 
         public override void Execute(Level level)
         {
-            ClientAvatar ca = level.GetPlayerAvatar();
+            var ca = level.GetPlayerAvatar();
 
-            TrapData td = (TrapData)ObjectManager.DataTables.GetDataById(TrapId);
-            Trap t = new Trap(td, level);
+            var td = (TrapData) ObjectManager.DataTables.GetDataById(TrapId);
+            var t = new Trap(td, level);
 
             if (ca.HasEnoughResources(td.GetBuildResource(0), td.GetBuildCost(0)))
             {
                 if (level.HasFreeWorkers())
                 {
-                    ResourceData rd = td.GetBuildResource(0);
+                    var rd = td.GetBuildResource(0);
                     ca.CommodityCountChangeHelper(0, rd, -td.GetBuildCost(0));
 
                     t.StartConstructing(X, Y);

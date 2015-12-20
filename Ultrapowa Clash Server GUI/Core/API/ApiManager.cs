@@ -1,29 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
-using System.Configuration;
-using Ultrapowa_Clash_Server_GUI.PacketProcessing;
+using System.Text;
 
 namespace Ultrapowa_Clash_Server_GUI.Core
 {
-    class ApiManager
+    internal class ApiManager
     {
         private static HttpListener m_vListener;
 
         public ApiManager()
         {
-            string hostName = Dns.GetHostName();
-            string IP = Dns.GetHostByName(hostName).AddressList[0].ToString();
-            string DebugPort = ConfigurationManager.AppSettings["debugPort"];
+            var hostName = Dns.GetHostName();
+            var IP = Dns.GetHostByName(hostName).AddressList[0].ToString();
+            var DebugPort = ConfigurationManager.AppSettings["debugPort"];
             m_vListener = new HttpListener();
             {
-                string FullDebugMode = "http://localhost:" + DebugPort + "/Debug/";
                 m_vListener.Prefixes.Add("http://localhost:" + DebugPort + "/Debug/");
+
                 //m_vListener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
                 m_vListener.Start();
                 Action action = RunServer;
@@ -31,64 +27,70 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             }
         }
 
-        private void StartListener(object data)
+        public void Stop()
         {
-            
-            // Note: The GetContext method blocks while waiting for a request. 
-            HttpListenerContext context = m_vListener.GetContext();
-            
             m_vListener.Stop();
-        }
-
-        private void RunServer()
-        {
-            string DebugPort = ConfigurationManager.AppSettings["debugPort"];
-            MainWindow.RemoteWindow.WriteConsole("API Manager started on http://localhost:" + DebugPort + "/Debug/", (int)MainWindow.level.LOG);
-            while (m_vListener.IsListening)
-            {
-                IAsyncResult result = m_vListener.BeginGetContext(Handle, m_vListener);
-                result.AsyncWaitHandle.WaitOne();
-            }
+            m_vListener.Close();
         }
 
         private void Handle(IAsyncResult result)
         {
-            HttpListener listener = (HttpListener)result.AsyncState;
-            HttpListenerContext context = listener.EndGetContext(result);
+            var direction = "";
+            var requestip = (HttpWebRequest) WebRequest.Create("http://checkip.dyndns.org/");
+            requestip.UserAgent =
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2573.0 Safari/537.36";
+            requestip.Method = "GET";
+            requestip.Referer = "http://ultrapowa.com/";
+            using (var stream = new StreamReader(requestip.GetResponse().GetResponseStream()))
+            {
+                direction = stream.ReadToEnd();
+            }
 
+            //Search for the ip in the html
+            var first = direction.IndexOf("Address: ") + 9;
+            var last = direction.LastIndexOf("</body>");
+            direction = direction.Substring(first, last - first);
+            var listener = (HttpListener) result.AsyncState;
+            var context = listener.EndGetContext(result);
 
-            HttpListenerRequest request = context.Request;
-            // Obtain a response object.
-            HttpListenerResponse response = context.Response;
-            // Construct a response.
-            string responseString = "<HTML><BODY><PRE>";
-            /*
+            var request = context.Request;
+
+            // Obtain a response object. 
+            var response = context.Response;
+
+            // Construct a response. 
+            var responseString = "<HTML><BODY><PRE>";
+
             responseString += "Active Connections: ";
-            int connectedUsers = 0;
-            foreach(var client in ResourcesManager.GetConnectedClients())
+            var connectedUsers = 0;
+            foreach (var client in ResourcesManager.GetConnectedClients())
             {
                 var socket = client.Socket;
-                if(socket != null)
+                if (socket != null)
                 {
                     try
                     {
-                        bool part1 = socket.Poll(1000, SelectMode.SelectRead);
-                        bool part2 = (socket.Available == 0);
+                        var part1 = socket.Poll(1000, SelectMode.SelectRead);
+                        var part2 = socket.Available == 0;
                         if (!(part1 && part2))
                             connectedUsers++;
                     }
-                    catch(Exception){}
+                    catch (Exception ex)
+                    {
+                        MainWindow.RemoteWindow.WriteConsoleDebug("Error in ApiManager : "+ ex, (int)MainWindow.level.DEBUGFATAL);
+                    }
                 }
             }
             responseString += connectedUsers + "\n";
-            */
+
             responseString += "Established Connections: " + ResourcesManager.GetConnectedClients().Count + "\n";
 
             responseString += "<details><summary>";
             responseString += "In Memory Levels: " + ResourcesManager.GetInMemoryLevels().Count + "</summary>";
             foreach (var account in ResourcesManager.GetInMemoryLevels())
             {
-                responseString += "    " + account.GetPlayerAvatar().GetId() + ", " + account.GetPlayerAvatar().GetAvatarName() + " \n";
+                responseString += "    " + account.GetPlayerAvatar().GetId() + ", " +
+                                  account.GetPlayerAvatar().GetAvatarName() + " \n";
             }
             responseString += "</details>";
 
@@ -96,7 +98,8 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             responseString += "Online Players: " + ResourcesManager.GetOnlinePlayers().Count + "</summary>";
             foreach (var account in ResourcesManager.GetOnlinePlayers())
             {
-                responseString += "    " + account.GetPlayerAvatar().GetId() + ", " + account.GetPlayerAvatar().GetAvatarName() + " \n";
+                responseString += "    " + account.GetPlayerAvatar().GetId() + ", " +
+                                  account.GetPlayerAvatar().GetAvatarName() + " \n";
             }
             responseString += "</details>";
 
@@ -108,36 +111,54 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             }
             responseString += "</details>";
 
-            string hostName = Dns.GetHostName();
-            string LIP = Dns.GetHostByName(hostName).AddressList[0].ToString();
+            var hostName = Dns.GetHostName();
+            var LIP = Dns.GetHostByName(hostName).AddressList[0].ToString();
+
             responseString += "<center><p>Current local ip: " + LIP + "</p></center>";
-            responseString += "<center><img src='https://d14.usercdn.com/i/02212/ea18nj5uxcll.png' style='width: 25%; height: 50%'></img></center></PRE></BODY></HTML>";
-            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
-            // Get a response stream and write the response to it.
+            responseString += "<center><p>Current public ip: " + direction + "</p></center>";
+            responseString +=
+                "<center><img src='https://d14.usercdn.com/i/02212/ea18nj5uxcll.png' style='width: 25%; height: 50%'></img></center></PRE></BODY></HTML>";
+            var buffer = Encoding.UTF8.GetBytes(responseString);
+
+            // Get a response stream and write the response to it. 
             response.ContentLength64 = buffer.Length;
-            System.IO.Stream output = response.OutputStream;
+            var output = response.OutputStream;
             output.Write(buffer, 0, buffer.Length);
-            // You must close the output stream.
+
+            // You must close the output stream. 
             output.Close();
+        }
+
+        private void RunServer()
+        {
+            var DebugPort = ConfigurationManager.AppSettings["debugPort"];
+            Console.WriteLine("API Manager started on http://localhost:" + DebugPort + "/Debug/");
+            while (m_vListener.IsListening)
+            {
+                var result = m_vListener.BeginGetContext(Handle, m_vListener);
+                result.AsyncWaitHandle.WaitOne();
+            }
         }
 
         private void RunServerCallback(IAsyncResult ar)
         {
             try
             {
-                Action target = (Action)ar.AsyncState;
+                var target = (Action) ar.AsyncState;
                 target.EndInvoke(ar);
             }
             catch (Exception ex)
             {
-                MainWindow.RemoteWindow.WriteConsole(ex.ToString(), (int)MainWindow.level.WARNING);
+                Console.WriteLine(ex.ToString());
             }
         }
 
-        public void Stop()
+        private void StartListener(object data)
         {
+            // Note: The GetContext method blocks while waiting for a request. 
+            var context = m_vListener.GetContext();
+
             m_vListener.Stop();
-            m_vListener.Close();
-        }    
+        }
     }
 }

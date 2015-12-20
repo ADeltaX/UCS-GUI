@@ -1,34 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
-using System.ComponentModel;
-using System.IO;
-using System.Reflection;
-
-namespace Ultrapowa_Clash_Server_GUI.GameFiles
+﻿namespace Ultrapowa_Clash_Server_GUI.GameFiles
 {
-    class NpcData : Data
+    internal class NpcData : Data
     {
-
         public NpcData(CSVRow row, DataTable dt)
             : base(row, dt)
         {
-            LoadData(this, this.GetType(), row);
+            LoadData(this, GetType(), row);
         }
 
-        public String MapInstanceName { get; set; }
-        public String MapDependencies { get; set; }
-        public String TID { get; set; }
-        public int ExpLevel { get; set; }
-        public String UnitType { get; set; }
-        public int UnitCount { get; set; }
-        public String LevelFile { get; set; }
-        public int Gold { get; set; }
-        public int Elixir { get; set; }
         public bool AlwaysUnlocked { get; set; }
 
+        public int Elixir { get; set; }
+
+        public int ExpLevel { get; set; }
+
+        public int Gold { get; set; }
+
+        public string LevelFile { get; set; }
+
+        public string MapDependencies { get; set; }
+
+        public string MapInstanceName { get; set; }
+
+        public string TID { get; set; }
+
+        public int UnitCount { get; set; }
+
+        public string UnitType { get; set; }
     }
 }

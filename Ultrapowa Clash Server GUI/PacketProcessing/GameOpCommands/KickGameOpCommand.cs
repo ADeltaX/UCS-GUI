@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Threading.Tasks;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
 using Ultrapowa_Clash_Server_GUI.Core;
+using Ultrapowa_Clash_Server_GUI.Logic;
 using Ultrapowa_Clash_Server_GUI.Network;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
-    class KickGameOpCommand : GameOpCommand
+    internal class KickGameOpCommand : GameOpCommand
     {
-        private string[] m_vArgs;
+        private readonly string[] m_vArgs;
 
         public KickGameOpCommand(string[] args)
         {
@@ -24,16 +17,17 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Execute(Level level)
         {
-            if(level.GetAccountPrivileges() >= GetRequiredAccountPrivileges())
+            if (level.GetAccountPrivileges() >= GetRequiredAccountPrivileges())
             {
-                if(m_vArgs.Length >= 2)
+                if (m_vArgs.Length >= 2)
                 {
                     try
                     {
-                        long id = Convert.ToInt64(m_vArgs[1]);
+                        var id = Convert.ToInt64(m_vArgs[1]);
                         var l = ResourcesManager.GetPlayer(id);
-                        if(ResourcesManager.IsPlayerOnline(l))
+                        if (ResourcesManager.IsPlayerOnline(l))
                         {
+                            ResourcesManager.LogPlayerOut(l);
                             var p = new OutOfSyncMessage(l.GetClient());
                             PacketManager.ProcessOutgoingPacket(p);
                         }
@@ -42,9 +36,9 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                             Debugger.WriteLine("Kick failed: id " + id + " not found");
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
-                        Debugger.WriteLine("Kick failed with error: " + ex.ToString()); 
+                        Debugger.WriteLine("Kick failed with error: " + ex);
                     }
                 }
             }

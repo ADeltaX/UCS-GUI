@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Core;
+﻿using System.Collections.Generic;
 using Ultrapowa_Clash_Server_GUI.Helpers;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
     //Packet 24115
-    class ServerErrorMessage : Message
+    internal class ServerErrorMessage : Message
     {
         private string m_vErrorMessage;
 
@@ -22,7 +16,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Encode()
         {
-            List<Byte> data = new List<Byte>();
+            var data = new List<byte>();
             data.AddString(m_vErrorMessage);
             SetData(data.ToArray());
         }

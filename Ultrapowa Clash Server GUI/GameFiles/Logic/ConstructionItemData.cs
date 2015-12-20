@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
-using System.ComponentModel;
-using System.IO;
-using System.Reflection;
-using Ultrapowa_Clash_Server_GUI.Core;
-
-namespace Ultrapowa_Clash_Server_GUI.GameFiles
+﻿namespace Ultrapowa_Clash_Server_GUI.GameFiles
 {
-    class ConstructionItemData : Data
+    internal class ConstructionItemData : Data
     {
-
         public ConstructionItemData(CSVRow row, DataTable dt) : base(row, dt)
         {
         }

@@ -1,74 +1,59 @@
-using System.Collections;
-//using System.Collections.Generic;
-using System.Net;
-using System.Net.Sockets;
 using System;
+using System.Net.Sockets;
 
+//using System.Collections.Generic;
 
 namespace Ultrapowa_Clash_Server_GUI.Network
 {
     public class SocketRead
     {
-        public delegate void IncomingReadHandler(SocketRead read, byte[] data);
         public delegate void IncomingReadErrorHandler(SocketRead read, Exception exception);
+
+        public delegate void IncomingReadHandler(SocketRead read, byte[] data);
+
         public const int kBufferSize = 256;
 
-        Socket socket;
-        IncomingReadHandler readHandler;
-        IncomingReadErrorHandler errorHandler;
-        byte[] buffer = new byte[kBufferSize];
+        private readonly byte[] buffer = new byte[kBufferSize];
 
+        private readonly IncomingReadErrorHandler errorHandler;
 
-        public Socket Socket
+        private readonly IncomingReadHandler readHandler;
+
+        private SocketRead(Socket socket, IncomingReadHandler readHandler, IncomingReadErrorHandler errorHandler = null)
         {
-            get
-            {
-                return socket;
-            }
-        }
-
-
-        SocketRead(Socket socket, IncomingReadHandler readHandler, IncomingReadErrorHandler errorHandler = null)
-        {
-            this.socket = socket;
+            Socket = socket;
             this.readHandler = readHandler;
             this.errorHandler = errorHandler;
-
             BeginReceive();
         }
 
+        public Socket Socket { get; }
 
-        void BeginReceive()
-        {
-            socket.BeginReceive(buffer, 0, kBufferSize, SocketFlags.None, new AsyncCallback(OnReceive), this);
-        }
-
-
-        public static SocketRead Begin(Socket socket, IncomingReadHandler readHandler, IncomingReadErrorHandler errorHandler = null)
+        public static SocketRead Begin(Socket socket, IncomingReadHandler readHandler,
+            IncomingReadErrorHandler errorHandler = null)
         {
             return new SocketRead(socket, readHandler, errorHandler);
         }
 
+        private void BeginReceive()
+        {
+            Socket.BeginReceive(buffer, 0, kBufferSize, SocketFlags.None, OnReceive, this);
+        }
 
-        void OnReceive(IAsyncResult result)
+        private void OnReceive(IAsyncResult result)
         {
             try
             {
                 if (result.IsCompleted)
                 {
-                    int bytesRead = socket.EndReceive(result);
-
+                    var bytesRead = Socket.EndReceive(result);
                     if (bytesRead > 0)
                     {
-                        byte[] read = new byte[bytesRead];
+                        var read = new byte[bytesRead];
                         Array.Copy(buffer, 0, read, 0, bytesRead);
 
                         readHandler(this, read);
-                        Begin(socket, readHandler, errorHandler);
-                    }
-                    else
-                    {
-                        // Disconnect
+                        Begin(Socket, readHandler, errorHandler);
                     }
                 }
             }

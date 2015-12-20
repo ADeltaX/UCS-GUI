@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Threading.Tasks;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
+﻿using System.IO;
 using Ultrapowa_Clash_Server_GUI.Core;
+using Ultrapowa_Clash_Server_GUI.Helpers;
+using Ultrapowa_Clash_Server_GUI.Logic;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
     //Commande 0x020F
-    class UpgradeHeroCommand : Command
+    internal class UpgradeHeroCommand : Command
     {
         public UpgradeHeroCommand(BinaryReader br)
         {
@@ -20,30 +14,30 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             Unknown1 = br.ReadUInt32WithEndian();
         }
 
-        //00 00 02 0F 1D CD 65 09 00 01 03 63
+        public int BuildingId { get; set; }
 
-        public int BuildingId { get; set; } 
+        //00 00 02 0F 1D CD 65 09 00 01 03 63
         public uint Unknown1 { get; set; }
 
         public override void Execute(Level level)
         {
-            ClientAvatar ca = level.GetPlayerAvatar();
-            GameObject go = level.GameObjectManager.GetGameObjectByID(BuildingId);
-            if(go != null)
+            var ca = level.GetPlayerAvatar();
+            var go = level.GameObjectManager.GetGameObjectByID(BuildingId);
+            if (go != null)
             {
-                Building b = (Building)go;
-                HeroBaseComponent hbc = b.GetHeroBaseComponent();
-                if(hbc != null)
+                var b = (Building) go;
+                var hbc = b.GetHeroBaseComponent();
+                if (hbc != null)
                 {
-                    if(hbc.CanStartUpgrading())
+                    if (hbc.CanStartUpgrading())
                     {
-                        HeroData hd = ObjectManager.DataTables.GetHeroByName(b.GetBuildingData().HeroType);
-                        int currentLevel = ca.GetUnitUpgradeLevel(hd);
-                        ResourceData rd = hd.GetUpgradeResource(currentLevel);
-                        int cost = hd.GetUpgradeCost(currentLevel);
-                        if(ca.HasEnoughResources(rd, cost))
+                        var hd = ObjectManager.DataTables.GetHeroByName(b.GetBuildingData().HeroType);
+                        var currentLevel = ca.GetUnitUpgradeLevel(hd);
+                        var rd = hd.GetUpgradeResource(currentLevel);
+                        var cost = hd.GetUpgradeCost(currentLevel);
+                        if (ca.HasEnoughResources(rd, cost))
                         {
-                            if(level.HasFreeWorkers())
+                            if (level.HasFreeWorkers())
                             {
                                 hbc.StartUpgrading();
                             }

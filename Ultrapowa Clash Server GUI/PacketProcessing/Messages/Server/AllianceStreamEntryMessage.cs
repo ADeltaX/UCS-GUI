@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Ultrapowa_Clash_Server_GUI.Logic;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
     //Packet 24312
-    class AllianceStreamEntryMessage : Message
+    internal class AllianceStreamEntryMessage : Message
     {
         private StreamEntry m_vStreamEntry;
 
@@ -17,18 +13,18 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             SetMessageType(24312);
         }
 
-        public void SetStreamEntry(StreamEntry entry)
-        {
-            m_vStreamEntry = entry;
-        }
-
         public override void Encode()
         {
-            List<Byte> pack = new List<Byte>();
+            var pack = new List<byte>();
 
             pack.AddRange(m_vStreamEntry.Encode());
 
             SetData(pack.ToArray());
+        }
+
+        public void SetStreamEntry(StreamEntry entry)
+        {
+            m_vStreamEntry = entry;
         }
     }
 }

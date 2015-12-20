@@ -1,26 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 using System.Configuration;
-using Ultrapowa_Clash_Server_GUI.PacketProcessing;
-using Ultrapowa_Clash_Server_GUI.Logic;
+using System.IO;
 
 namespace Ultrapowa_Clash_Server_GUI.Core
 {
-    static class Debugger
+    internal static class Debugger
     {
         private static readonly object m_vSyncObject = new object();
+
         private static readonly TextWriter m_vTextWriter;
+
         private static int m_vLogLevel;
 
         static Debugger()
         {
-            m_vTextWriter = TextWriter.Synchronized(File.AppendText("logs/debug_" + DateTime.Now.ToString("yyyyMMdd") + ".log"));
+            m_vTextWriter =
+                TextWriter.Synchronized(File.AppendText("logs/debug_" + DateTime.Now.ToString("yyyy,MM,dd") + ".log"));
             m_vLogLevel = 1;
+        }
+
+        public static int GetLogLevel()
+        {
+            return m_vLogLevel;
         }
 
         public static void SetLogLevel(int level)
@@ -28,19 +29,36 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             m_vLogLevel = level;
         }
 
-        public static void WriteLine(string text, Exception ex = null, int logLevel = 4)
+        public static void WriteLine(string text, Exception ex = null, int logLevel = 4,
+            ConsoleColor color = ConsoleColor.White)
         {
-            string content = text;
-            if (ex != null)
-                content += ex.ToString();
-            if (Convert.ToBoolean(ConfigurationManager.AppSettings["consoleDebug"]))
+            var content = text;
+            if (logLevel <= m_vLogLevel)
             {
-                MainWindow.RemoteWindow.WriteConsole(content, (int)MainWindow.level.WARNING);
+                if (ex != null)
+                    content += ex.ToString();
+                if (color != ConsoleColor.White)
+                {
+                    Console.ForegroundColor = color;
+                }
+                else
+                {
+                    if (logLevel == 5)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    }
+                }
+                if (Convert.ToBoolean(ConfigurationManager.AppSettings["debugMode"]))
+                {
+                    Console.WriteLine(content);
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.ResetColor();
+                }
             }
-            else
-            {
-            }
-            if(logLevel <= m_vLogLevel)
+            if (logLevel <= m_vLogLevel)
             {
                 lock (m_vSyncObject)
                 {
@@ -51,7 +69,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                         m_vTextWriter.WriteLine(ex.ToString());
                     m_vTextWriter.Flush();
                 }
-            } 
+            }
         }
     }
 }

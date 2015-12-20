@@ -1,23 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using System.Threading.Tasks;
+using Ultrapowa_Clash_Server_GUI.Core;
 using Ultrapowa_Clash_Server_GUI.Helpers;
 using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Core;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
     //Packet 14102
-    class ExecuteCommandsMessage : Message
+    internal class ExecuteCommandsMessage : Message
     {
-        private byte[] m_vCommands;
-
-        public ExecuteCommandsMessage(Client client, BinaryReader br) : base (client, br)
+        public ExecuteCommandsMessage(Client client, BinaryReader br) : base(client, br)
         {
         }
+
+        public byte[] NestedCommands { get; private set; }
+
+        public uint NumberOfCommands { get; set; }
+
+        public uint Unknown1 { get; set; }
+
+        //00 00 2B D8 some sort of server tick
+        public uint Unknown2 { get; set; }
 
         public override void Decode()
         {
@@ -30,20 +33,12 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
                 if (NumberOfCommands > 0)
                 {
-                    m_vCommands = br.ReadBytes(GetLength() - 12);
+                    NestedCommands = br.ReadBytes(GetLength() - 12);
                 }
             }
         }
 
-        public byte[] NestedCommands
-        {
-            get { return m_vCommands; }
-        }
-
-        public uint Unknown1 { get; set; } //00 00 2B D8 some sort of server tick
-        public uint Unknown2 { get; set; } // 01 EB 30 36 some sort of server tick or checksum
-        public uint NumberOfCommands { get; set; }
-        
+        // 01 EB 30 36 some sort of server tick or checksum 
         public override void Process(Level level)
         {
             try
@@ -54,16 +49,18 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 {
                     using (var br = new BinaryReader(new MemoryStream(NestedCommands)))
                     {
-                        for (int i = 0; i < NumberOfCommands; i++)
+                        for (var i = 0; i < NumberOfCommands; i++)
                         {
-                            object obj = CommandFactory.Read(br);
+                            var obj = CommandFactory.Read(br);
                             if (obj != null)
                             {
-                                string player = "";
+                                var player = "";
                                 if (level != null)
-                                    player += " (" + level.GetPlayerAvatar().GetId() + ", " + level.GetPlayerAvatar().GetAvatarName() + ")";
+                                    player += " (" + level.GetPlayerAvatar().GetId() + ", " +
+                                              level.GetPlayerAvatar().GetAvatarName() + ")";
                                 Debugger.WriteLine("\t" + obj.GetType().Name + player);
-                                ((Command)obj).Execute(level);
+                                ((Command) obj).Execute(level);
+
                                 //Debugger.WriteLine("finished processing of command " + obj.GetType().Name + player);
                             }
                             else
@@ -75,7 +72,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Debugger.WriteLine("Exception occurred during command processing." + ex.ToString());
+                Debugger.WriteLine("Exception occurred during command processing." + ex);
                 Console.ResetColor();
             }
         }

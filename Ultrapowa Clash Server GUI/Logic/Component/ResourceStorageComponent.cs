@@ -1,37 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
-using System.Configuration;
-using Ultrapowa_Clash_Server_GUI.PacketProcessing;
+﻿using System.Collections.Generic;
 using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
-using Newtonsoft.Json;
 
 namespace Ultrapowa_Clash_Server_GUI.Logic
 {
-    class ResourceStorageComponent : Component
+    internal class ResourceStorageComponent : Component
     {
-        private List<int> m_vCurrentResources;
-        private List<int> m_vMaxResources;
-        private List<int> m_vStolenResources;
+        private readonly List<int> m_vCurrentResources;
 
-        public ResourceStorageComponent(GameObject go) : base (go)
+        private readonly List<int> m_vStolenResources;
+
+        private List<int> m_vMaxResources;
+
+        public ResourceStorageComponent(GameObject go) : base(go)
         {
             m_vCurrentResources = new List<int>();
             m_vMaxResources = new List<int>();
             m_vStolenResources = new List<int>();
 
             var table = ObjectManager.DataTables.GetTable(2);
-            int resourceCount = table.GetItemCount();
-            for(int i=0;i<resourceCount;i++)
+            var resourceCount = table.GetItemCount();
+            for (var i = 0; i < resourceCount; i++)
             {
                 m_vCurrentResources.Add(0);
                 m_vMaxResources.Add(0);
                 m_vStolenResources.Add(0);
             }
+        }
+
+        public override int Type
+        {
+            get { return 6; }
         }
 
         public int GetCount(int resourceIndex)
@@ -48,11 +46,6 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
         {
             m_vMaxResources = resourceCaps;
             GetParent().GetLevel().GetComponentManager().RefreshResourcesCaps();
-        }
-
-        public override int Type
-        {
-            get { return 6; }
         }
     }
 }

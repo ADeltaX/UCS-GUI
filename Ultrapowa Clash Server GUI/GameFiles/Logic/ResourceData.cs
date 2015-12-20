@@ -1,35 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
-using System.ComponentModel;
-using System.IO;
-using System.Reflection;
-
-namespace Ultrapowa_Clash_Server_GUI.GameFiles
+﻿namespace Ultrapowa_Clash_Server_GUI.GameFiles
 {
-    class ResourceData : Data
+    internal class ResourceData : Data
     {
-
         public ResourceData(CSVRow row, DataTable dt)
             : base(row, dt)
         {
-            LoadData(this, this.GetType(), row); 
+            LoadData(this, GetType(), row);
         }
 
-        public String TID { get; set; }
-        public String SWF { get; set; }
-        public String CollectEffect { get; set; }
-        public String ResourceIconExportName { get; set; }
-        public String StealEffect { get; set; }
-        public Boolean PremiumCurrency { get; set; }
-        public String HudInstanceName { get; set; }
-        public String CapFullTID { get; set; }
-        public int TextRed { get; set; }
-        public int TextGreen { get; set; }
+        public string CapFullTID { get; set; }
+
+        public string CollectEffect { get; set; }
+
+        public string HudInstanceName { get; set; }
+
+        public bool PremiumCurrency { get; set; }
+
+        public string ResourceIconExportName { get; set; }
+
+        public string StealEffect { get; set; }
+
+        public string SWF { get; set; }
+
         public int TextBlue { get; set; }
-        public String WarRefResource { get; set; }
+
+        public int TextGreen { get; set; }
+
+        public int TextRed { get; set; }
+
+        public string TID { get; set; }
+
+        public string WarRefResource { get; set; }
     }
 }

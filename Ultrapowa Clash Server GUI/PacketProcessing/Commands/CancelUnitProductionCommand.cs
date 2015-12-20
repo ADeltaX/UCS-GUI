@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Threading.Tasks;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
+﻿using System.IO;
 using Ultrapowa_Clash_Server_GUI.Core;
+using Ultrapowa_Clash_Server_GUI.GameFiles;
+using Ultrapowa_Clash_Server_GUI.Helpers;
+using Ultrapowa_Clash_Server_GUI.Logic;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
     //Commande 0x1FD
-    class CancelUnitProductionCommand : Command
+    internal class CancelUnitProductionCommand : Command
     {
         public CancelUnitProductionCommand(BinaryReader br)
         {
@@ -25,30 +20,39 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
         }
 
         public int BuildingId { get; set; }
-        public uint Unknown1 { get; set; } //00 00 00 00
-        public int UnitType { get; set; } //00 3D 09 00
-        public int Count { get; set; } //00 00 00 01
-        public uint Unknown3 { get; set; } //00 00 00 00
-        public uint Unknown4 { get; set; } //00 00 34 E4
 
-        //00 00 01 FD 1D CD 65 05 00 00 00 00 00 3D 09 09 00 00 00 01 00 00 00 00 00 00 04 24 
+        //00 00 01 FD 1D CD 65 05 00 00 00 00 00 3D 09 09 00 00 00 01 00 00 00 00 00 00 04 24
+        public int Count { get; set; }
+
+        //00 00 34 E4
+        public int UnitType { get; set; }
+
+        //00 00 00 00
+        public uint Unknown1 { get; set; }
+
+        //00 3D 09 00
+        //00 00 00 01
+        public uint Unknown3 { get; set; }
+
+        public uint Unknown4 { get; set; }
 
         public override void Execute(Level level)
         {
-            GameObject go = level.GameObjectManager.GetGameObjectByID(BuildingId);
+            var go = level.GameObjectManager.GetGameObjectByID(BuildingId);
             if (Count > 0)
             {
-                Building b = (Building)go;
-                UnitProductionComponent c = b.GetUnitProductionComponent();
-                CombatItemData cd = (CombatItemData)ObjectManager.DataTables.GetDataById(UnitType);
+                var b = (Building) go;
+                var c = b.GetUnitProductionComponent();
+                var cd = (CombatItemData) ObjectManager.DataTables.GetDataById(UnitType);
                 do
                 {
                     //Ajouter gestion remboursement ressources
                     c.RemoveUnit(cd);
                     Count--;
-                }
-                while (Count > 0);
+                } while (Count > 0);
             }
         }
+
+        //00 00 00 00
     }
 }

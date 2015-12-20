@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Threading.Tasks;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
 using Ultrapowa_Clash_Server_GUI.Core;
+using Ultrapowa_Clash_Server_GUI.Logic;
 using Ultrapowa_Clash_Server_GUI.Network;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
-    class SystemRestartMessageGameOpCommand : GameOpCommand
+    internal class SystemRestartMessageGameOpCommand : GameOpCommand
     {
-        private string[] m_vArgs;
+        private readonly string[] m_vArgs;
 
         public SystemRestartMessageGameOpCommand(string[] args)
         {
@@ -29,8 +22,8 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 if (m_vArgs.Length >= 1)
                 {
                     var avatar = level.GetPlayerAvatar();
-                    AllianceMailStreamEntry mail = new AllianceMailStreamEntry();
-                    mail.SetId((int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
+                    var mail = new AllianceMailStreamEntry();
+                    mail.SetId((int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
                     mail.SetSenderId(0);
                     mail.SetSenderAvatarId(0);
                     mail.SetSenderName("System Admin");
@@ -44,11 +37,14 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
                     foreach (var onlinePlayer in ResourcesManager.GetOnlinePlayers())
                     {
+                        var s = new ShutdownStartedMessage(onlinePlayer.GetClient());
                         var p = new AvatarStreamEntryMessage(onlinePlayer.GetClient());
                         p.SetAvatarStreamEntry(mail);
+                        s.SetCode(5);
+                        PacketManager.ProcessOutgoingPacket(s);
                         PacketManager.ProcessOutgoingPacket(p);
                     }
-                    System.Diagnostics.Process.Start(@"tools\Ultrapowa_Clash_Server_GUI-restart.bat");
+                    Program.RestartProgram();
                 }
             }
             else

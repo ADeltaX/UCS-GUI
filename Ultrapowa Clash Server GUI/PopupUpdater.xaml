@@ -7,58 +7,29 @@
         mc:Ignorable="d"
         Title="Popup" Height="300" Width="400" Topmost="True" WindowStyle="None" Background="Transparent" AllowsTransparency="True" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" Closing="Window_Closing" Loaded="Window_Loaded">
     <Border Name="windowBorder" BorderThickness="2" BorderBrush="#39c8e2" CornerRadius="10">
-        <Border.Effect>
-            <DropShadowEffect Color="#39c8e2" Direction="0" BlurRadius="25" ShadowDepth="0"/>
-        </Border.Effect>
+
         <Border.Background>
             <ImageBrush ImageSource="BG/Blur.png" Opacity="0.7"/> 
         </Border.Background>
 
         <Grid>
             <Rectangle Fill="#2980b9" Height="1" Margin="24,0,24,216" VerticalAlignment="Bottom" Opacity="0.8">
-                <Rectangle.Effect>
-                    <DropShadowEffect Color="#39c8e2" Direction="0" BlurRadius="10"  ShadowDepth="0"/>
-                </Rectangle.Effect>
             </Rectangle>
             <Rectangle Fill="#2980b9" Height="1" Margin="24,0,24,247" VerticalAlignment="Bottom" Opacity="0.8">
-                <Rectangle.Effect>
-                    <DropShadowEffect Color="#39c8e2" Direction="0" BlurRadius="10" ShadowDepth="0"/>
-                </Rectangle.Effect>
             </Rectangle>
             <Button Style="{StaticResource RoundedButton}" x:Name="btn_Cancel" Content="Close" HorizontalAlignment="Left" Margin="225,263,0,0" VerticalAlignment="Top" Width="79" Height="25" Click="btn_Cancel_Click" BorderThickness="3">
-                <Button.Effect>
-                    <DropShadowEffect Color="#39c8e2" Direction="0" BlurRadius="10" ShadowDepth="0"/>
-                </Button.Effect>
             </Button>
             <Button Style="{StaticResource RoundedButton}" x:Name="btn_GoPage" Content="Download" HorizontalAlignment="Left" Margin="309,263,0,0" VerticalAlignment="Top" Width="79" Height="25" Click="btn_GoPage_Click">
-                <Button.Effect>
-                    <DropShadowEffect Color="#39c8e2" Direction="0" BlurRadius="10" ShadowDepth="0"/>
-                </Button.Effect>
             </Button>
             <Label x:Name="lbl_Title" Content="A new version of UCS is available!" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#FF39C8E2" Width="378" FontSize="24">
-                <Label.Effect>
-                    <DropShadowEffect Color="#39c8e2" Direction="0" BlurRadius="10" ShadowDepth="0"/>
-                </Label.Effect>
             </Label>
             <Label x:Name="lbl_CurVer" Content="Current UCS version: " HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" Foreground="#FF39C8E2" Width="182">
-                <Label.Effect>
-                    <DropShadowEffect Color="#39c8e2" Direction="0" BlurRadius="10" ShadowDepth="0"/>
-                </Label.Effect>
             </Label>
             <Label x:Name="lbl_NewVer" Content="New UCS version: " Margin="0,52,10,0" HorizontalContentAlignment="Right" VerticalAlignment="Top" Foreground="#FF39C8E2" HorizontalAlignment="Right" Width="177">
-                <Label.Effect>
-                    <DropShadowEffect Color="#39c8e2" Direction="0" BlurRadius="10" ShadowDepth="0"/>
-                </Label.Effect>
             </Label>
             <Label x:Name="lbl_Changelog" Content="Changelog:" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" Foreground="#FF39C8E2">
-                <Label.Effect>
-                    <DropShadowEffect Color="#39c8e2" Direction="0" BlurRadius="10" ShadowDepth="0"/>
-                </Label.Effect>
             </Label>
             <RichTextBox Template="{StaticResource FlatRichTextBoxStyle}" Padding="2" x:Name="RTB_Console" x:FieldModifier="public" Margin="10,107,10,40" AllowDrop="False" BorderThickness="2" IsReadOnly="True" Background="#A500697C" SelectionBrush="#FF005DB9" VerticalScrollBarVisibility="Auto" FontFamily="Consolas" BorderBrush="#39c8e2" Foreground="White">
-                <RichTextBox.Effect>
-                    <DropShadowEffect Color="#39c8e2" Direction="0" BlurRadius="25" ShadowDepth="0"/>
-                </RichTextBox.Effect>
                 <FlowDocument>
                     <Paragraph>
                         <Run Text=""/>

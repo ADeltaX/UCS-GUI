@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Ultrapowa_Clash_Server_GUIdbModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="ISO8601" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ucsdbModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="ISO8601" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="clan">
           <Key>
             <PropertyRef Name="ClanId" />
@@ -24,7 +24,7 @@
           <Property Name="Avatar" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
           <Property Name="GameObjects" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
         </EntityType>
-        <EntityContainer Name="Ultrapowa_Clash_Server_GUIdbModelStoreContainer">
+        <EntityContainer Name="ucsdbModelStoreContainer">
           <EntitySet Name="clan" EntityType="Self.clan" store:Type="Tables" />
           <EntitySet Name="player" EntityType="Self.player" store:Type="Tables" />
         </EntityContainer>
@@ -32,7 +32,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="Ultrapowa_Clash_Server_GUIdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="ucsdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="clan">
           <Key>
             <PropertyRef Name="ClanId" />
@@ -52,7 +52,7 @@
           <Property Name="Avatar" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="GameObjects" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
-        <EntityContainer Name="Ultrapowa_Clash_Server_GUIdbEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="ucsdbEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="clan" EntityType="Self.clan" />
           <EntitySet Name="player" EntityType="Self.player" />
         </EntityContainer>
@@ -61,9 +61,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Ultrapowa_Clash_Server_GUIdbModelStoreContainer" CdmEntityContainer="Ultrapowa_Clash_Server_GUIdbEntities1">
+        <EntityContainerMapping StorageEntityContainer="ucsdbModelStoreContainer" CdmEntityContainer="ucsdbEntities1">
           <EntitySetMapping Name="clan">
-            <EntityTypeMapping TypeName="Ultrapowa_Clash_Server_GUIdbModel.clan">
+            <EntityTypeMapping TypeName="ucsdbModel.clan">
               <MappingFragment StoreEntitySet="clan">
                 <ScalarProperty Name="ClanId" ColumnName="ClanId" />
                 <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
@@ -72,7 +72,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="player">
-            <EntityTypeMapping TypeName="Ultrapowa_Clash_Server_GUIdbModel.player">
+            <EntityTypeMapping TypeName="ucsdbModel.player">
               <MappingFragment StoreEntitySet="player">
                 <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
                 <ScalarProperty Name="AccountStatus" ColumnName="AccountStatus" />
@@ -106,8 +106,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram DiagramId="7ad7ca2d3fd64c938fd8e162e5163121" Name="Diagram1">
-        <EntityTypeShape EntityType="Ultrapowa_Clash_Server_GUIdbModel.clan" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Ultrapowa_Clash_Server_GUIdbModel.player" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ucsdbModel.clan" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ucsdbModel.player" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
       </Diagram>
     </Diagrams>
   </Designer>

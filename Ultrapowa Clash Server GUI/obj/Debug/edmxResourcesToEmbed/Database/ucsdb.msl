@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="Ultrapowa_Clash_Server_GUIdbModelStoreContainer" CdmEntityContainer="Ultrapowa_Clash_Server_GUIdbEntities">
+  <EntityContainerMapping StorageEntityContainer="ucsdbModelStoreContainer" CdmEntityContainer="ucsdbEntities">
     <EntitySetMapping Name="clan">
-      <EntityTypeMapping TypeName="Ultrapowa_Clash_Server_GUIdbModel.clan">
+      <EntityTypeMapping TypeName="ucsdbModel.clan">
         <MappingFragment StoreEntitySet="clan">
           <ScalarProperty Name="ClanId" ColumnName="ClanId" />
           <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
@@ -11,7 +11,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="player">
-      <EntityTypeMapping TypeName="Ultrapowa_Clash_Server_GUIdbModel.player">
+      <EntityTypeMapping TypeName="ucsdbModel.player">
         <MappingFragment StoreEntitySet="player">
           <ScalarProperty Name="AccountStatus" ColumnName="AccountStatus" />
           <ScalarProperty Name="AccountPrivileges" ColumnName="AccountPrivileges" />

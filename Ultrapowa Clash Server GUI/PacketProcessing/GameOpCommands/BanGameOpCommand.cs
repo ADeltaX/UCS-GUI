@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Threading.Tasks;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
 using Ultrapowa_Clash_Server_GUI.Core;
+using Ultrapowa_Clash_Server_GUI.Logic;
 using Ultrapowa_Clash_Server_GUI.Network;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
-    class BanGameOpCommand : GameOpCommand
+    internal class BanGameOpCommand : GameOpCommand
     {
-        private string[] m_vArgs;
+        private readonly string[] m_vArgs;
 
         public BanGameOpCommand(string[] args)
         {
@@ -24,15 +17,15 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Execute(Level level)
         {
-            if(level.GetAccountPrivileges() >= GetRequiredAccountPrivileges())
+            if (level.GetAccountPrivileges() >= GetRequiredAccountPrivileges())
             {
-                if(m_vArgs.Length >= 2)
+                if (m_vArgs.Length >= 2)
                 {
                     try
                     {
-                        long id = Convert.ToInt64(m_vArgs[1]);
+                        var id = Convert.ToInt64(m_vArgs[1]);
                         var l = ResourcesManager.GetPlayer(id);
-                        if(l != null)
+                        if (l != null)
                         {
                             if (l.GetAccountPrivileges() < level.GetAccountPrivileges())
                             {
@@ -46,7 +39,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                             }
                             else
                             {
-                                Debugger.WriteLine("Ban failed: id " + id + " not found");
+                                Debugger.WriteLine("Ban failed: insufficient privileges");
                             }
                         }
                         else
@@ -54,9 +47,9 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                             Debugger.WriteLine("Ban failed: id " + id + " not found");
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
-                        Debugger.WriteLine("Ban failed with error: " + ex.ToString()); 
+                        Debugger.WriteLine("Ban failed with error: " + ex);
                     }
                 }
             }

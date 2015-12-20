@@ -1,29 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
-using System.ComponentModel;
-using System.IO;
-using System.Reflection;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.Logic;
+﻿using Ultrapowa_Clash_Server_GUI.Core;
 using Ultrapowa_Clash_Server_GUI.Helpers;
 
 namespace Ultrapowa_Clash_Server_GUI.GameFiles
 {
-    class Globals : DataTable
+    internal class Globals : DataTable
     {
-        public Globals(CSVTable table, int index) : base (table, index)
+        public Globals(CSVTable table, int index) : base(table, index)
         {
-
         }
 
         public int GetDarkElixirDiamondCost(int resourceCount)
         {
-            int result = 0;
-            if(resourceCount >= 1)
+            var result = 0;
+            if (resourceCount >= 1)
             {
                 if (resourceCount >= 10)
                 {
@@ -33,35 +22,62 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
                         {
                             if (resourceCount >= 10000)
                             {
-                                int supCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("DARK_ELIXIR_DIAMOND_COST_100000").NumberValue;
-                                int infCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("DARK_ELIXIR_DIAMOND_COST_10000").NumberValue;
-                                result = GamePlayUtil.CalculateResourceCost(100000, 10000, supCost, infCost, resourceCount);
+                                var supCost =
+                                    ObjectManager.DataTables.GetGlobals()
+                                        .GetGlobalData("DARK_ELIXIR_DIAMOND_COST_100000")
+                                        .NumberValue;
+                                var infCost =
+                                    ObjectManager.DataTables.GetGlobals()
+                                        .GetGlobalData("DARK_ELIXIR_DIAMOND_COST_10000")
+                                        .NumberValue;
+                                result = GamePlayUtil.CalculateResourceCost(100000, 10000, supCost, infCost,
+                                    resourceCount);
                             }
                             else
                             {
-                                int supCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("DARK_ELIXIR_DIAMOND_COST_10000").NumberValue;
-                                int infCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("DARK_ELIXIR_DIAMOND_COST_1000").NumberValue;
+                                var supCost =
+                                    ObjectManager.DataTables.GetGlobals()
+                                        .GetGlobalData("DARK_ELIXIR_DIAMOND_COST_10000")
+                                        .NumberValue;
+                                var infCost =
+                                    ObjectManager.DataTables.GetGlobals()
+                                        .GetGlobalData("DARK_ELIXIR_DIAMOND_COST_1000")
+                                        .NumberValue;
                                 result = GamePlayUtil.CalculateResourceCost(10000, 1000, supCost, infCost, resourceCount);
                             }
                         }
                         else
                         {
-                            int supCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("DARK_ELIXIR_DIAMOND_COST_1000").NumberValue;
-                            int infCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("DARK_ELIXIR_DIAMOND_COST_100").NumberValue;
+                            var supCost =
+                                ObjectManager.DataTables.GetGlobals()
+                                    .GetGlobalData("DARK_ELIXIR_DIAMOND_COST_1000")
+                                    .NumberValue;
+                            var infCost =
+                                ObjectManager.DataTables.GetGlobals()
+                                    .GetGlobalData("DARK_ELIXIR_DIAMOND_COST_100")
+                                    .NumberValue;
                             result = GamePlayUtil.CalculateResourceCost(1000, 100, supCost, infCost, resourceCount);
                         }
                     }
                     else
                     {
-                        int supCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("DARK_ELIXIR_DIAMOND_COST_100").NumberValue;
-                        int infCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("DARK_ELIXIR_DIAMOND_COST_10").NumberValue;
+                        var supCost =
+                            ObjectManager.DataTables.GetGlobals()
+                                .GetGlobalData("DARK_ELIXIR_DIAMOND_COST_100")
+                                .NumberValue;
+                        var infCost =
+                            ObjectManager.DataTables.GetGlobals()
+                                .GetGlobalData("DARK_ELIXIR_DIAMOND_COST_10")
+                                .NumberValue;
                         result = GamePlayUtil.CalculateResourceCost(100, 10, supCost, infCost, resourceCount);
                     }
                 }
                 else
                 {
-                    int supCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("DARK_ELIXIR_DIAMOND_COST_10").NumberValue;
-                    int infCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("DARK_ELIXIR_DIAMOND_COST_1").NumberValue;
+                    var supCost =
+                        ObjectManager.DataTables.GetGlobals().GetGlobalData("DARK_ELIXIR_DIAMOND_COST_10").NumberValue;
+                    var infCost =
+                        ObjectManager.DataTables.GetGlobals().GetGlobalData("DARK_ELIXIR_DIAMOND_COST_1").NumberValue;
                     result = GamePlayUtil.CalculateResourceCost(10, 1, supCost, infCost, resourceCount);
                 }
             }
@@ -70,12 +86,12 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
 
         public GlobalData GetGlobalData(string name)
         {
-            return (GlobalData)GetDataByName(name);
+            return (GlobalData) GetDataByName(name);
         }
 
         public int GetResourceDiamondCost(int resourceCount, ResourceData resourceData)
         {
-            int result = 0;
+            var result = 0;
             if (resourceData == ObjectManager.DataTables.GetResourceByName("DarkElixir"))
             {
                 result = GetDarkElixirDiamondCost(resourceCount);
@@ -94,41 +110,75 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
                                 {
                                     if (resourceCount >= 1000000)
                                     {
-                                        int supCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("RESOURCE_DIAMOND_COST_10000000").NumberValue;
-                                        int infCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("RESOURCE_DIAMOND_COST_1000000").NumberValue;
-                                        result = GamePlayUtil.CalculateResourceCost(10000000, 1000000, supCost, infCost, resourceCount);
+                                        var supCost =
+                                            ObjectManager.DataTables.GetGlobals()
+                                                .GetGlobalData("RESOURCE_DIAMOND_COST_10000000")
+                                                .NumberValue;
+                                        var infCost =
+                                            ObjectManager.DataTables.GetGlobals()
+                                                .GetGlobalData("RESOURCE_DIAMOND_COST_1000000")
+                                                .NumberValue;
+                                        result = GamePlayUtil.CalculateResourceCost(10000000, 1000000, supCost, infCost,
+                                            resourceCount);
                                     }
                                     else
                                     {
-                                        int supCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("RESOURCE_DIAMOND_COST_1000000").NumberValue;
-                                        int infCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("RESOURCE_DIAMOND_COST_100000").NumberValue;
-                                        result = GamePlayUtil.CalculateResourceCost(1000000, 100000, supCost, infCost, resourceCount);
+                                        var supCost =
+                                            ObjectManager.DataTables.GetGlobals()
+                                                .GetGlobalData("RESOURCE_DIAMOND_COST_1000000")
+                                                .NumberValue;
+                                        var infCost =
+                                            ObjectManager.DataTables.GetGlobals()
+                                                .GetGlobalData("RESOURCE_DIAMOND_COST_100000")
+                                                .NumberValue;
+                                        result = GamePlayUtil.CalculateResourceCost(1000000, 100000, supCost, infCost,
+                                            resourceCount);
                                     }
                                 }
                                 else
                                 {
-                                    int supCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("RESOURCE_DIAMOND_COST_100000").NumberValue;
-                                    int infCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("RESOURCE_DIAMOND_COST_10000").NumberValue;
-                                    result = GamePlayUtil.CalculateResourceCost(100000, 10000, supCost, infCost, resourceCount);
+                                    var supCost =
+                                        ObjectManager.DataTables.GetGlobals()
+                                            .GetGlobalData("RESOURCE_DIAMOND_COST_100000")
+                                            .NumberValue;
+                                    var infCost =
+                                        ObjectManager.DataTables.GetGlobals()
+                                            .GetGlobalData("RESOURCE_DIAMOND_COST_10000")
+                                            .NumberValue;
+                                    result = GamePlayUtil.CalculateResourceCost(100000, 10000, supCost, infCost,
+                                        resourceCount);
                                 }
                             }
                             else
                             {
-                                int supCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("RESOURCE_DIAMOND_COST_10000").NumberValue;
-                                int infCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("RESOURCE_DIAMOND_COST_1000").NumberValue;
+                                var supCost =
+                                    ObjectManager.DataTables.GetGlobals()
+                                        .GetGlobalData("RESOURCE_DIAMOND_COST_10000")
+                                        .NumberValue;
+                                var infCost =
+                                    ObjectManager.DataTables.GetGlobals()
+                                        .GetGlobalData("RESOURCE_DIAMOND_COST_1000")
+                                        .NumberValue;
                                 result = GamePlayUtil.CalculateResourceCost(10000, 1000, supCost, infCost, resourceCount);
                             }
                         }
                         else
                         {
-                            int supCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("RESOURCE_DIAMOND_COST_1000").NumberValue;
-                            int infCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("RESOURCE_DIAMOND_COST_100").NumberValue;
+                            var supCost =
+                                ObjectManager.DataTables.GetGlobals()
+                                    .GetGlobalData("RESOURCE_DIAMOND_COST_1000")
+                                    .NumberValue;
+                            var infCost =
+                                ObjectManager.DataTables.GetGlobals()
+                                    .GetGlobalData("RESOURCE_DIAMOND_COST_100")
+                                    .NumberValue;
                             result = GamePlayUtil.CalculateResourceCost(1000, 100, supCost, infCost, resourceCount);
                         }
                     }
                     else
                     {
-                        result = ObjectManager.DataTables.GetGlobals().GetGlobalData("RESOURCE_DIAMOND_COST_100").NumberValue;
+                        result =
+                            ObjectManager.DataTables.GetGlobals().GetGlobalData("RESOURCE_DIAMOND_COST_100").NumberValue;
                     }
                 }
             }
@@ -137,7 +187,7 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
 
         public int GetSpeedUpCost(int seconds)
         {
-            int cost = 0;
+            var cost = 0;
             if (seconds >= 1)
             {
                 if (seconds >= 60)
@@ -146,27 +196,46 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
                     {
                         if (seconds >= 86400)
                         {
-                            int supCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("SPEED_UP_DIAMOND_COST_1_WEEK").NumberValue;
-                            int infCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("SPEED_UP_DIAMOND_COST_24_HOURS").NumberValue;
+                            var supCost =
+                                ObjectManager.DataTables.GetGlobals()
+                                    .GetGlobalData("SPEED_UP_DIAMOND_COST_1_WEEK")
+                                    .NumberValue;
+                            var infCost =
+                                ObjectManager.DataTables.GetGlobals()
+                                    .GetGlobalData("SPEED_UP_DIAMOND_COST_24_HOURS")
+                                    .NumberValue;
                             cost = GamePlayUtil.CalculateSpeedUpCost(604800, 86400, supCost, infCost, seconds);
                         }
                         else
                         {
-                            int supCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("SPEED_UP_DIAMOND_COST_24_HOURS").NumberValue;
-                            int infCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("SPEED_UP_DIAMOND_COST_1_HOUR").NumberValue;
+                            var supCost =
+                                ObjectManager.DataTables.GetGlobals()
+                                    .GetGlobalData("SPEED_UP_DIAMOND_COST_24_HOURS")
+                                    .NumberValue;
+                            var infCost =
+                                ObjectManager.DataTables.GetGlobals()
+                                    .GetGlobalData("SPEED_UP_DIAMOND_COST_1_HOUR")
+                                    .NumberValue;
                             cost = GamePlayUtil.CalculateSpeedUpCost(86400, 3600, supCost, infCost, seconds);
                         }
                     }
                     else
                     {
-                        int supCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("SPEED_UP_DIAMOND_COST_1_HOUR").NumberValue;
-                        int infCost = ObjectManager.DataTables.GetGlobals().GetGlobalData("SPEED_UP_DIAMOND_COST_1_MIN").NumberValue;
+                        var supCost =
+                            ObjectManager.DataTables.GetGlobals()
+                                .GetGlobalData("SPEED_UP_DIAMOND_COST_1_HOUR")
+                                .NumberValue;
+                        var infCost =
+                            ObjectManager.DataTables.GetGlobals()
+                                .GetGlobalData("SPEED_UP_DIAMOND_COST_1_MIN")
+                                .NumberValue;
                         cost = GamePlayUtil.CalculateSpeedUpCost(3600, 60, supCost, infCost, seconds);
                     }
                 }
                 else
                 {
-                    cost = ObjectManager.DataTables.GetGlobals().GetGlobalData("SPEED_UP_DIAMOND_COST_1_MIN").NumberValue;
+                    cost =
+                        ObjectManager.DataTables.GetGlobals().GetGlobalData("SPEED_UP_DIAMOND_COST_1_MIN").NumberValue;
                 }
             }
             return cost;

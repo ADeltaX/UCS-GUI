@@ -1,28 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Configuration;
+using System.Diagnostics;
 using System.Net;
-using System.Threading.Tasks;
-using Ultrapowa_Clash_Server_GUI.PacketProcessing;
+using System.Reflection;
+using System.Windows.Forms;
+using System.Xml;
 using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
 using Ultrapowa_Clash_Server_GUI.Network;
+using Ultrapowa_Clash_Server_GUI.PacketProcessing;
+using Message = Ultrapowa_Clash_Server_GUI.PacketProcessing.Message;
 
 namespace Ultrapowa_Clash_Server_GUI.Core
 {
-    class Menu
+    internal class Menu
+
     {
         private string[] m_vArgs;
+
         public Menu()
         {
             while (true)
             {
-                MainWindow.RemoteWindow.WriteConsole("", (int)MainWindow.level.WARNING);
-                string line = Console.ReadLine();
-                if (line == "/shutdown")
+                Console.WriteLine("");
+                var line = Console.ReadLine();
+                if (line == "/startx")
+                {
+                    //Application.Run(new UCSManager());
+                }
+                else if (line == "/reloadfilter")
+                {
+                    Console.WriteLine("Filter Has Been Reload");
+                    Message.ReloadChatFilterList();
+                }
+                else if (line == "/shutdown")
                 {
                     foreach (var onlinePlayer in ResourcesManager.GetOnlinePlayers())
                     {
@@ -38,8 +48,8 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                 }
                 else if (line == "/restart")
                 {
-                    AllianceMailStreamEntry mail = new AllianceMailStreamEntry();
-                    mail.SetId((int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
+                    var mail = new AllianceMailStreamEntry();
+                    mail.SetId((int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
                     mail.SetSenderId(0);
                     mail.SetSenderAvatarId(0);
                     mail.SetSenderName("System Manager");
@@ -67,18 +77,99 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                         PacketManager.ProcessOutgoingPacket(pm);
                     }
                     Console.WriteLine("System Restarting....");
-                    System.Diagnostics.Process.Start(@"tools\Ultrapowa_Clash_Server_GUI-restart.bat");
+                    Program.RestartProgram();
+                }
+                else if (line == "/update")
+                {
+                    var downloadUrl = "";
+                    Version newVersion = null;
+                    var aboutUpdate = "";
+                    var xmlUrl = "https://www.flamewall.net/ucs/system.xml";
+                    XmlTextReader reader = null;
+                    try
+                    {
+                        reader = new XmlTextReader(xmlUrl);
+                        reader.MoveToContent();
+                        var elementName = "";
+                        if ((reader.NodeType == XmlNodeType.Element) && (reader.Name == "appinfo"))
+                        {
+                            while (reader.Read())
+                            {
+                                if (reader.NodeType == XmlNodeType.Element)
+                                {
+                                    elementName = reader.Name;
+                                }
+                                else
+                                {
+                                    if ((reader.NodeType == XmlNodeType.Text) && reader.HasValue)
+                                        switch (elementName)
+                                        {
+                                            case "version":
+                                                newVersion = new Version(reader.Value);
+                                                break;
+
+                                            case "url":
+                                                downloadUrl = reader.Value;
+                                                break;
+
+                                            case "about":
+                                                aboutUpdate = reader.Value;
+                                                break;
+                                        }
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    finally
+                    {
+                        if (reader != null)
+                            reader.Close();
+                    }
+                    var applicationVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                    if (applicationVersion.CompareTo(newVersion) < 0)
+                    {
+                        var str =
+                            string.Format(
+                                "New version found!\nYour version: {0}.\nNewest version: {1}. \nAdded in this version: {2}. ",
+                                applicationVersion, newVersion, aboutUpdate);
+                        if (DialogResult.No !=
+                            MessageBox.Show(str + "\nWould you like to download this update?", "Check for updates",
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+                        {
+                            try
+                            {
+                                Process.Start(downloadUrl);
+                            }
+                            catch
+                            {
+                            }
+                            return;
+                        }
+                        ;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Your version: " + applicationVersion + "  is up to date.", "Check for Updates",
+                            MessageBoxButtons.OK, MessageBoxIcon.None);
+                    }
                 }
                 else if (line == "/status")
                 {
-                    string hostName = Dns.GetHostName();
-                    string IPM = Dns.GetHostByName(hostName).AddressList[0].ToString();
+                    var hostName = Dns.GetHostName();
+                    var IPM = Dns.GetHostByName(hostName).AddressList[0].ToString();
                     Console.WriteLine("Server IP : " + IPM + " on port 9339");
-                    Console.WriteLine("Players Online : " + ResourcesManager.GetOnlinePlayers().Count);
-                    Console.WriteLine("Starting Gold : " + Int32.Parse(ConfigurationManager.AppSettings["StartingGold"]));
-                    Console.WriteLine("Starting Elixir : " + Int32.Parse(ConfigurationManager.AppSettings["StartingElixir"]));
-                    Console.WriteLine("Starting Dark Elixir : " + Int32.Parse(ConfigurationManager.AppSettings["StartingDarkElixir"]));
-                    Console.WriteLine("Starting Gems : " + Int32.Parse(ConfigurationManager.AppSettings["StartingGems"]));
+                    Console.WriteLine("Online Player : " + ResourcesManager.GetOnlinePlayers().Count);
+                    Console.WriteLine("Connected Player : " + ResourcesManager.GetConnectedClients().Count);
+                    Console.WriteLine("Starting Gold : " + int.Parse(ConfigurationManager.AppSettings["StartingGold"]));
+                    Console.WriteLine("Starting Elixir : " +
+                                      int.Parse(ConfigurationManager.AppSettings["StartingElixir"]));
+                    Console.WriteLine("Starting Dark Elixir : " +
+                                      int.Parse(ConfigurationManager.AppSettings["StartingDarkElixir"]));
+                    Console.WriteLine("Starting Gems : " + int.Parse(ConfigurationManager.AppSettings["StartingGems"]));
                     Console.WriteLine("CoC Version : " + ConfigurationManager.AppSettings["ClientVersion"]);
                     if (Convert.ToBoolean(ConfigurationManager.AppSettings["useCustomPatch"]))
                     {
@@ -92,7 +183,9 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                     if (Convert.ToBoolean(ConfigurationManager.AppSettings["maintenanceMode"]))
                     {
                         Console.WriteLine("Maintance Mode : Active");
-                        Console.WriteLine("Maintance time : " + (Convert.ToInt32(ConfigurationManager.AppSettings["maintenanceTimeleft"])) + " Seconds");
+                        Console.WriteLine("Maintance time : " +
+                                          Convert.ToInt32(ConfigurationManager.AppSettings["maintenanceTimeleft"]) +
+                                          " Seconds");
                     }
                     else
                     {
@@ -103,8 +196,8 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Server Status is now sent to all online players");
-                    AllianceMailStreamEntry mail = new AllianceMailStreamEntry();
-                    mail.SetId((int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
+                    var mail = new AllianceMailStreamEntry();
+                    mail.SetId((int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
                     mail.SetSenderId(0);
                     mail.SetSenderAvatarId(0);
                     mail.SetSenderName("System Manager");
@@ -112,7 +205,10 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                     mail.SetAllianceId(0);
                     mail.SetAllianceBadgeData(0);
                     mail.SetAllianceName("Legendary Administrator");
-                    mail.SetMessage("Latest Server Status:\nConnected Players:" + ResourcesManager.GetConnectedClients().Count + "\nIn Memory Alliances:" + ObjectManager.GetInMemoryAlliances().Count + "\nIn Memory Levels:" + ResourcesManager.GetInMemoryLevels().Count);
+                    mail.SetMessage("Latest Server Status:\nConnected Players:" +
+                                    ResourcesManager.GetConnectedClients().Count + "\nIn Memory Alliances:" +
+                                    ObjectManager.GetInMemoryAlliances().Count + "\nIn Memory Levels:" +
+                                    ResourcesManager.GetInMemoryLevels().Count);
                     mail.SetSenderLeagueId(22);
                     mail.SetSenderLevel(500);
 
@@ -136,10 +232,15 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                     Console.WriteLine("Available commands :");
                     Console.WriteLine("");
                     Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("/startx - This commands start the server Gui");
+                    Console.WriteLine("");
                     Console.WriteLine("/restart - This commands restart server and sending online player info about it.");
                     Console.WriteLine("");
+                    Console.WriteLine("/update - This commands check for new UCS update");
+                    Console.WriteLine("");
                     Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.WriteLine("/shutdown - This commands fully close the server with message after five minutes.");
+                    Console.WriteLine(
+                        "/shutdown - This commands fully close the server with message after five minutes.");
                     Console.WriteLine("");
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("/status - This commands show informations about the server.");
@@ -151,8 +252,12 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                     Console.WriteLine("/help - This commands show a list of available commands.");
                     Console.WriteLine("");
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("/sysinfo - This command will send the current Server Status to all online players.");
+                    Console.WriteLine(
+                        "/sysinfo - This command will send the current Server Status to all online players.");
+                    Console.WriteLine("");
                     Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("/reloadfilter - This commands reload in memory filtered texts");
+                    Console.ResetColor();
                 }
                 else
                 {
@@ -160,10 +265,15 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                     Console.WriteLine("Available commands :");
                     Console.WriteLine("");
                     Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("/startx - This commands start the server Gui");
+                    Console.WriteLine("");
                     Console.WriteLine("/restart - This commands restart server and sending online player info about it.");
                     Console.WriteLine("");
+                    Console.WriteLine("/update - This commands check for new UCS update");
+                    Console.WriteLine("");
                     Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.WriteLine("/shutdown - This commands fully close the server with message after five minutes.");
+                    Console.WriteLine(
+                        "/shutdown - This commands fully close the server with message after five minutes.");
                     Console.WriteLine("");
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("/status - This commands show informations about the server.");
@@ -175,12 +285,14 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                     Console.WriteLine("/help - This commands show a list of available commands.");
                     Console.WriteLine("");
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("/sysinfo - This command will send the current Server Status to all online players.");
+                    Console.WriteLine(
+                        "/sysinfo - This command will send the current Server Status to all online players.");
+                    Console.WriteLine("");
                     Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("/reloadfilter - This commands reload in memory filtered texts");
+                    Console.ResetColor();
                 }
             }
         }
     }
 }
-        
-

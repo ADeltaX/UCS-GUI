@@ -1,23 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
-using System.ComponentModel;
 using System.IO;
-using System.Reflection;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Ultrapowa_Clash_Server_GUI.Core;
 using Ultrapowa_Clash_Server_GUI.GameFiles;
 using Ultrapowa_Clash_Server_GUI.Helpers;
 
 namespace Ultrapowa_Clash_Server_GUI.Logic
 {
-    class DataSlot
+    internal class DataSlot
     {
         public Data Data;
+
         public int Value;
 
         public DataSlot(Data d, int value)
@@ -34,10 +27,16 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         public byte[] Encode()
         {
-            List<Byte> data = new List<Byte>();
+            var data = new List<byte>();
             data.AddInt32(Data.GetGlobalID());
             data.AddInt32(Value);
             return data.ToArray();
+        }
+
+        public void Load(JObject jsonObject)
+        {
+            Data = ObjectManager.DataTables.GetDataById(jsonObject["global_id"].ToObject<int>());
+            Value = jsonObject["value"].ToObject<int>();
         }
 
         public JObject Save(JObject jsonObject)
@@ -45,12 +44,6 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             jsonObject.Add("global_id", Data.GetGlobalID());
             jsonObject.Add("value", Value);
             return jsonObject;
-        }
-
-        public void Load(JObject jsonObject)
-        {
-            Data = ObjectManager.DataTables.GetDataById(jsonObject["global_id"].ToObject<int>());
-            Value = jsonObject["value"].ToObject<int>();
         }
     }
 }

@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Threading.Tasks;
-using Ultrapowa_Clash_Server_GUI.Logic;
+﻿using System.IO;
 using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
-using Ultrapowa_Clash_Server_GUI.Core;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
     //Commande 0x20C
-    class ToggleAttackModeCommand : Command
+    internal class ToggleAttackModeCommand : Command
     {
         public ToggleAttackModeCommand(BinaryReader br)
         {
@@ -22,12 +14,16 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             Unknown3 = br.ReadUInt32WithEndian();
         }
 
+        //00 00 3B CE
+
         //00 00 02 0C 1D CD 65 09 00 00 00 00 02 00 00 3B CE
 
+        public uint BuildingId { get; set; }
 
-        public uint BuildingId { get; set; } 
-        public byte Unknown1 { get; set; }//00
-        public uint Unknown2 { get; set; }//00 00 00 02
-        public uint Unknown3 { get; set; }//00 00 3B CE 
+        public byte Unknown1 { get; set; } //00
+
+        public uint Unknown2 { get; set; } //00 00 00 02
+
+        public uint Unknown3 { get; set; }
     }
 }
