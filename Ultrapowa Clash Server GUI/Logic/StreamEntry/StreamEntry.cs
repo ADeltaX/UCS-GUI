@@ -13,8 +13,6 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         private DateTime m_vMessageTime;
 
-        private int m_vRole;
-
         private long m_vSenderId;
 
         private int m_vSenderLeagueId;

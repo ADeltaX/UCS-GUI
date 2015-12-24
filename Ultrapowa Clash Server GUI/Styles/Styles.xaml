@@ -41,9 +41,6 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
- 
-
-
     <Style x:Key="ButtonFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>

@@ -162,6 +162,7 @@
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Sys\AnimationLib.cs" />
+    <Compile Include="Sys\ConsoleManage.cs" />
     <Compile Include="Sys\LoadLanguage.cs" />
     <Compile Include="Sys\UpdateChecker.cs" />
     <Page Include="Feedback.xaml">

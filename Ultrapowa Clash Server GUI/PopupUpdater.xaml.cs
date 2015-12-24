@@ -50,15 +50,15 @@ namespace Ultrapowa_Clash_Server_GUI
             OpInW();
            
             int DeltaVariation = 100;
-            AnimationLib.MoveToTarget(btn_Cancel, DeltaVariation, 0.25);
-            AnimationLib.MoveToTarget(btn_GoPage, DeltaVariation, 0.25, 50);
-            AnimationLib.MoveToTarget(RTB_Console, DeltaVariation, 0.25, 100);
-            AnimationLib.MoveToTarget(lbl_Changelog, DeltaVariation, 0.25, 150);
-            AnimationLib.MoveToTarget(lbl_CurVer, DeltaVariation, 0.25, 200);
-            AnimationLib.MoveToTarget(lbl_NewVer, DeltaVariation, 0.25, 250);
-            AnimationLib.MoveToTarget(lbl_Title, DeltaVariation, 0.25, 300);
+            AnimationLib.MoveToTargetY(btn_Cancel, DeltaVariation, 0.25);
+            AnimationLib.MoveToTargetY(btn_GoPage, DeltaVariation, 0.25, 50);
+            AnimationLib.MoveToTargetY(RTB_Console, DeltaVariation, 0.25, 100);
+            AnimationLib.MoveToTargetY(lbl_Changelog, DeltaVariation, 0.25, 150);
+            AnimationLib.MoveToTargetY(lbl_CurVer, DeltaVariation, 0.25, 200);
+            AnimationLib.MoveToTargetY(lbl_NewVer, DeltaVariation, 0.25, 250);
+            AnimationLib.MoveToTargetY(lbl_Title, DeltaVariation, 0.25, 300);
 
-            AnimationLib.MoveWindowToTarget(this, DeltaVariation, Top, 0.25);
+            AnimationLib.MoveWindowToTargetY(this, DeltaVariation, Top, 0.25);
 
         }
 

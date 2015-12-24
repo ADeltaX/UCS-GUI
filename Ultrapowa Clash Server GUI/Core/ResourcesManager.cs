@@ -69,6 +69,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             m_vClients.TryRemove(socketHandle, out c);
             if (c.GetLevel() != null)
                 LogPlayerOut(c.GetLevel());
+            MainWindow.RemoteWindow.UpdateTheListPlayers();
         }
 
         public static List<long> GetAllClanIds()
@@ -152,6 +153,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                 {
                     m_vOnlinePlayers.Add(level);
                     LoadLevel(level);
+                    MainWindow.RemoteWindow.UpdateTheListPlayers();
                 }
             }
         }

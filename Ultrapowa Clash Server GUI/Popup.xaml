@@ -13,15 +13,9 @@
 
         <Grid>
             <Button Style="{StaticResource RoundedButton}" x:Name="btn_cancel" Content="Cancel" HorizontalAlignment="Left" Margin="126,70,0,0" VerticalAlignment="Top" Width="75" Height="20" Click="btn_cancel_Click"/>
-            <Button Style="{StaticResource RoundedButton}" x:Name="btn_ok" Content="Continue" HorizontalAlignment="Left" Margin="215,70,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
+            <Button Style="{StaticResource RoundedButton}" x:Name="btn_ok" Content="Continue" HorizontalAlignment="Left" Margin="215,70,0,0" VerticalAlignment="Top" Width="75" Height="20" Click="btn_ok_Click"/>
             <Label x:Name="LB_Main" Content="> Select the player to ban" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="280" Foreground="#39c8e2"/>
             <ComboBox x:Name="CB_Player" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="280" BorderBrush="Red" Foreground="White" Padding="5,5,5,5">
-                <ComboBoxItem IsSelected="True">
-                    PlayerName : IP
-                </ComboBoxItem>
-                <ComboBoxItem>
-                    Cipolla2
-                </ComboBoxItem>
             </ComboBox>
         </Grid>
     </Border>

@@ -18,7 +18,7 @@
                 <ImageBrush ImageSource="BG/ucs.png"/>
             </Rectangle.Fill>
         </Rectangle>
-        <Label x:Name="label_version" Content="UCS 0.6.2.0" HorizontalAlignment="Left" Margin="204,38,0,0" VerticalAlignment="Top" FontSize="66.667" FontFamily="Segoe UI Light"/>
+        <Label x:Name="label_version" Content="UCS X.X.X.X" HorizontalAlignment="Left" Margin="204,38,0,0" VerticalAlignment="Top" FontSize="66.667" FontFamily="Segoe UI Light"/>
         <Label x:Name="label_preload" Content="Is Preloading:" Margin="260,204,259,70"/>
         <Label x:Name="label_txt" Content="Listing Data" HorizontalAlignment="Left" Margin="23,230,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" Width="552" Height="37" FontSize="16"/>
         

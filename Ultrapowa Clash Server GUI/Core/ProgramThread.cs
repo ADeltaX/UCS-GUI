@@ -12,8 +12,6 @@ namespace Ultrapowa_Clash_Server_GUI
         private List<Level> list;
 
         public bool m_vRunning = false;
-        private ObjectManager om;
-        private ResourcesManager rm;
 
         public ProgramThread()
         {

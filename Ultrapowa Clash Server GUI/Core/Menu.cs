@@ -15,7 +15,6 @@ namespace Ultrapowa_Clash_Server_GUI.Core
     internal class Menu
 
     {
-        private string[] m_vArgs;
 
         public Menu()
         {
@@ -159,8 +158,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                 }
                 else if (line == "/status")
                 {
-                    var hostName = Dns.GetHostName();
-                    var IPM = Dns.GetHostByName(hostName).AddressList[0].ToString();
+                    var IPM = MainWindow.RemoteWindow.GetIP();
                     Console.WriteLine("Server IP : " + IPM + " on port 9339");
                     Console.WriteLine("Online Player : " + ResourcesManager.GetOnlinePlayers().Count);
                     Console.WriteLine("Connected Player : " + ResourcesManager.GetConnectedClients().Count);

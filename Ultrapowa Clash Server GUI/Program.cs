@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Windows.Forms;
 using Ultrapowa_Clash_Server_GUI.Core;
 using Ultrapowa_Clash_Server_GUI.Helpers;
 using Ultrapowa_Clash_Server_GUI.Network;
@@ -17,7 +16,7 @@ namespace Ultrapowa_Clash_Server_GUI
 {
     internal class Program
     {
-        private static bool isclosing = false;
+        //private static bool isclosing = false;
         public static readonly int port = Utils.parseConfigInt("serverPort");
 
         [DllImport("kernel32.dll")]

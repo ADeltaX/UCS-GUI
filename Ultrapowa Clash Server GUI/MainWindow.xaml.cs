@@ -15,11 +15,13 @@ using Ultrapowa_Clash_Server_GUI.Core;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using System.Runtime.InteropServices;
+using System.Timers;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using Ultrapowa_Clash_Server_GUI.Helpers;
 using System.IO;
+using System.Diagnostics;
+using Ultrapowa_Clash_Server_GUI.Sys;
 
 namespace Ultrapowa_Clash_Server_GUI
 {
@@ -31,34 +33,50 @@ namespace Ultrapowa_Clash_Server_GUI
         bool ChangeUpdatePopup = false;
         static string LogPath = "NONE";
         StreamWriter LogStream = null;
+        System.Timers.Timer UpdateInfo = new System.Timers.Timer();
+        DispatcherTimer UpdateInfoGUI = new DispatcherTimer();
+        Stopwatch HighPrecisionUpdateTimer = new Stopwatch();
+        Stopwatch PerformanceCounter = new Stopwatch();
+        public static readonly int port = Utils.parseConfigInt("serverPort");
+        public static string ElapsedTime = "";
 
 
         List<string> CommandList;
 
-        bool IsServerOnline = false;
+        public bool IsServerOnline = false;
 
         public MainWindow()
         {
             InitializeComponent();
+            int port = Utils.parseConfigInt("serverPort");
             RemoteWindow = this;
 
-            if (Sys.ConfUCS.IsLogEnabled) PrepareLog();
-            
+            if (ConfUCS.IsConsoleMode)
+            {
+                UpdateInfo.Elapsed += UpdateInfo_Tick;
+                UpdateInfo.Interval = 1000;
+            }
+            else
+            {
+                UpdateInfoGUI.Tick += UpdateInfo_Tick;
+                UpdateInfoGUI.Interval = new TimeSpan(10000);
+            }
+
+            if (ConfUCS.IsLogEnabled) PrepareLog();
 
             CommandList = new List<string>
             {
                 "/say", "/ban", "/banip", "/tempban", "/tempbanip", "/unban",
-                "/unbanip", "/mute","/unmute","/makeadmin", "/removeadmin",
-                "/kick", "/help", "/start", "/restart", "/stop"
+                "/unbanip", "/mute","/unmute","/setlevel", "/sayplayer",
+                "/kick", "/help", "/start", "/restart", "/stop", "/uptime",
+                "/clear"
             };
-            Version thisAppVer = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            GetArgs();
 
-            if (Sys.ConfUCS.IsConsoleMode==true)
+            if (ConfUCS.IsConsoleMode==true)
             {
                 Console.Clear();
                 WindowState = WindowState.Minimized;
-                Console.Title = "UCS Server " + thisAppVer.Major + "." + thisAppVer.Minor + "." + thisAppVer.Build + "." + thisAppVer.MinorRevision + " OFFLINE";
+                Console.Title = "UCS Server " + ConfUCS.VersionUCS + " | " + "OFFLINE";
                 WriteConsole("Line arg typed: /console", (int)level.LOG);
                 WriteConsole("Running in Console mode...", (int)level.LOG);
                 WriteConsole("Local IP: " + GetIP(), (int)level.LOG);
@@ -69,7 +87,7 @@ namespace Ultrapowa_Clash_Server_GUI
             }
             else
             {
-                Title = "UCS Server " + thisAppVer.Major + "." + thisAppVer.Minor + "." + thisAppVer.Build + "." + thisAppVer.MinorRevision + " OFFLINE";
+                Title = "UCS Server " + ConfUCS.VersionUCS + " | " + "OFFLINE";
                 WriteConsole("Loading GUI...", (int)level.LOG);
                 CheckThings();
                 LBL_IP.Content = "Local IP: " + GetIP();
@@ -80,8 +98,29 @@ namespace Ultrapowa_Clash_Server_GUI
 
         }
 
+        
+
 
         #region Events
+
+        private void UpdateInfo_Tick(object sender, EventArgs e)
+        {
+            TimeSpan ts = HighPrecisionUpdateTimer.Elapsed;
+            ElapsedTime = string.Format("{0:00}:{1:00}:{2:00}",ts.Hours, ts.Minutes, ts.Seconds + 1);
+
+            string OutTitle = "UCS Server " + ConfUCS.VersionUCS + " | " + "ONLINE" + " | " + "Up time: " + ElapsedTime;
+
+            if (ConfUCS.IsConsoleMode)
+            {
+                Console.Title = OutTitle;
+            }
+            else
+            {
+                Title = OutTitle;
+                LBL_UpTime.Content = "Up time: " + ElapsedTime;
+            }
+
+        }
 
         private void CommandLine_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -127,7 +166,7 @@ namespace Ultrapowa_Clash_Server_GUI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (Sys.ConfUCS.IsConsoleMode)
+            if (ConfUCS.IsConsoleMode)
             {
                 Hide();
                 ManageConsole();
@@ -135,19 +174,15 @@ namespace Ultrapowa_Clash_Server_GUI
             else
             {
                 WriteConsole("GUI loaded", (int)level.LOG);
+                DoAnimation();
             }
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
         }
 
         private void BTN_LaunchServer_Click(object sender, RoutedEventArgs e)
         {
             if (IsServerOnline==false)
             {
-               LaunchServer();
+                LaunchServer();
             }
             else
             {
@@ -161,7 +196,7 @@ namespace Ultrapowa_Clash_Server_GUI
                 CommandRead(CommandLine.Text);
         }
 
-        private void CommandLine_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void CommandLine_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
                 if (!string.IsNullOrWhiteSpace(CommandLine.Text))
@@ -189,13 +224,55 @@ namespace Ultrapowa_Clash_Server_GUI
             Application.Current.Shutdown();
         }
 
+        #region MenuItems
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
         private void MI_Ban_Click(object sender, RoutedEventArgs e)
         {
-            IsFocusOk = false;
-            Popup Popup = new Popup((int)Popup.cause.BAN);
-            Popup.Owner = this;
-            Popup.ShowDialog();
+            SendPopup((int)Popup.cause.BAN);
+        }
 
+        private void MI_Ban_IP_Click(object sender, RoutedEventArgs e)
+        {
+            SendPopup((int)Popup.cause.BANIP);
+        }
+
+        private void MI_TEMP_BAN_Click(object sender, RoutedEventArgs e)
+        {
+            SendPopup((int)Popup.cause.TEMPBAN);
+        }
+
+        private void MI_TEMP_BAN_IP_Click(object sender, RoutedEventArgs e)
+        {
+            SendPopup((int)Popup.cause.TEMPBANIP);
+        }
+
+        private void MI_Unban_Click(object sender, RoutedEventArgs e)
+        {
+            SendPopup((int)Popup.cause.UNBAN);
+        }
+
+        private void MI_Unban_IP_Click(object sender, RoutedEventArgs e)
+        {
+            SendPopup((int)Popup.cause.UNBANIP);
+        }
+
+        private void MI_Mute_Click(object sender, RoutedEventArgs e)
+        {
+            SendPopup((int)Popup.cause.MUTE);
+        }
+
+        private void MI_Unmute_Click(object sender, RoutedEventArgs e)
+        {
+            SendPopup((int)Popup.cause.UNMUTE);
+        }
+
+        private void MI_Kick_Click(object sender, RoutedEventArgs e)
+        {
+            SendPopup((int)Popup.cause.KICK);
         }
 
         private void MI_CheckUpdate_Click(object sender, RoutedEventArgs e)
@@ -209,28 +286,65 @@ namespace Ultrapowa_Clash_Server_GUI
             }
         }
 
+        #endregion
+
         private void CB_Debug_Unchecked(object sender, RoutedEventArgs e)
         {
-            Sys.ConfUCS.DebugMode = false;
+            ConfUCS.DebugMode = false;
         }
 
         private void CB_Debug_Checked(object sender, RoutedEventArgs e)
         {
-            Sys.ConfUCS.DebugMode = true;
+            ConfUCS.DebugMode = true;
         }
 
         #endregion
 
         #region Do stuff
 
+        public List<ConCatPlayers> Players = new List<ConCatPlayers>();
+
+        public void UpdateTheListPlayers()
+        {
+            Players.Clear();
+            Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                listBox.ItemsSource = null;
+            });
+            foreach (var x in ResourcesManager.GetOnlinePlayers())
+            {
+                Players.Add(new ConCatPlayers { PlayerIDs = x.GetPlayerAvatar().GetId().ToString(), PlayerNames = x.GetPlayerAvatar().GetAvatarName().ToString() });
+            }
+            if (!ConfUCS.IsConsoleMode)
+            Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                listBox.ItemsSource = Players;
+            });
+        }
+
+        private void SendPopup(int why)
+        {
+            if (!IsServerOnline)
+            {
+                WriteConsole("The server is not running", (int)level.WARNING);
+            }
+            else
+            {
+            IsFocusOk = false;
+            Popup Popup = new Popup(why);
+            Popup.Owner = this;
+            Popup.ShowDialog();
+            }
+        }
+
         private void PrepareLog()
         {
-            if (!Directory.Exists(Sys.ConfUCS.LogDirectory)) Directory.CreateDirectory(Sys.ConfUCS.LogDirectory);
+            if (!Directory.Exists(ConfUCS.LogDirectory)) Directory.CreateDirectory(ConfUCS.LogDirectory);
 
             string DTT = DateTime.Now.ToString("HH:mm:ss");
             string DTD = DateTime.Now.ToString("dd/MM/yyyy");
 
-            LogPath = Sys.ConfUCS.LogDirectory + string.Format("LOG_{0}_{1}.txt", DTD.Replace("/", "-"), DTT.Replace(":", "-"));
+            LogPath = ConfUCS.LogDirectory + string.Format("LOG_{0}_{1}.txt", DTD.Replace("/", "-"), DTT.Replace(":", "-"));
 
             try
             {
@@ -239,57 +353,75 @@ namespace Ultrapowa_Clash_Server_GUI
             catch (Exception)
             {
                 WriteConsole("Cannot create log. Disabling log mode.", (int)level.FATAL);
-                Sys.ConfUCS.IsLogEnabled = false;
+                ConfUCS.IsLogEnabled = false;
             }
         }
 
-        private string GetIP()
+        public string GetIP()
         {
             string HostName = Dns.GetHostName();
             return Dns.GetHostByName(HostName).AddressList[0].ToString();
         }
 
+        private void DoAnimation()
+        {
+            //AYY LMAO
+
+            int DeltaVariation = -100;
+            AnimationLib.MoveToTargetY(CB_Debug, DeltaVariation, 0.25,50);
+            AnimationLib.MoveToTargetY(LBL_UpTime, DeltaVariation, 0.25,100);
+            AnimationLib.MoveToTargetY(LBL_PORT, DeltaVariation, 0.25, 150);
+            AnimationLib.MoveToTargetY(LBL_IP, DeltaVariation, 0.25, 200);
+            AnimationLib.MoveToTargetX(BTN_LaunchServer, DeltaVariation - 100, 0.25, 100);
+            AnimationLib.MoveToTargetX(listBox, DeltaVariation - 100, 0.3, 200);
+            AnimationLib.MoveToTargetX(label_player, DeltaVariation - 100, 0.35, 200);
+            AnimationLib.MoveToTargetX(BTN_Enter, -DeltaVariation * 7, 0.4, 150);
+            AnimationLib.MoveToTargetX(CommandLine, -DeltaVariation * 7, 0.4, 250);
+            AnimationLib.MoveToTargetX(RTB_Console, -DeltaVariation * 7, 0.3, 300);
+            AnimationLib.MoveToTargetX(label_console, -DeltaVariation * 7, 0.35, 300);
+
+            //AYY LMAO 2
+
+            AnimationLib.MoveToTargetX(MI_Menu, DeltaVariation - 600, 0.5, 0);
+            AnimationLib.MoveToTargetX(SEP_1, DeltaVariation - 600, 0.5, 0);
+            AnimationLib.MoveToTargetX(MI_Comands, DeltaVariation - 600, 0.5, 50);
+            AnimationLib.MoveToTargetX(SEP_2, DeltaVariation - 600, 0.5, 50);
+            AnimationLib.MoveToTargetX(MI_Utility, DeltaVariation - 600, 0.5, 100);
+            AnimationLib.MoveToTargetX(SEP_3, DeltaVariation - 600, 0.5, 100);
+            AnimationLib.MoveToTargetX(MI_Options, DeltaVariation - 600, 0.5, 150);
+            AnimationLib.MoveToTargetX(SEP_4, DeltaVariation - 600, 0.5, 150);
+            AnimationLib.MoveToTargetX(MI_About, DeltaVariation - 600, 0.5, 200);
+            AnimationLib.MoveToTargetX(SEP_5, DeltaVariation - 600, 0.5, 200);
+            AnimationLib.MoveToTargetX(MI_Feedback, DeltaVariation - 600, 0.5, 250);
+            AnimationLib.MoveToTargetX(SEP_6, DeltaVariation - 600, 0.5, 250);
+            AnimationLib.MoveToTargetX(MI_CheckUpdate, DeltaVariation - 600, 0.5, 300);
+
+        }
+
         private void CheckThings()
         {
-            if (Sys.ConfUCS.IsUpdateAvailable== true)
+            if (ConfUCS.IsUpdateAvailable== true)
             {
                 MI_CheckUpdate.Header = "_UPDATE AVAILABLE";
                 MI_CheckUpdate.Foreground = Brushes.Yellow;
                 ChangeUpdatePopup = true;
             }
-        }
-
-        private void GetArgs()
-        {
-            Dictionary<string, string> CMline = new Dictionary<string, string>();
-            string[] args = Environment.GetCommandLineArgs();
-            for (int index = 1; index < args.Length; index += 2)
-            {
-                string arg = args[index].Replace("/", "");
-                CMline.Add(arg, args[index]);
-            }
-            if (CMline.ContainsKey("default"))
-            {
-                WriteConsole("Line arg typed: /default", (int)level.LOG);
-                WriteConsole("Loading default configuration", (int)level.LOG);
-                LoadDefaultConfig();
-            }
-            if (CMline.ContainsKey("console"))
-            {
-                Sys.ConfUCS.IsConsoleMode = true;
-            }
-        }
-
-        public static readonly int port = Utils.parseConfigInt("serverPort");
-        //public static readonly int port = 9339;
-
-
+        }               
 
         private void LaunchServer()
         {
-            WriteConsole("Starting server...", (int)level.WARNING);
+            if (!ConfUCS.IsConsoleMode)
+            {
+                LoadingServerScreen.LSS.Owner = this;
+                LoadingServerScreen.LSS.Show();
+            }
+            if (Stopwatch.IsHighResolution) WriteConsole("Using high performance timer", (int)level.WARNING);
+            else WriteConsole("Using basic performance timer", (int)level.WARNING);
+            WriteConsole("Measuring loading time.", (int)level.WARNING);
+            PerformanceCounter.Start();
 
-            if (Sys.ConfUCS.IsConsoleMode) Console.CursorVisible = false;
+            WriteConsole("Starting server...", (int)level.WARNING);
+            if (ConfUCS.IsConsoleMode) Console.CursorVisible = false;
 
             new ResourcesManager();
             new ObjectManager();
@@ -331,10 +463,29 @@ namespace Ultrapowa_Clash_Server_GUI
                 }
                 WriteConsoleDebug("\t", (int)level.DEBUGLOG);
             }
+            try
+            {
+                if (!ConfUCS.IsConsoleMode) LoadingServerScreen.LSS.Close();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            PerformanceCounter.Stop();
+
+            TimeSpan PCTS = PerformanceCounter.Elapsed;
+            string MeasuredPerformanceTime = string.Format("{0}", PCTS.TotalMilliseconds);
+            WriteConsole(string.Format("Operation completed in {0} ms", MeasuredPerformanceTime),(int)level.WARNING);
             WriteConsole("Server started on port " + port + ". Let's play Clash of Clans!", (int)level.LOG);
+            HighPrecisionUpdateTimer.Start();
+            if (ConfUCS.IsConsoleMode) UpdateInfo.Start();
+            else UpdateInfoGUI.Start();
+
             IsServerOnline = true;
 
-            if (Sys.ConfUCS.IsConsoleMode)
+            if (ConfUCS.IsConsoleMode)
             {
                 Console.CursorVisible = true;
                 ManageConsole();
@@ -372,9 +523,9 @@ namespace Ultrapowa_Clash_Server_GUI
         BlurEffect blurEffect = new BlurEffect();
         private void DoBlur()
         {
-            this.RegisterName("blurEffect", blurEffect);
+            RegisterName("blurEffect", blurEffect);
             blurEffect.Radius = 0;
-            this.Effect = blurEffect;
+            Effect = blurEffect;
 
             myDoubleAnimation.From = 0;
             myDoubleAnimation.To = 15;
@@ -389,9 +540,9 @@ namespace Ultrapowa_Clash_Server_GUI
 
         private void DeBlur()
         {
-            this.RegisterName("blurEffect", blurEffect);
+            RegisterName("blurEffect", blurEffect);
             blurEffect.Radius = 0;
-            this.Effect = blurEffect;
+            Effect = blurEffect;
 
             myDoubleAnimation.From = 15;
             myDoubleAnimation.To = 0;
@@ -409,26 +560,34 @@ namespace Ultrapowa_Clash_Server_GUI
         #endregion
 
         #region Console RTB Setup
+
+
         public void SetupRTB(SolidColorBrush color, string text, string pretext, bool IsDebugMode=false)
         {
-            Dispatcher.BeginInvoke((Action)delegate ()
-            {     
-                
-                    Dispatcher.Invoke(() => {
-                        TextRange Sec_Text = new TextRange(RTB_Console.Document.ContentEnd, RTB_Console.Document.ContentEnd);
-                        Sec_Text.Text = pretext + text + "\u2028";
-                        Sec_Text.ApplyPropertyValue(TextElement.ForegroundProperty, color);
-                    },DispatcherPriority.Send);
-                
-                
-                //if (IsDebugMode == true) { Sec_Text.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.DarkMagenta); Sec_Text.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline); }
-                RTB_Console.ScrollToEnd();
-            });
+
+                Dispatcher.BeginInvoke((Action) delegate {
+
+                    RTB_Console.Selection.Select(RTB_Console.Document.ContentEnd, RTB_Console.Document.ContentEnd);
+                    RTB_Console.Selection.Text = pretext + text + "\u2028";
+                    try
+                    {
+                        RTB_Console.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, color);
+                    }
+                    catch (InvalidOperationException)
+                    {
+
+                    }
+                    
+                    RTB_Console.ScrollToEnd();
+
+                });
+
         }
+
 
         public void WriteOnLog(string text,string pretext)
         {
-            if (Sys.ConfUCS.IsLogEnabled)
+            if (ConfUCS.IsLogEnabled)
             {
                 try
                 {
@@ -437,7 +596,7 @@ namespace Ultrapowa_Clash_Server_GUI
                 }
                 catch (Exception ex)
                 {
-                    Sys.ConfUCS.IsLogEnabled = false;
+                    ConfUCS.IsLogEnabled = false;
                     WriteConsole("Error during saving log to file. ::" + ex.Message, (int)level.FATAL);
                 }
             }
@@ -456,7 +615,7 @@ namespace Ultrapowa_Clash_Server_GUI
         }
         public void WriteConsole(string text, int level)
         {
-            if (Sys.ConfUCS.IsConsoleMode == false)
+            if (ConfUCS.IsConsoleMode == false)
             {
                 switch (level)
                 {
@@ -499,9 +658,9 @@ namespace Ultrapowa_Clash_Server_GUI
 
         public void WriteConsoleDebug(string text, int level)
         {
-            if (Sys.ConfUCS.DebugMode == true)
+            if (ConfUCS.DebugMode == true)
             {
-                if (Sys.ConfUCS.IsConsoleMode == false)
+                if (ConfUCS.IsConsoleMode == false)
                 {
                     switch (level)
                     {
@@ -538,7 +697,7 @@ namespace Ultrapowa_Clash_Server_GUI
 
         public void WriteMessageConsole(string text, int level, string sender = "")
         {
-            if (Sys.ConfUCS.IsConsoleMode == false)
+            if (ConfUCS.IsConsoleMode == false)
             {
                 switch (level)
                 {
@@ -586,50 +745,75 @@ namespace Ultrapowa_Clash_Server_GUI
 
         #region Console Helper Commands & Console
 
-        private void CommandRead(string cmd)
+        public void CommandRead(string cmd)
         {
-            if (!Sys.ConfUCS.IsConsoleMode) SetupRTB(Brushes.White, cmd, ">");
-            if (cmd == "/help")
+            if (!ConfUCS.IsConsoleMode) SetupRTB(Brushes.White, cmd, ">");
+            if (cmd.ToLower() == "/help")
             {
-
-                WriteMessageConsole("/ban <PlayerID>                    <-- Ban a client", 5);
-                WriteMessageConsole("/banip <PlayerID>                  <-- Ban a client by IP", 5);
-                WriteMessageConsole("/kick <PlayerID>                   <-- Kick a client from the server", 5);
-                WriteMessageConsole("/unban <PlayerID>                  <-- Unban a client", 5);
-                WriteMessageConsole("/unbanip <PlayerID>                <-- Unban a client", 5);
-                WriteMessageConsole("/tempban <PlayerID> <Seconds>      <-- Temporary ban a client", 5);
-                WriteMessageConsole("/tempbanip <PlayerID> <Seconds>    <-- Temporary ban a client by IP", 5);
-                WriteMessageConsole("/mute <PlayerID>                   <-- Mute a client", 5);
-                WriteMessageConsole("/unmute <PlayerID>                 <-- Unmute a client", 5);
-
-                WriteMessageConsole("/update                            <-- Check if update is available", 5);
-                WriteMessageConsole("/tempbanip <PlayerID> <Seconds>    <-- Temporary ban a client by IP", 5);
-                WriteMessageConsole("/say <Text>                        <-- Send a text to all", 5);
-                
-                WriteMessageConsole("...", 5);
-                WriteMessageConsole("I'll build the list of command lol", 5);
+                WriteMessageConsole("/start                             <-- Start the server", (int)level.SERVERMSG);
+                WriteMessageConsole("/ban <PlayerID>                    <-- Ban a client", (int)level.SERVERMSG);
+                WriteMessageConsole("/banip <PlayerID>                  <-- Ban a client by IP", (int)level.SERVERMSG);
+                WriteMessageConsole("/unban <PlayerID>                  <-- Unban a client", (int)level.SERVERMSG);
+                WriteMessageConsole("/unbanip <PlayerID>                <-- Unban a client", (int)level.SERVERMSG);
+                WriteMessageConsole("/tempban <PlayerID> <Seconds>      <-- Temporary ban a client", (int)level.SERVERMSG);
+                WriteMessageConsole("/tempbanip <PlayerID> <Seconds>    <-- Temporary ban a client by IP", (int)level.SERVERMSG);
+                WriteMessageConsole("/kick <PlayerID>                   <-- Kick a client from the server", (int)level.SERVERMSG);
+                WriteMessageConsole("/mute <PlayerID>                   <-- Mute a client", (int)level.SERVERMSG);
+                WriteMessageConsole("/unmute <PlayerID>                 <-- Unmute a client", (int)level.SERVERMSG);
+                WriteMessageConsole("/setlevel <PlayerID> <Level>       <-- Set a level for a player", (int)level.SERVERMSG);
+                WriteMessageConsole("/update                            <-- Check if update is available", (int)level.SERVERMSG);
+                WriteMessageConsole("/say <Text>                        <-- Send a text to all", (int)level.SERVERMSG);
+                WriteMessageConsole("/sayplayer <PlayerID> <Text>       <-- Send a text to a player", (int)level.SERVERMSG);
+                WriteMessageConsole("/stop                              <-- Stop the server and save data", (int)level.SERVERMSG);
+                WriteMessageConsole("/forcestop                         <-- Force stop the server", (int)level.SERVERMSG);
+                WriteMessageConsole("/restart                           <-- Save data and then restart", (int)level.SERVERMSG);
 
             }
-            else if (cmd == "/start")
+            else if (cmd.ToLower() == "/start")
             {
                 if (!IsServerOnline) LaunchServer();
-                else WriteConsole("Server already online!", 2);
+                else WriteConsole("Server already online!", (int)level.WARNING);
             }
-            else if (cmd == "/stop" || cmd == "/shutdown")
+            else if (cmd.ToLower() == "/stop" || cmd.ToLower() == "/shutdown")
             {
-                WriteConsole("Shutting down... Saving all data, wait.", 2);
+                WriteConsole("Shutting down... Saving all data, wait.", (int)level.WARNING);
                 //EXECUTE
+                ConsoleManage.FreeConsole();
                 Environment.Exit(0);
             }
-            else if (cmd == "/forcestop")
+            else if (cmd.ToLower() == "/forcestop")
             {
-                WriteConsole("Force shutting down... All progress not saved will be lost!", 2);
-                Application.Current.Shutdown();
-                Environment.Exit(0);
+                WriteConsole("Force shutting down... All progress not saved will be lost!", (int)level.WARNING);
+                Process.GetCurrentProcess().Kill();
             }
+            else if (cmd.ToLower() == "/uptime")
+            {
+                WriteConsole("Up time: " + ElapsedTime, (int)level.LOG);
+            }
+            else if (cmd.ToLower() == "/restart")
+            {
+                //EXECUTE
+                Process.Start(Application.ResourceAssembly.Location);
+                Process.GetCurrentProcess().Kill();
+            }    
+            else if (cmd.ToLower() == "/ban")
+            {
+                WriteConsole("IT WORKS!", (int)level.LOG);
+            }
+            else if (cmd.ToLower() == "/clear")
+            {
+                WriteConsole("Console cleared", (int)level.LOG);
+                if (ConfUCS.IsConsoleMode) Console.Clear();
+                else
+                {
+                    TextRange txt = new TextRange(RTB_Console.Document.ContentStart, RTB_Console.Document.ContentEnd);
+                    txt.Text = "";
+                }
+            }
+
             else
             {
-                WriteConsole("Command not found, try typing /help", 2);
+                WriteConsole("Command not found, try typing /help", (int)level.WARNING);
             }
 
             //Verify and execute
@@ -637,7 +821,7 @@ namespace Ultrapowa_Clash_Server_GUI
             CommandLine.Clear();
             //Clear
 
-            if (Sys.ConfUCS.IsConsoleMode) ManageConsole();
+            if (ConfUCS.IsConsoleMode) ManageConsole();
 
         }
 
@@ -652,5 +836,17 @@ namespace Ultrapowa_Clash_Server_GUI
 
 
         #endregion
+      
+    }
+
+    public class ConCatPlayers
+    {
+        public string PlayerIDs { get; set; }
+        public string PlayerNames { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0} : {1}", PlayerNames, PlayerIDs);
+        }
     }
 }

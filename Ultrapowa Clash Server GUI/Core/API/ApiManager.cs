@@ -13,8 +13,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
 
         public ApiManager()
         {
-            var hostName = Dns.GetHostName();
-            var IP = Dns.GetHostByName(hostName).AddressList[0].ToString();
+            var IP = MainWindow.RemoteWindow.GetIP();
             var DebugPort = ConfigurationManager.AppSettings["debugPort"];
             m_vListener = new HttpListener();
             {
@@ -111,8 +110,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             }
             responseString += "</details>";
 
-            var hostName = Dns.GetHostName();
-            var LIP = Dns.GetHostByName(hostName).AddressList[0].ToString();
+            var LIP = MainWindow.RemoteWindow.GetIP();
 
             responseString += "<center><p>Current local ip: " + LIP + "</p></center>";
             responseString += "<center><p>Current public ip: " + direction + "</p></center>";

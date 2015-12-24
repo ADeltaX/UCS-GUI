@@ -24,6 +24,7 @@ namespace Ultrapowa_Clash_Server_GUI
             InitializeComponent();
             if (Sys.ConfUCS.IsConsoleMode == false)
             {
+                label_version.Content = "UCS " + Sys.ConfUCS.VersionUCS;
                 Opacity = 0;
                 OpInW();
             }

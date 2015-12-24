@@ -17,50 +17,60 @@
         <Grid.RowDefinitions>
 
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0" Margin="12,12,0,0" Background="Transparent">
-            <MenuItem Header="_Menu" BorderBrush="{x:Null}" Height="22" Foreground="#39c8e2" Background="{x:Null}">
+        <Menu x:Name="MI_GRID" Grid.Row="0" Margin="12,12,0,0" Background="Transparent">
+            <MenuItem x:Name="MI_Menu" Header="_Menu" BorderBrush="{x:Null}" Height="22" Foreground="#39c8e2" Background="{x:Null}">
                 <MenuItem Header="_Restart" />
                 <Separator />
-                <MenuItem Header="_Exit" Click="MenuItem_Click"/>
+                <MenuItem Header="_Exit" Click="MenuItem_Click" BorderBrush="{x:Null}"/>
             </MenuItem>
-            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="#4aa3df" Opacity="0.8" />
-            <MenuItem Header="_Commands" Height="22" BorderBrush="{x:Null}" Foreground="#39c8e2" Background="{x:Null}">
-                <MenuItem Header="Ban" x:Name="MI_Ban" Foreground="#FF1700FF" Click="MI_Ban_Click">
-                    <MenuItem Header="_Ban IP" />
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" x:Name="SEP_1" Background="#4aa3df" Opacity="0.8" />
+            <MenuItem x:Name="MI_Comands" Header="_Commands" Height="22" BorderBrush="{x:Null}" Foreground="#39c8e2" Background="{x:Null}">
+                <MenuItem Header="Ban" Foreground="Black">
+                    <MenuItem Header="Ban" Click="MI_Ban_Click"/>
+                    <MenuItem Header="Ban IP" Click="MI_Ban_IP_Click" />
+                    <MenuItem Header="Temporary ban" Click="MI_TEMP_BAN_Click" />
+                    <MenuItem Header="Temporary ban IP" Click="MI_TEMP_BAN_IP_Click" />
                 </MenuItem>
-                <MenuItem Header="Kick" Foreground="#FF0023FF" />
-                <Separator />
-                <MenuItem Header="Set" />
+                <MenuItem Header="Unban" Foreground="Black">
+                    <MenuItem Header="Unban" Click="MI_Unban_Click" />
+                    <MenuItem Header="Unban IP" Click="MI_Unban_IP_Click" />
+                </MenuItem>
+                <MenuItem Header="Kick" x:Name="MI_Kick" Foreground="Black" Click="MI_Kick_Click"/>
+                <MenuItem Header="Mute" x:Name="MI_Mute" Foreground="Black">
+                    <MenuItem Header="Mute" Click="MI_Mute_Click" />
+                    <MenuItem Header="Unmute" Click="MI_Unmute_Click"/>
+                </MenuItem>
+                <Separator Foreground="Black" Background="Black" />
+                <MenuItem Header="Set" Foreground="Black"/>
             </MenuItem>
-            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="#4aa3df" Opacity="0.8"/>
-            <MenuItem Header="_Utility" Height="22" BorderBrush="{x:Null}" Foreground="#39c8e2" Background="{x:Null}">
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" x:Name="SEP_2" Background="#4aa3df" Opacity="0.8"/>
+            <MenuItem x:Name="MI_Utility" Header="_Utility" Height="22" BorderBrush="{x:Null}" Foreground="#39c8e2" Background="{x:Null}">
             </MenuItem>
-            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="#4aa3df" Opacity="0.8"/>
-            <MenuItem Header="_Options" Height="22" BorderBrush="{x:Null}" Foreground="#39c8e2" Background="{x:Null}">
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" x:Name="SEP_3" Background="#4aa3df" Opacity="0.8"/>
+            <MenuItem x:Name="MI_Options" Header="_Options" Height="22" BorderBrush="{x:Null}" Foreground="#39c8e2" Background="{x:Null}">
             </MenuItem>
-            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="#4aa3df" Opacity="0.8"/>
-            <MenuItem Header="_About" Height="22" BorderBrush="{x:Null}" Foreground="#39c8e2" Background="{x:Null}">
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" x:Name="SEP_4" Background="#4aa3df" Opacity="0.8"/>
+            <MenuItem x:Name="MI_About" Header="_About" Height="22" BorderBrush="{x:Null}" Foreground="#39c8e2" Background="{x:Null}">
             </MenuItem>
-            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="#4aa3df" Opacity="0.8"/>
-            <MenuItem Header="_Feedback" Height="22" BorderBrush="{x:Null}" Foreground="#39c8e2" Background="{x:Null}">
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" x:Name="SEP_5" Background="#4aa3df" Opacity="0.8"/>
+            <MenuItem x:Name="MI_Feedback" Header="_Feedback" Height="22" BorderBrush="{x:Null}" Foreground="#39c8e2" Background="{x:Null}">
             </MenuItem>
-            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="#4aa3df" Opacity="0.8"/>
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="#4aa3df" x:Name="SEP_6" Opacity="0.8"/>
             <MenuItem Header="_Check Update" x:Name="MI_CheckUpdate" Height="22" BorderBrush="{x:Null}" Foreground="#39c8e2" Background="{x:Null}" Click="MI_CheckUpdate_Click">
             </MenuItem>
-            
         </Menu>
         <Grid Grid.Row="1">
             <Label x:Name="label_console" Content="Console:" HorizontalAlignment="Left" Margin="16,40,0,0" VerticalAlignment="Top" Height="16" Padding="0,0,0,0" Foreground="White">
             </Label>
-            <Label x:Name="label_player" Content="Player online:" Margin="0,40,90,0" VerticalAlignment="Top" Height="16" Padding="0,0,0,0" Foreground="White" HorizontalAlignment="Right" Width="71">
+            <Label x:Name="label_player" Content="Player online: (Name : ID)" Margin="0,40,24,0" VerticalAlignment="Top" Height="16" Padding="0,0,0,0" Foreground="White" HorizontalAlignment="Right" Width="137">
             </Label>
-            <Rectangle Fill="#2980b9" Margin="0,65,172,80" Width="1" HorizontalAlignment="Right" Opacity="0.8">
+            <Rectangle Fill="#2980b9" Margin="0,65,173,80" Width="1" HorizontalAlignment="Right" Opacity="0.8">
             </Rectangle>
             <Rectangle Fill="#2980b9" Height="1" Margin="24,0,24,63" VerticalAlignment="Bottom" Opacity="0.8">
             </Rectangle>
             <Rectangle Fill="#2980b9" Margin="12,35,0,0" Height="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="449" Opacity="0.8">
             </Rectangle>
-            <RichTextBox Template="{StaticResource FlatRichTextBoxStyle}" Padding="2" x:Name="RTB_Console" x:FieldModifier="public" Margin="10,60,180,70" AllowDrop="False" BorderThickness="2" IsReadOnly="True" Background="Transparent" SelectionBrush="#FF005DB9" VerticalScrollBarVisibility="Auto" FontFamily="Consolas" BorderBrush="#39c8e2">
+            <RichTextBox Template="{StaticResource FlatRichTextBoxStyle}" Padding="2" x:Name="RTB_Console" x:FieldModifier="public" Margin="12,60,182,70" AllowDrop="False" BorderThickness="2" IsReadOnly="True" Background="Transparent" SelectionBrush="#FF005DB9" VerticalScrollBarVisibility="Auto" FontFamily="Consolas" BorderBrush="#39c8e2">
                 <FlowDocument>
                     <Paragraph>
                         <Run Text=""/>
@@ -71,10 +81,11 @@
             </Button>
             <Button x:Name="BTN_Enter" Style="{StaticResource RoundedButton}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="→" Margin="0,0,182,29" Height="26" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="28"  FontSize="13.333" Click="BTN_Enter_Click" Foreground="#39c8e2">
             </Button>
-            <Label x:Name="LBL_IP" Content="Local IP: 127.0.0.1" HorizontalAlignment="Left" Margin="10,0,0,1" Height="26" VerticalAlignment="Bottom" BorderThickness="1" Foreground="White">
+            <Label x:Name="LBL_IP" Content="Local IP: 127.0.0.1" HorizontalAlignment="Left" Margin="10,0,0,0" Height="27" VerticalAlignment="Bottom" BorderThickness="1" Foreground="White">
             </Label>
-            <Label x:Name="LBL_PORT" Content="PORT: 9339" HorizontalAlignment="Left" Margin="131,0,0,1" Height="26" VerticalAlignment="Bottom" BorderThickness="1" Foreground="White">
+            <Label x:Name="LBL_PORT" Content="PORT: 9339" HorizontalAlignment="Left" Margin="150,0,0,1" Height="26" VerticalAlignment="Bottom" BorderThickness="1" Foreground="White">
             </Label>
+            <Label x:Name="LBL_UpTime" Content="Up time: 00:00:00" Margin="0,0,282,0" Height="28" VerticalAlignment="Bottom" BorderThickness="1" Foreground="White" HorizontalAlignment="Right" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Width="143"/>
             <TextBox Template="{StaticResource FlatTextBoxStyle}" CaretBrush="#39c8e2" Padding="4" x:Name="CommandLine" TextWrapping="Wrap" Text="" Margin="12,0,215,33" Height="22" VerticalAlignment="Bottom" Background="#A500697C" Foreground="White" KeyDown="CommandLine_KeyDown" BorderBrush="#39c8e2" SelectionBrush="#FF1B60A6">
             </TextBox>
             <ListBox x:Name="LB_CommandTypedList" Margin="12,0,215,55" VerticalAlignment="Bottom" Visibility="Collapsed" SelectionChanged="LB_CommandTypedList_SelectionChanged" BorderBrush="#FF39C8E2" Background="#D800697C" BorderThickness="1" Foreground="White">

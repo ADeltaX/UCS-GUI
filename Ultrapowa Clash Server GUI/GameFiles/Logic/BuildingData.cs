@@ -289,7 +289,6 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
         public bool IsSpellForge()
         {
             return ForgesSpells;
-            return ForgesMiniSpells;
         }
 
         public override bool IsTownHall()
