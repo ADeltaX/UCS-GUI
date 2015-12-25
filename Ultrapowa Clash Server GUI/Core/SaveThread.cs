@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using Ultrapowa_Clash_Server_GUI;
 using Ultrapowa_Clash_Server_GUI.Database;
 using Ultrapowa_Clash_Server_GUI.Logic;
 
@@ -30,66 +31,76 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                 context.Configuration.AutoDetectChangesEnabled = false;
                 context.Configuration.ValidateOnSaveEnabled = false;
                 var transactionCount = 0;
-                foreach (var alliance in alliances)
+                try
                 {
-                    lock (alliance)
+                    foreach (var alliance in alliances)
                     {
-                        var c = context.clan.Find((int) alliance.GetAllianceId());
-                        if (c != null)
+                        lock (alliance)
                         {
-                            c.LastUpdateTime = DateTime.Now;
-                            c.Data = alliance.SaveToJSON();
-                            context.Entry(c).State = EntityState.Modified;
+                            var c = context.clan.Find((int)alliance.GetAllianceId());
+                            if (c != null)
+                            {
+                                c.LastUpdateTime = DateTime.Now;
+                                c.Data = alliance.SaveToJSON();
+                                context.Entry(c).State = EntityState.Modified;
+                            }
+                            else
+                            {
+                                context.clan.Add(
+                                    new clan
+                                    {
+                                        ClanId = alliance.GetAllianceId(),
+                                        LastUpdateTime = DateTime.Now,
+                                        Data = alliance.SaveToJSON()
+                                    }
+                                    );
+                            }
                         }
-                        else
+                        transactionCount++;
+                        if (transactionCount >= 500)
                         {
-                            context.clan.Add(
-                                new clan
-                                {
-                                    ClanId = alliance.GetAllianceId(),
-                                    LastUpdateTime = DateTime.Now,
-                                    Data = alliance.SaveToJSON()
-                                }
-                                );
+                            context.SaveChanges();
+                            transactionCount = 0;
                         }
                     }
-                    transactionCount++;
-                    if (transactionCount >= 500)
-                    {
-                        context.SaveChanges();
-                        transactionCount = 0;
-                    }
+                    context.SaveChanges();
+                    context.Dispose();
                 }
-                context.SaveChanges();
-                context.Dispose();
+                catch (Exception ex)
+                {
+                    MainWindow.RemoteWindow.WriteConsole("Exception when saving Alliances: " + ex, (int)MainWindow.level.FATAL);
+                }
             }
         }
     }
+}
 
-    internal class SaveLevelThread
+internal class SaveLevelThread
+{
+    private readonly string m_vConnectionString;
+
+    private readonly List<Level> m_vList;
+
+    public SaveLevelThread(List<Level> list, string connectionString)
     {
-        private readonly string m_vConnectionString;
+        m_vList = list;
+        m_vConnectionString = connectionString;
+    }
 
-        private readonly List<Level> m_vList;
+    public void DoSaveWork()
+    {
+        SaveProcess(m_vList);
+    }
 
-        public SaveLevelThread(List<Level> list, string connectionString)
+    private void SaveProcess(List<Level> avatars)
+    {
+        var context = new ucsdbEntities(m_vConnectionString);
+
+        context.Configuration.AutoDetectChangesEnabled = false;
+        context.Configuration.ValidateOnSaveEnabled = false;
+        var transactionCount = 0;
+        try
         {
-            m_vList = list;
-            m_vConnectionString = connectionString;
-        }
-
-        public void DoSaveWork()
-        {
-            SaveProcess(m_vList);
-        }
-
-        private void SaveProcess(List<Level> avatars)
-        {
-            var context = new ucsdbEntities(m_vConnectionString);
-
-            context.Configuration.AutoDetectChangesEnabled = false;
-            context.Configuration.ValidateOnSaveEnabled = false;
-            var transactionCount = 0;
             foreach (var pl in avatars)
             {
                 lock (pl)
@@ -105,6 +116,10 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             }
             context.SaveChanges();
             context.Dispose();
+        }
+        catch (Exception ex)
+        {
+            MainWindow.RemoteWindow.WriteConsole("Exception when saving: "+ ex, (int)MainWindow.level.FATAL);
         }
     }
 }

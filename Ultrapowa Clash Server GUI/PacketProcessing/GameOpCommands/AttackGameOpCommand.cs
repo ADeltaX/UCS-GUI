@@ -19,7 +19,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
         {
             if (level.GetAccountPrivileges() >= GetRequiredAccountPrivileges())
             {
-                if (m_vArgs.Length >= 2)
+                if (m_vArgs.Length >= 1)
                 {
                     try
                     {
@@ -28,7 +28,9 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                         if (l != null)
                         {
                             l.Tick();
-                            var p = new EnemyHomeDataMessage(level.GetClient(), l, level);
+
+                            //var p = new EnemyHomeDataMessage(level.GetClient(), l, level);
+                            var p = new VisitedHomeDataMessage(level.GetClient(), l, level);
                             PacketManager.ProcessOutgoingPacket(p);
                         }
                         else

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Ultrapowa_Clash_Server_GUI.Helpers;
+using Ultrapowa_Clash_Server_GUI.Logic;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
@@ -17,5 +18,9 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
         public uint ShieldId { get; set; }
 
         public uint Unknown1 { get; set; }
+
+        public override void Execute(Level level)
+        {
+        }
     }
 }

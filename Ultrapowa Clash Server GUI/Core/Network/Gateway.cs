@@ -66,8 +66,6 @@ namespace Ultrapowa_Clash_Server_GUI.Network
                 MainWindow.RemoteWindow.WriteConsole("Message Manager started", (int)MainWindow.level.LOG);
                 MainWindow.RemoteWindow.WriteConsole("Packet Manager started", (int)MainWindow.level.LOG);
             }
-
-            
         }
 
         private void OnClientConnect(IAsyncResult result)

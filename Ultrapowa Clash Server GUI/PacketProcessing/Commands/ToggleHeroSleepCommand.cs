@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Ultrapowa_Clash_Server_GUI.Helpers;
+using Ultrapowa_Clash_Server_GUI.Logic;
 
 namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 {
@@ -13,12 +14,15 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             Unknown1 = br.ReadUInt32WithEndian();
         }
 
-        //00 00 02 11 1D CD 65 06 00 00 01 04 CA
-
         public uint BuildingId { get; set; }
 
         public byte FlagSleep { get; set; }
 
         public uint Unknown1 { get; set; }
+
+        //00 00 02 11 1D CD 65 06 00 00 01 04 CA
+        public override void Execute(Level level)
+        {
+        }
     }
 }

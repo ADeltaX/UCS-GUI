@@ -43,7 +43,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
             data.AddRange(m_vVisitorLevel.GetPlayerAvatar().Encode());
 
-            data.AddRange(new byte[] {0x00, 0x00, 0x00, 0x03, 0x00});
+            data.AddRange(new byte[] { 0x00, 0x00, 0x00, 0x03, 0x00 });
 
             SetData(data.ToArray());
 
@@ -102,7 +102,6 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 0x7B, 0x05, 0x7E, 0xFC, 0x07, 0xCA, 0xF2, 0x7C, 0x89
             };
             MainWindow.RemoteWindow.WriteConsoleDebug(ZlibStream.UncompressString(home2), (int)MainWindow.level.DEBUGLOG);
-            ;
         }
     }
 }

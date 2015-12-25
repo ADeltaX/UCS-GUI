@@ -9,6 +9,7 @@ namespace Ultrapowa_Clash_Server_GUI.Sys
 
         public static bool DebugMode = true;
         public static string Language = "en-US";
+        public static readonly string Codename = "Titan";
         public static bool EnableRemoteControl = false;
         public static bool IsConsoleMode = true; //Will start console first
         public static bool IsDefaultMode = false;

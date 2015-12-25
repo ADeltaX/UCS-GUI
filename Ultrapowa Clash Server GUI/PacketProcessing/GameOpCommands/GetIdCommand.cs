@@ -25,7 +25,6 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 pm.SetChatMessage("Your id: " + level.GetPlayerAvatar().GetId());
                 pm.SetPlayerId(0);
                 PacketManager.ProcessOutgoingPacket(pm);
-
             }
         }
     }

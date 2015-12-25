@@ -9,6 +9,8 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
     {
         private readonly List<DataSlot> m_vUnits;
 
+        private bool m_vIsDarkForge;
+
         //a1 + 12
         //a1 + 16
         //a1 + 20
@@ -38,7 +40,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             {
                 for (var i = 0; i < GetSlotCount(); i++)
                 {
-                    if ((CombatItemData) m_vUnits[i].Data == cd)
+                    if ((CombatItemData)m_vUnits[i].Data == cd)
                     {
                         m_vUnits[i].Value++;
                         return;
@@ -68,13 +70,13 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
         {
             CombatItemData cd = null;
             if (m_vUnits.Count >= 1)
-                cd = (CombatItemData) m_vUnits[0].Data;
+                cd = (CombatItemData)m_vUnits[0].Data;
             return cd;
         }
 
         public int GetMaxTrainCount()
         {
-            var b = (Building) GetParent();
+            var b = (Building)GetParent();
             var bd = b.GetBuildingData();
             return bd.GetUnitProduction(b.GetUpgradeLevel());
         }
@@ -92,8 +94,8 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
                 for (var i = 0; i < GetSlotCount(); i++)
                 {
                     var cnt = m_vUnits[i].Value;
-                    var housingSpace = ((CombatItemData) m_vUnits[i].Data).GetHousingSpace();
-                    count += cnt*housingSpace;
+                    var housingSpace = ((CombatItemData)m_vUnits[i].Data).GetHousingSpace();
+                    count += cnt * housingSpace;
                 }
             }
             if (m_vIsSpellForge)
@@ -111,7 +113,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             {
                 foreach (var ds in m_vUnits)
                 {
-                    var cd = (CombatItemData) ds.Data;
+                    var cd = (CombatItemData)ds.Data;
                     if (cd != null)
                     {
                         var count = ds.Value;
@@ -121,14 +123,14 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
                             {
                                 if (m_vTimer != null)
                                     result += m_vTimer.GetRemainingSeconds(GetParent().GetLevel().GetTime(),
-                                        ((ConstructionItem) GetParent()).IsBoosted,
-                                        ((ConstructionItem) GetParent()).GetBoostEndTime(),
-                                        ((ConstructionItem) GetParent()).GetBoostMultipier());
+                                        ((ConstructionItem)GetParent()).IsBoosted,
+                                        ((ConstructionItem)GetParent()).GetBoostEndTime(),
+                                        ((ConstructionItem)GetParent()).GetBoostMultipier());
                                 count--;
                                 firstUnit = false;
                             }
                             var ca = GetParent().GetLevel().GetHomeOwnerAvatar();
-                            result += count*cd.GetTrainingTime(ca.GetUnitUpgradeLevel(cd));
+                            result += count * cd.GetTrainingTime(ca.GetUnitUpgradeLevel(cd));
                         }
                     }
                 }
@@ -143,7 +145,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         public CombatItemData GetUnit(int index)
         {
-            return (CombatItemData) m_vUnits[index].Data;
+            return (CombatItemData)m_vUnits[index].Data;
         }
 
         public bool HasHousingSpaceForSpeedUp()
@@ -153,8 +155,8 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             {
                 foreach (var ds in m_vUnits)
                 {
-                    var cd = (CombatItemData) ds.Data;
-                    totalRoom += cd.GetHousingSpace()*ds.Value;
+                    var cd = (CombatItemData)ds.Data;
+                    totalRoom += cd.GetHousingSpace() * ds.Value;
                 }
             }
             var cm = GetParent().GetLevel().GetComponentManager();
@@ -168,6 +170,11 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             return m_vIsSpellForge;
         }
 
+        public bool IsDarkForge()
+        {
+            return m_vIsDarkForge;
+        }
+
         public bool IsWaitingForSpace()
         {
             var result = false;
@@ -177,9 +184,9 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
                 {
                     if (
                         m_vTimer.GetRemainingSeconds(GetParent().GetLevel().GetTime(),
-                            ((ConstructionItem) GetParent()).IsBoosted,
-                            ((ConstructionItem) GetParent()).GetBoostEndTime(),
-                            ((ConstructionItem) GetParent()).GetBoostMultipier()) == 0)
+                            ((ConstructionItem)GetParent()).IsBoosted,
+                            ((ConstructionItem)GetParent()).GetBoostEndTime(),
+                            ((ConstructionItem)GetParent()).GetBoostMultipier()) == 0)
                     {
                         result = m_vIsWaitingForSpace;
                     }
@@ -190,8 +197,9 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         public override void Load(JObject jsonObject)
         {
-            var unitProdObject = (JObject) jsonObject["unit_prod"];
+            var unitProdObject = (JObject)jsonObject["unit_prod"];
             m_vIsSpellForge = unitProdObject["unit_type"].ToObject<int>() == 1;
+            m_vIsDarkForge = unitProdObject["unit_type"].ToObject<int>() == 1;
             var timeToken = unitProdObject["t"];
             if (timeToken != null)
             {
@@ -200,7 +208,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
                 var time = GetParent().GetLevel().GetTime();
                 m_vTimer.StartTimer(remainingTime, GetParent().GetLevel().GetTime());
             }
-            var unitJsonArray = (JArray) unitProdObject["slots"];
+            var unitJsonArray = (JArray)unitProdObject["slots"];
             if (unitJsonArray != null)
             {
                 foreach (JObject unitJsonObject in unitJsonArray)
@@ -229,7 +237,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
                 Data d = null;
                 if (m_vUnits.Count > 0)
                     d = m_vUnits[0].Data;
-                if (!((UnitStorageComponent) c).CanAddUnit((CombatItemData) d))
+                if (!((UnitStorageComponent)c).CanAddUnit((CombatItemData)d))
                 {
                     //Storage camp is full
                     cf.AddIgnoreObject(c.GetParent());
@@ -241,8 +249,8 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
             if (c != null)
             {
-                var cd = (CombatItemData) m_vUnits[0].Data;
-                ((UnitStorageComponent) c).AddUnit(cd);
+                var cd = (CombatItemData)m_vUnits[0].Data;
+                ((UnitStorageComponent)c).AddUnit(cd);
                 StartProducingNextUnit();
                 result = true;
             }
@@ -275,7 +283,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
                         if (GetSlotCount() >= 1)
                         {
                             var ds = m_vUnits[0];
-                            var newcd = (CombatItemData) m_vUnits[0].Data;
+                            var newcd = (CombatItemData)m_vUnits[0].Data;
                             var ca = GetParent().GetLevel().GetHomeOwnerAvatar();
                             m_vTimer = new Timer();
                             var trainingTime = newcd.GetTrainingTime(ca.GetUnitUpgradeLevel(newcd));
@@ -291,6 +299,8 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             //{"data":1000006,"lvl":3,"x":12,"y":34,"unit_prod":{"unit_type":0,"t":0,"slots":[{"id":4000000,"cnt":19}]}}
             var unitProdObject = new JObject();
             if (m_vIsSpellForge)
+                unitProdObject.Add("unit_type", 1);
+            else if (m_vIsDarkForge)
                 unitProdObject.Add("unit_type", 1);
             else
                 unitProdObject.Add("unit_type", 0);
@@ -311,7 +321,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
             if (m_vTimer != null)
             {
-                var ci = (ConstructionItem) GetParent();
+                var ci = (ConstructionItem)GetParent();
                 unitProdObject.Add("t",
                     m_vTimer.GetRemainingSeconds(GetParent().GetLevel().GetTime(), ci.IsBoosted, ci.GetBoostEndTime(),
                         ci.GetBoostMultipier()));
@@ -328,9 +338,10 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         public void SetUnitType(GameObject go)
         {
-            var b = (Building) GetParent();
+            var b = (Building)GetParent();
             var bd = b.GetBuildingData();
             m_vIsSpellForge = bd.IsSpellForge();
+            m_vIsDarkForge = bd.IsDarkForge();
         }
 
         public void SpeedUp()
@@ -345,7 +356,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             m_vTimer = null;
             if (GetSlotCount() >= 1)
             {
-                RemoveUnit((CombatItemData) m_vUnits[0].Data);
+                RemoveUnit((CombatItemData)m_vUnits[0].Data);
             }
         }
 
@@ -353,7 +364,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
         {
             if (m_vTimer != null)
             {
-                var ci = (ConstructionItem) GetParent();
+                var ci = (ConstructionItem)GetParent();
                 var remainingTime = m_vTimer.GetRemainingSeconds(GetParent().GetLevel().GetTime(), ci.IsBoosted,
                     ci.GetBoostEndTime(), ci.GetBoostMultipier());
                 if (remainingTime <= 0)

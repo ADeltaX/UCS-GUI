@@ -25,6 +25,16 @@ namespace Ultrapowa_Clash_Server_GUI.Core
     internal class DatabaseManager
     {
         private static DatabaseManager singelton;
+
+        private readonly string m_vConnectionString;
+
+        private readonly int saveThreadCount = 4;
+
+        public DatabaseManager()
+        {
+            m_vConnectionString = ConfigurationManager.AppSettings["databaseConnectionName"];
+        }
+
         public static DatabaseManager Singelton
         {
             get
@@ -35,15 +45,6 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                 }
                 return singelton;
             }
-        }
-
-        private readonly string m_vConnectionString;
-
-        private readonly int saveThreadCount = 4;
-
-        public DatabaseManager()
-        {
-            m_vConnectionString = ConfigurationManager.AppSettings["databaseConnectionName"];
         }
 
         public void CreateAccount(Level l)
@@ -72,6 +73,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                 MainWindow.RemoteWindow.WriteConsoleDebug("An exception occured during CreateAccount processing: "+ ex, (int)MainWindow.level.DEBUGFATAL);
             }
         }
+
 
         public void CreateAlliance(Alliance a)
         {
@@ -129,14 +131,13 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             var alliances = new List<Alliance>();
             try
             {
-
                 List<clan> clans;
                 using (var db = new ucsdbEntities(m_vConnectionString))
                 {
                     clans = db.clan.ToList();
                 }
 
-                foreach (clan c in clans)
+                foreach (var c in clans)
                 {
                     var alliance = new Alliance();
                     alliance.LoadFromJSON(c.Data);
@@ -158,7 +159,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                 using (var db = new ucsdbEntities(m_vConnectionString))
                 {
                     var p = db.clan.Find(allianceId);
-                    
+
                     if (p != null)
                     {
                         alliance = new Alliance();
@@ -192,7 +193,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             using (var db = new ucsdbEntities(m_vConnectionString))
             {
                 max = (from alliance in db.clan
-                    select (long?) alliance.ClanId ?? 0).DefaultIfEmpty().Max();
+                       select (long?)alliance.ClanId ?? 0).DefaultIfEmpty().Max();
             }
             return max;
         }
@@ -203,7 +204,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             using (var db = new ucsdbEntities(m_vConnectionString))
             {
                 max = (from ep in db.player
-                    select (long?) ep.PlayerId ?? 0).DefaultIfEmpty().Max();
+                       select (long?)ep.PlayerId ?? 0).DefaultIfEmpty().Max();
             }
             return max;
         }
@@ -232,29 +233,29 @@ namespace Ultrapowa_Clash_Server_GUI.Core
         {
             MainWindow.RemoteWindow.WriteConsoleDebug("Starting saving players from memory to database", (int)MainWindow.level.DEBUGLOG);
             try
-             {
-                 var parts = avatars.Split(saveThreadCount);
+            {
+                var parts = avatars.Split(saveThreadCount);
 
-                 var saveThreads = new List<Thread>();
+                var saveThreads = new List<Thread>();
                 Parallel.ForEach(parts, part =>
-                    {
-                        var threadObject = new SaveLevelThread(part.ToList(), m_vConnectionString);
-                        var t = new Thread(threadObject.DoSaveWork);
-                        saveThreads.Add(t);
-                        t.Start();
-                    });
+                {
+                    var threadObject = new SaveLevelThread(part.ToList(), m_vConnectionString);
+                    var t = new Thread(threadObject.DoSaveWork);
+                    saveThreads.Add(t);
+                    t.Start();
+                });
                 var workerArentFinished = true;
 
-                 while (workerArentFinished)
-                 {
-                     workerArentFinished = false;
+                while (workerArentFinished)
+                {
+                    workerArentFinished = false;
                     Parallel.ForEach(saveThreads, t =>
+                    {
+                        if (t.IsAlive)
                         {
-                            if (t.IsAlive)
-                            {
-                                workerArentFinished = true;
-                            }
-                        });
+                            workerArentFinished = true;
+                        }
+                    });
                 }
                 MainWindow.RemoteWindow.WriteConsoleDebug("Finished saving players from memory to database", (int)MainWindow.level.DEBUGLOG);
             }
@@ -267,30 +268,30 @@ namespace Ultrapowa_Clash_Server_GUI.Core
         public void Save(List<Alliance> alliances)
          {
             MainWindow.RemoteWindow.WriteConsoleDebug("Starting saving alliances from memory to database", (int)MainWindow.level.DEBUGLOG);
-             try
-             {
-                 var parts = alliances.Split(saveThreadCount);
+            try
+            {
+                var parts = alliances.Split(saveThreadCount);
 
-                 var saveThreads = new List<Thread>();
+                var saveThreads = new List<Thread>();
                 Parallel.ForEach(parts, part =>
-                    {
-                        var threadObject = new SaveAllianceThread(part.ToList(), m_vConnectionString);
-                        var t = new Thread(threadObject.DoSaveWork);
-                        saveThreads.Add(t);
-                        t.Start();
-                    });
+                {
+                    var threadObject = new SaveAllianceThread(part.ToList(), m_vConnectionString);
+                    var t = new Thread(threadObject.DoSaveWork);
+                    saveThreads.Add(t);
+                    t.Start();
+                });
                 var workerArentFinished = true;
 
-                 while (workerArentFinished)
-                 {
-                     workerArentFinished = false;
+                while (workerArentFinished)
+                {
+                    workerArentFinished = false;
                     Parallel.ForEach(saveThreads, t =>
+                    {
+                        if (t.IsAlive)
                         {
-                            if (t.IsAlive)
-                            {
-                                workerArentFinished = true;
-                            }
-                        });
+                            workerArentFinished = true;
+                        }
+                    });
                 }
 
                 MainWindow.RemoteWindow.WriteConsoleDebug("Finished saving alliances from memory to database", (int)MainWindow.level.DEBUGLOG);

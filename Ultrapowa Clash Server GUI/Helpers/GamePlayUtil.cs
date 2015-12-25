@@ -8,12 +8,12 @@ namespace Ultrapowa_Clash_Server_GUI.Helpers
     {
         public static int CalculateResourceCost(int sup, int inf, int supCost, int infCost, int amount)
         {
-            return (int) Math.Round((supCost - infCost)*(long) (amount - inf)/(sup - inf*1.0)) + infCost;
+            return (int)Math.Round((supCost - infCost) * (long)(amount - inf) / (sup - inf * 1.0)) + infCost;
         }
 
         public static int CalculateSpeedUpCost(int sup, int inf, int supCost, int infCost, int amount)
         {
-            return (int) Math.Round((supCost - infCost)*(long) (amount - inf)/(sup - inf*1.0)) + infCost;
+            return (int)Math.Round((supCost - infCost) * (long)(amount - inf) / (sup - inf * 1.0)) + infCost;
         }
 
         public static int GetResourceDiamondCost(int resourceCount, ResourceData resourceData)

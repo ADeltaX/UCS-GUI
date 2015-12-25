@@ -12,7 +12,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
         {
             X = br.ReadInt32WithEndian();
             Y = br.ReadInt32WithEndian();
-            Spell = (SpellData) br.ReadDataReference();
+            Spell = (SpellData)br.ReadDataReference();
             Unknown1 = br.ReadUInt32WithEndian();
         }
 
@@ -29,7 +29,8 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             var components = level.GetComponentManager().GetComponents(0);
             for (var i = 0; i < components.Count; i++)
             {
-                var c = (UnitStorageComponent) components[i];
+                //UCS.Core.Debugger.WriteLine("Spell : " + Spell + "Unknown1 : " + Unknown1 + "X : " + X + "Y : " + Y , null, 4);
+                var c = (UnitStorageComponent)components[i];
                 if (c.GetUnitTypeIndex(Spell) != -1)
                 {
                     var storageCount = c.GetUnitCountByData(Spell);

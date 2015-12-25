@@ -114,9 +114,9 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
 
         public string ExportNameTriggered { get; set; }
 
-        public bool ForgesMiniSpells { get; set; }
-
         public bool ForgesSpells { get; set; }
+
+        public bool ForgesMiniSpells { get; set; }
 
         public bool GroundTargets { get; set; }
 
@@ -240,7 +240,7 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
 
         public override int GetConstructionTime(int level)
         {
-            return BuildTimeS[level] + BuildTimeM[level]*60 + BuildTimeH[level]*60*60 + BuildTimeD[level]*60*60*24;
+            return BuildTimeS[level] + BuildTimeM[level] * 60 + BuildTimeH[level] * 60 * 60 + BuildTimeD[level] * 60 * 60 * 24;
 
             //TODO: Add BuildTimeMultipier
         }
@@ -252,12 +252,12 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
             for (var i = 0; i < resourceDataTable.GetItemCount(); i++)
             {
                 var value = 0;
-                var resourceData = (ResourceData) resourceDataTable.GetItemAt(i);
+                var resourceData = (ResourceData)resourceDataTable.GetItemAt(i);
                 var propertyName = "MaxStored" + resourceData.GetName();
                 if (GetType().GetProperty(propertyName) != null)
                 {
                     var obj = GetType().GetProperty(propertyName).GetValue(this, null);
-                    value = ((List<int>) obj)[level];
+                    value = ((List<int>)obj)[level];
                 }
                 maxStoredResourceCounts.Add(value);
             }
@@ -289,6 +289,11 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
         public bool IsSpellForge()
         {
             return ForgesSpells;
+        }
+
+        public bool IsDarkForge()
+        {
+            return ForgesMiniSpells;
         }
 
         public override bool IsTownHall()

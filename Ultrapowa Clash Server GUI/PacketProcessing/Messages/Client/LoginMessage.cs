@@ -79,7 +79,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 m_vSignature4 = br.ReadScString();
                 m_vClientSeed = br.ReadUInt32WithEndian();
                 MainWindow.RemoteWindow.WriteConsoleDebug("[M] Client with user id " + m_vAccountId + " accessing with " + m_vDevice + " and " + m_vPassToken + " as users token", (int)MainWindow.level.DEBUGLOG);
-                if (GetMessageVersion() > 8) //7.200
+                if (GetMessageVersion() >= 7) //7.200
                 {
                     br.ReadByte();
                     br.ReadUInt32WithEndian();
@@ -92,9 +92,21 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
         {
             if (Convert.ToBoolean(ConfigurationManager.AppSettings["maintenanceProMode"]))
             {
-                level = ResourcesManager.GetPlayer(m_vAccountId);
-                if (level != null && level.GetAccountPrivileges() > 3)
+                if (Convert.ToBoolean(ConfigurationManager.AppSettings["adminSpecialMode"]))
                 {
+                    level = ResourcesManager.GetPlayer(m_vAccountId);
+                    if (level != null && level.GetAccountPrivileges() > 3)
+                    {
+                    }
+                    else
+                    {
+                        var p = new LoginFailedMessage(Client);
+                        p.SetErrorCode(10);
+                        p.RemainingTime(0);
+                        p.SetReason(ConfigurationManager.AppSettings["maintenanceProMessage"]);
+                        PacketManager.ProcessOutgoingPacket(p);
+                        return;
+                    }
                 }
                 else
                 {
@@ -211,14 +223,14 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             loginOk.SetServerMajorVersion(m_vClientMajorVersion);
             loginOk.SetServerBuild(m_vClientBuild);
             loginOk.SetContentVersion(m_vClientContentVersion);
-            loginOk.SetServerEnvironment("stage");
+            loginOk.SetServerEnvironment("dev");
             loginOk.SetDaysSinceStartedPlaying(21222);
             loginOk.SetPlayTimeSeconds(62072000);
 
             //loginOk.SetFacebookId("100001230452744");
             //loginOk.SetGamecenterId("");
             loginOk.SetServerTime(
-                Math.Round(level.GetTime().Subtract(new DateTime(1970, 1, 1)).TotalSeconds*1000).ToString());
+                Math.Round(level.GetTime().Subtract(new DateTime(1970, 1, 1)).TotalSeconds * 1000).ToString());
             loginOk.SetAccountCreatedDate("1414003838000");
             loginOk.SetStartupCooldownSeconds(0);
             loginOk.SetCountryCode("US");
@@ -234,7 +246,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             if (ResourcesManager.IsPlayerOnline(level))
             {
                 var mail = new AllianceMailStreamEntry();
-                mail.SetId((int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
+                mail.SetId((int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
                 mail.SetSenderId(0);
                 mail.SetSenderAvatarId(0);
                 mail.SetSenderName("System Manager");
@@ -242,9 +254,8 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 mail.SetAllianceId(0);
                 mail.SetSenderLeagueId(22);
                 mail.SetAllianceBadgeData(1728059989);
-                mail.SetAllianceName("UCS System");
-                mail.SetMessage(
-                    "Welcome to Ultrapowa Clash Server Emulator.If you found any bug,Please report it to ultrapowa.com/forum");
+                mail.SetAllianceName("System Bot");
+                mail.SetMessage(ConfigurationManager.AppSettings["welcomeMessage"]);
                 mail.SetSenderLevel(500);
                 var p = new AvatarStreamEntryMessage(level.GetClient());
                 p.SetAvatarStreamEntry(mail);

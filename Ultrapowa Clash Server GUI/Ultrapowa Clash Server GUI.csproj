@@ -127,6 +127,11 @@
     <Compile Include="Core\ExitHandler.cs" />
     <Compile Include="Core\ProgramThread.cs" />
     <Compile Include="Core\SaveThread.cs" />
+    <Compile Include="Database\ucsdb.sqlite1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ucsdb.sqlite.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="LoadingServerScreen.xaml.cs">
       <DependentUpon>LoadingServerScreen.xaml</DependentUpon>

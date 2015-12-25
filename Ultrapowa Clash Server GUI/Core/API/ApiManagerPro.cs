@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -6,6 +5,8 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using Newtonsoft.Json;
+using Ultrapowa_Clash_Server_GUI.Helpers;
 
 namespace Ultrapowa_Clash_Server_GUI.Core
 {
@@ -38,7 +39,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             }
             catch (Exception e)
             {
-                MainWindow.RemoteWindow.WriteConsoleDebug("Exception at ApiManagerPro "+ e, (int)MainWindow.level.DEBUGFATAL);
+                MainWindow.RemoteWindow.WriteConsoleDebug("Exception at ApiManagerPro: "+ e,(int)MainWindow.level.DEBUGFATAL);
             }
         }
 
@@ -58,8 +59,10 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             {
                 UCS = new Dictionary<string, string>
                 {
+                    {"Codename", Sys.ConfUCS.Codename},
                     {"StartingLevel", ConfigurationManager.AppSettings["startingLevel"]},
                     {"StartingExperience", ConfigurationManager.AppSettings["startingExperience"]},
+                    {"StartingGems", ConfigurationManager.AppSettings["startingGems"]},
                     {"StartingGold", ConfigurationManager.AppSettings["startingGold"]},
                     {"StartingElixir", ConfigurationManager.AppSettings["startingElixir"]},
                     {"StartingDarkElixir", ConfigurationManager.AppSettings["startingDarkElixir"]},
@@ -106,7 +109,6 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             {
                 try
                 {
-                    Console.WriteLine();
                     MainWindow.RemoteWindow.WriteConsole("Pro API Manager : Online", (int)MainWindow.level.LOG);
                     while (_listener.IsListening)
                     {

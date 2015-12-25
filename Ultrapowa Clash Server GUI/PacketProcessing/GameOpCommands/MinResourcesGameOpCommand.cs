@@ -22,7 +22,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 var dt = ObjectManager.DataTables.GetTable(2);
                 for (var i = 0; i < dt.GetItemCount(); i++)
                 {
-                    var rd = (ResourceData) dt.GetItemAt(i);
+                    var rd = (ResourceData)dt.GetItemAt(i);
                     if (!rd.PremiumCurrency)
                     {
                         var ca = level.GetPlayerAvatar();

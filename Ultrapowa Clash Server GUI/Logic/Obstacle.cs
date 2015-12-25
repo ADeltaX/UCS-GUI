@@ -44,7 +44,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
             //Add exp to client avatar
             var constructionTime = GetObstacleData().ClearTimeSeconds;
-            var exp = (int) Math.Pow(constructionTime, 0.5f);
+            var exp = (int)Math.Pow(constructionTime, 0.5f);
             GetLevel().GetPlayerAvatar().AddExperience(exp);
 
             var rd = ObjectManager.DataTables.GetResourceByName(GetObstacleData().LootResource);
@@ -56,7 +56,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         public ObstacleData GetObstacleData()
         {
-            return (ObstacleData) GetData();
+            return (ObstacleData)GetData();
         }
 
         public int GetRemainingClearingTime()

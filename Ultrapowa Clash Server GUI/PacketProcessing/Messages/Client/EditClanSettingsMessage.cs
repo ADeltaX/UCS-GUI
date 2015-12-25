@@ -42,13 +42,12 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 m_vWarFrequency = br.ReadInt32WithEndian();
                 m_vAllianceOrigin = br.ReadInt32WithEndian();
 
-                //Dev View
-                /*Debugger.WriteLine(m_vAllianceDescription, null, 0);
-                  Debugger.WriteLine(m_vAllianceBadgeData.ToString(), null, 0);
-                  Debugger.WriteLine(m_vAllianceType.ToString(), null, 0);
-                  Debugger.WriteLine(m_vRequiredScore.ToString(), null, 0);
-                  Debugger.WriteLine(m_vWarFrequency.ToString(), null, 0);
-                  Debugger.WriteLine(m_vAllianceOrigin.ToString(), null, 0);*/
+                MainWindow.RemoteWindow.WriteConsoleDebug("\t" + m_vAllianceDescription, (int)MainWindow.level.DEBUGLOG);
+                MainWindow.RemoteWindow.WriteConsoleDebug("\t" + m_vAllianceBadgeData, (int)MainWindow.level.DEBUGLOG);
+                MainWindow.RemoteWindow.WriteConsoleDebug("\t" + m_vAllianceType, (int)MainWindow.level.DEBUGLOG);
+                MainWindow.RemoteWindow.WriteConsoleDebug("\t" + m_vRequiredScore, (int)MainWindow.level.DEBUGLOG);
+                MainWindow.RemoteWindow.WriteConsoleDebug("\t" + m_vWarFrequency, (int)MainWindow.level.DEBUGLOG);
+                MainWindow.RemoteWindow.WriteConsoleDebug("\t" + m_vAllianceOrigin, (int)MainWindow.level.DEBUGLOG);
             }
         }
 
@@ -70,7 +69,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 if (allianceId > 0)
                 {
                     var cm = new ChatStreamEntry();
-                    cm.SetId((int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
+                    cm.SetId((int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
                     cm.SetSenderId(0);
                     cm.SetHomeId(0);
                     cm.SetSenderLeagueId(22);
@@ -89,8 +88,8 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                             {
                                 var p = new AllianceStreamEntryMessage(onlinePlayer.GetClient());
                                 p.SetStreamEntry(cm);
-                                PacketManager.ProcessOutgoingPacket(new OwnHomeDataMessage(Client, level));
                                 PacketManager.ProcessOutgoingPacket(p);
+                                PacketManager.ProcessOutgoingPacket(new OwnHomeDataMessage(Client, level));
                                 PacketManager.ProcessOutgoingPacket(new AllianceDataMessage(Client, alliance));
                             }
                         }

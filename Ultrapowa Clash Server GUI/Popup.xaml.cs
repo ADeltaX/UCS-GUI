@@ -115,6 +115,7 @@ namespace Ultrapowa_Clash_Server_GUI
             if (IsErrorHappens)
             {
                 Close();
+                return;
             }
 
             if (!IsRequiredSecPage)

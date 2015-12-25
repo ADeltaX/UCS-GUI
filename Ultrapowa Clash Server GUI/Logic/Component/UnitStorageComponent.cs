@@ -8,6 +8,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
     internal class UnitStorageComponent : Component
     {
         private readonly List<UnitSlot> m_vUnits;
+        public bool IsDarkForge;
 
         public bool IsSpellForge;
 
@@ -60,6 +61,10 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             if (cd != null)
             {
                 if (IsSpellForge)
+                {
+                    result = GetMaxCapacity() >= GetUsedCapacity() + cd.GetHousingSpace();
+                }
+                else if (IsDarkForge)
                 {
                     result = GetMaxCapacity() >= GetUsedCapacity() + cd.GetHousingSpace();
                 }
@@ -147,7 +152,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
                 {
                     var cnt = m_vUnits[i].Count;
                     var housingSpace = m_vUnits[i].UnitData.GetHousingSpace();
-                    count += cnt*housingSpace;
+                    count += cnt * housingSpace;
                 }
             }
             return count;
@@ -158,12 +163,14 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             if (jsonObject["storage_type"] != null)
             {
                 IsSpellForge = jsonObject["storage_type"].ToObject<int>() == 1;
+                IsDarkForge = jsonObject["storage_type"].ToObject<int>() == 1;
             }
             else
             {
                 IsSpellForge = false;
+                IsDarkForge = false;
             }
-            var unitArray = (JArray) jsonObject["units"];
+            var unitArray = (JArray)jsonObject["units"];
             if (unitArray != null)
             {
                 if (unitArray.Count > 0)
@@ -172,7 +179,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
                     {
                         var id = unitSlotArray[0].ToObject<int>();
                         var cnt = unitSlotArray[1].ToObject<int>();
-                        m_vUnits.Add(new UnitSlot((CombatItemData) ObjectManager.DataTables.GetDataById(id), -1, cnt));
+                        m_vUnits.Add(new UnitSlot((CombatItemData)ObjectManager.DataTables.GetDataById(id), -1, cnt));
                     }
                 }
             }
@@ -226,6 +233,8 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
             if (IsSpellForge)
                 jsonObject.Add("storage_type", 1);
+            else if (IsDarkForge)
+                jsonObject.Add("storage_type", 1);
             else
                 jsonObject.Add("storage_type", 0);
 
@@ -239,9 +248,10 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         public void SetStorageType(GameObject go)
         {
-            var b = (Building) GetParent();
+            var b = (Building)GetParent();
             var bd = b.GetBuildingData();
             IsSpellForge = bd.IsSpellForge();
+            IsDarkForge = bd.IsDarkForge();
         }
     }
 }

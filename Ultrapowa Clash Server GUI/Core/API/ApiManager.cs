@@ -13,7 +13,8 @@ namespace Ultrapowa_Clash_Server_GUI.Core
 
         public ApiManager()
         {
-            var IP = MainWindow.RemoteWindow.GetIP();
+            var hostName = Dns.GetHostName();
+            var IP = Dns.GetHostByName(hostName).AddressList[0].ToString();
             var DebugPort = ConfigurationManager.AppSettings["debugPort"];
             m_vListener = new HttpListener();
             {
@@ -76,7 +77,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                     }
                     catch (Exception ex)
                     {
-                        MainWindow.RemoteWindow.WriteConsoleDebug("Error in ApiManager : "+ ex, (int)MainWindow.level.DEBUGFATAL);
+                        Debugger.WriteLine("Error in ApiManager : ", ex, 4, ConsoleColor.Red);
                     }
                 }
             }
@@ -110,7 +111,8 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             }
             responseString += "</details>";
 
-            var LIP = MainWindow.RemoteWindow.GetIP();
+            var hostName = Dns.GetHostName();
+            var LIP = Dns.GetHostByName(hostName).AddressList[0].ToString();
 
             responseString += "<center><p>Current local ip: " + LIP + "</p></center>";
             responseString += "<center><p>Current public ip: " + direction + "</p></center>";
@@ -130,7 +132,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
         private void RunServer()
         {
             var DebugPort = ConfigurationManager.AppSettings["debugPort"];
-            MainWindow.RemoteWindow.WriteConsoleDebug("API Manager started on http://localhost:" + DebugPort + "/Debug/", (int)MainWindow.level.DEBUGLOG);
+            MainWindow.RemoteWindow.WriteConsole("API Manager started on http://localhost:" + DebugPort + "/Debug/", (int)MainWindow.level.LOG);
             while (m_vListener.IsListening)
             {
                 var result = m_vListener.BeginGetContext(Handle, m_vListener);
@@ -147,8 +149,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
-                MainWindow.RemoteWindow.WriteConsole(ex.ToString(), (int)MainWindow.level.WARNING);
+                MainWindow.RemoteWindow.WriteConsole(ex.Message, (int)MainWindow.level.WARNING);
             }
         }
 

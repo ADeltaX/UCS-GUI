@@ -13,6 +13,8 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         private DateTime m_vMessageTime;
 
+        private int m_vRole;
+
         private long m_vSenderId;
 
         private int m_vSenderLeagueId;
@@ -49,8 +51,8 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         public int GetAgeSeconds()
         {
-            return (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds -
-                   (int) m_vMessageTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            return (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds -
+                   (int)m_vMessageTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
         }
 
         public long GetHomeId()

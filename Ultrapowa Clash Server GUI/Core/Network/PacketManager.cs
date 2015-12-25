@@ -13,9 +13,9 @@ namespace Ultrapowa_Clash_Server_GUI.Network
 
         private static readonly EventWaitHandle m_vOutgoingWaitHandle = new AutoResetEvent(false);
 
-        private static ConcurrentQueue<Message> m_vIncomingPackets = new ConcurrentQueue<Message>();
+        private static readonly ConcurrentQueue<Message> m_vIncomingPackets = new ConcurrentQueue<Message>();
 
-        private static ConcurrentQueue<Message> m_vOutgoingPackets = new ConcurrentQueue<Message>();
+        private static readonly ConcurrentQueue<Message> m_vOutgoingPackets = new ConcurrentQueue<Message>();
 
         private bool m_vIsRunning;
 
@@ -93,7 +93,7 @@ namespace Ultrapowa_Clash_Server_GUI.Network
                     Logger.WriteLine(p, "S");
                     if (p.GetMessageType() == 20000)
                     {
-                        var sessionKey = ((SessionKeyMessage) p).Key;
+                        var sessionKey = ((SessionKeyMessage)p).Key;
                         p.Client.Encrypt(p.GetData());
                         p.Client.UpdateKey(sessionKey);
                     }

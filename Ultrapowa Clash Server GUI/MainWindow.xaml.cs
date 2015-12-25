@@ -3,19 +3,14 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
 using System.Configuration;
 using System.Net;
 using Ultrapowa_Clash_Server_GUI.Network;
-using Ultrapowa_Clash_Server_GUI.PacketProcessing;
 using Ultrapowa_Clash_Server_GUI.Core;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using System.Timers;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using Ultrapowa_Clash_Server_GUI.Helpers;
@@ -76,7 +71,7 @@ namespace Ultrapowa_Clash_Server_GUI
             {
                 Console.Clear();
                 WindowState = WindowState.Minimized;
-                Console.Title = "UCS Server " + ConfUCS.VersionUCS + " | " + "OFFLINE";
+                Console.Title = "UCS Server " + ConfUCS.VersionUCS + " | " + "Codename: " + ConfUCS.Codename + " | " + "OFFLINE";
                 WriteConsole("Line arg typed: /console", (int)level.LOG);
                 WriteConsole("Running in Console mode...", (int)level.LOG);
                 WriteConsole("Local IP: " + GetIP(), (int)level.LOG);
@@ -87,7 +82,7 @@ namespace Ultrapowa_Clash_Server_GUI
             }
             else
             {
-                Title = "UCS Server " + ConfUCS.VersionUCS + " | " + "OFFLINE";
+                Title = "UCS Server " + ConfUCS.VersionUCS + " | " + "Codename: " + ConfUCS.Codename + " | " + "OFFLINE";
                 WriteConsole("Loading GUI...", (int)level.LOG);
                 CheckThings();
                 LBL_IP.Content = "Local IP: " + GetIP();
@@ -108,7 +103,7 @@ namespace Ultrapowa_Clash_Server_GUI
             TimeSpan ts = HighPrecisionUpdateTimer.Elapsed;
             ElapsedTime = string.Format("{0:00}:{1:00}:{2:00}",ts.Hours, ts.Minutes, ts.Seconds + 1);
 
-            string OutTitle = "UCS Server " + ConfUCS.VersionUCS + " | " + "ONLINE" + " | " + "Up time: " + ElapsedTime;
+            string OutTitle = "UCS Server " + ConfUCS.VersionUCS + " | " + "Codename: " + ConfUCS.Codename + " | " + "ONLINE" + " | " + "Up time: " + ElapsedTime;
 
             if (ConfUCS.IsConsoleMode)
             {
@@ -564,14 +559,14 @@ namespace Ultrapowa_Clash_Server_GUI
 
         public void SetupRTB(SolidColorBrush color, string text, string pretext, bool IsDebugMode=false)
         {
+            
+            Dispatcher.BeginInvoke((Action) delegate {
 
-                Dispatcher.BeginInvoke((Action) delegate {
-
-                    RTB_Console.Selection.Select(RTB_Console.Document.ContentEnd, RTB_Console.Document.ContentEnd);
-                    RTB_Console.Selection.Text = pretext + text + "\u2028";
+                    TextRange TXT = new TextRange(RTB_Console.Document.ContentEnd, RTB_Console.Document.ContentEnd);
+                    TXT.Text = pretext + text + "\u2028";
                     try
                     {
-                        RTB_Console.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, color);
+                        TXT.ApplyPropertyValue(TextElement.ForegroundProperty, color);
                     }
                     catch (InvalidOperationException)
                     {
@@ -597,7 +592,8 @@ namespace Ultrapowa_Clash_Server_GUI
                 catch (Exception ex)
                 {
                     ConfUCS.IsLogEnabled = false;
-                    WriteConsole("Error during saving log to file. ::" + ex.Message, (int)level.FATAL);
+                    WriteConsole("Error during saving log to file: " + ex.Message, (int)level.FATAL);
+                    WriteConsole("Log mode disabled", (int)level.FATAL);
                 }
             }
         }
@@ -747,7 +743,7 @@ namespace Ultrapowa_Clash_Server_GUI
 
         public void CommandRead(string cmd)
         {
-            if (!ConfUCS.IsConsoleMode) SetupRTB(Brushes.White, cmd, ">");
+            if (!ConfUCS.IsConsoleMode) SetupRTB(Brushes.White, cmd, "> ");
             if (cmd.ToLower() == "/help")
             {
                 WriteMessageConsole("/start                             <-- Start the server", (int)level.SERVERMSG);

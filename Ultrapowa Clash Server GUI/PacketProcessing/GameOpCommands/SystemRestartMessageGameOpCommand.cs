@@ -23,7 +23,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 {
                     var avatar = level.GetPlayerAvatar();
                     var mail = new AllianceMailStreamEntry();
-                    mail.SetId((int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
+                    mail.SetId((int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
                     mail.SetSenderId(0);
                     mail.SetSenderAvatarId(0);
                     mail.SetSenderName("System Admin");

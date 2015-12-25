@@ -75,7 +75,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
         //public static ConcurrentDictionary<Level, Client> OnlineClients { get; set; }
         //public static ConcurrentDictionary<Socket, Client> Clients { get; set; }
         public static DataTables DataTables { get; set; }
-        
+
         public static FingerPrint FingerPrint { get; set; }
 
         public static Dictionary<int, string> NpcLevels { get; set; }
@@ -112,7 +112,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
 
         public static void GetAllAlliancesFromDB()
         {
-            foreach(Alliance a in DatabaseManager.Singelton.GetAllAlliances())
+            foreach (var a in DatabaseManager.Singelton.GetAllAlliances())
             {
                 if (!m_vAlliances.ContainsKey(a.GetAllianceId()))
                 {
@@ -156,7 +156,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
         {
             var index = m_vRandomSeed.Next(0, ResourcesManager.GetAllPlayerIds().Count); //accès concurrent KO
             return ResourcesManager.GetPlayer(ResourcesManager.GetAllPlayerIds()[index]);
-        }   
+        }
 
         public static void LoadFingerPrint()
         {
@@ -223,18 +223,32 @@ namespace Ultrapowa_Clash_Server_GUI.Core
 
         private void SaveAlliance(object state)
         {
-            DatabaseManager.Singelton.Save(m_vAlliances.Values.ToList());
-            if (m_vTimerCanceled)
+            try
             {
-                TimerReferenceA.Dispose();
+                DatabaseManager.Singelton.Save(m_vAlliances.Values.ToList());
+                if (m_vTimerCanceled)
+                {
+                    TimerReferenceA.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.RemoteWindow.WriteConsole("Exception happend in SaveAlliance: " + ex, (int)MainWindow.level.WARNING);
             }
         }
-            private void SavePlayer(object state)
+        private void SavePlayer(object state)
         {
-            DatabaseManager.Singelton.Save(ResourcesManager.GetInMemoryLevels());
-            if (m_vTimerCanceled)
+            try
             {
-                TimerReferenceP.Dispose();
+                DatabaseManager.Singelton.Save(ResourcesManager.GetInMemoryLevels());
+                if (m_vTimerCanceled)
+                {
+                    TimerReferenceP.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.RemoteWindow.WriteConsole("Exception happend in SavePlayer: " + ex, (int)MainWindow.level.WARNING);
             }
         }
     }

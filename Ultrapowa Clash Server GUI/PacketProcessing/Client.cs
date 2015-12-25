@@ -64,7 +64,8 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public bool IsClientSocketConnected()
         {
-            try {
+            try
+            {
                 return !((Socket.Poll(1000, SelectMode.SelectRead) && (Socket.Available == 0)) || !Socket.Connected);
             }
             catch
@@ -82,8 +83,8 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
             var y = buffer[ix];
             y ^= y >> 11;
-            y ^= (int) (y << 7 & 2636928640); // 0x9d2c5680
-            y ^= (int) (y << 15 & 4022730752); // 0xefc60000
+            y ^= (int)(y << 7 & 2636928640); // 0x9d2c5680
+            y ^= (int)(y << 15 & 4022730752); // 0xefc60000
             y ^= y >> 18;
 
             if ((y & (1 << 31)) != 0)
@@ -91,8 +92,8 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 y = ~y + 1;
             }
 
-            ix = (ix + 1)%624;
-            return y%256;
+            ix = (ix + 1) % 624;
+            return y % 256;
         }
 
         // Extract a tempered pseudorandom number based on the index-th value, calling
@@ -101,11 +102,11 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
         {
             for (var i = 0; i < 624; i++)
             {
-                var y = (int) ((buffer[i] & 0x80000000) + (buffer[(i + 1)%624] & 0x7fffffff));
-                buffer[i] = buffer[(i + 397)%624] ^ (y >> 1);
-                if (y%2 != 0)
+                var y = (int)((buffer[i] & 0x80000000) + (buffer[(i + 1) % 624] & 0x7fffffff));
+                buffer[i] = buffer[(i + 397) % 624] ^ (y >> 1);
+                if (y % 2 != 0)
                 {
-                    buffer[i] = (int) (buffer[i] ^ 2567483615);
+                    buffer[i] = (int)(buffer[i] ^ 2567483615);
                 }
             }
         }
@@ -116,7 +117,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             buffer[0] = seed;
             for (var i = 1; i < 624; ++i)
             {
-                buffer[i] = 1812433253*((buffer[i - 1] ^ (buffer[i - 1] >> 30)) + 1);
+                buffer[i] = 1812433253 * ((buffer[i - 1] ^ (buffer[i - 1] >> 30)) + 1);
             }
         }
 
@@ -132,7 +133,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
             for (var i = 0; i < sessionKey.Length; i++)
             {
-                sessionKey[i] ^= (byte) (extract_number(buffer, i + 100) & byte100);
+                sessionKey[i] ^= (byte)(extract_number(buffer, i + 100) & byte100);
             }
         }
 
@@ -159,15 +160,15 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                     do
                     {
                         dataLen--;
-                        var index = (byte) (key[0] + 1);
+                        var index = (byte)(key[0] + 1);
                         key[0] = index;
-                        var num2 = (byte) (key[4] + key[index + 8]);
+                        var num2 = (byte)(key[4] + key[index + 8]);
                         key[4] = num2;
                         var num3 = key[index + 8];
                         key[index + 8] = key[num2 + 8];
                         key[key[4] + 8] = num3;
-                        var num4 = key[(byte) (key[key[4] + 8] + key[key[0] + 8]) + 8];
-                        data[data.Length - dataLen - 1] = (byte) (data[data.Length - dataLen - 1] ^ num4);
+                        var num4 = key[(byte)(key[key[4] + 8] + key[key[0] + 8]) + 8];
+                        data[data.Length - dataLen - 1] = (byte)(data[data.Length - dataLen - 1] ^ num4);
                     } while (dataLen > 0);
                 }
             }
@@ -196,7 +197,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             if (DataStream.Count() >= 5)
             {
                 var length = (0x00 << 24) | (DataStream[2] << 16) | (DataStream[3] << 8) | DataStream[4];
-                var type = (ushort) ((DataStream[0] << 8) | DataStream[1]);
+                var type = (ushort)((DataStream[0] << 8) | DataStream[1]);
 
                 if (DataStream.Count - 7 >= length)
                 {
@@ -210,7 +211,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
                     if (obj != null)
                     {
-                        p = (Message) obj;
+                        p = (Message)obj;
                         result = true;
                     }
                     else
@@ -227,7 +228,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public unsafe void UpdateKey(byte[] sessionKey)
         {
-            TransformSessionKey((int) ClientSeed, sessionKey);
+            TransformSessionKey((int)ClientSeed, sessionKey);
 
             var newKey = new byte[264];
             var clientKey = sessionKey;
@@ -258,7 +259,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             {
                 do
                 {
-                    *(v5 + v11 + 8) = (byte) v11;
+                    *(v5 + v11 + 8) = (byte)v11;
                     ++v11;
                 } while (v11 != 256);
                 *v5 = 0;
@@ -269,11 +270,11 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
                     //if (v16 == 255)//if ( *v5 > 255 )
                     //    break;
-                    v12 = *(v10 + v16%v9) + *(uint*) (v5 + 4);
-                    *(uint*) v5 = v16 + 1;
+                    v12 = *(v10 + v16 % v9) + *(uint*)(v5 + 4);
+                    *(uint*)v5 = v16 + 1;
                     v13 = *(v5 + v16 + 8);
-                    v14 = (byte) (v12 + *(v5 + v16 + 8));
-                    *(uint*) (v5 + 4) = v14;
+                    v14 = (byte)(v12 + *(v5 + v16 + 8));
+                    *(uint*)(v5 + 4) = v14;
                     v15 = v5 + v14;
                     *(v5 + v16 + 8) = *(v15 + 8);
                     *(v15 + 8) = v13;
@@ -286,13 +287,13 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 while (v17 < v9)
                 {
                     ++v17;
-                    v18 = *(uint*) (v5 + 4);
-                    v19 = (byte) (*(uint*) v5 + 1);
-                    *(uint*) v5 = v19;
+                    v18 = *(uint*)(v5 + 4);
+                    v19 = (byte)(*(uint*)v5 + 1);
+                    *(uint*)v5 = v19;
                     v20 = v5 + v19;
                     v21 = *(v20 + 8);
-                    v22 = (byte) (v18 + v21);
-                    *(uint*) (v5 + 4) = v22;
+                    v22 = (byte)(v18 + v21);
+                    *(uint*)(v5 + 4) = v22;
                     v23 = v5 + v22;
                     *(v20 + 8) = *(v23 + 8);
                     *(v23 + 8) = v21;

@@ -42,9 +42,9 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             m_vReason = reason;
         }
 
-        //00 00 00 3B 00 0A 40 1E
+        //00 00 07 3A
         //00 00 00 01 ////reason? 1= leave, 2=kick
 
-        //00 00 07 3A
+        //00 00 00 3B 00 0A 40 1E
     }
 }

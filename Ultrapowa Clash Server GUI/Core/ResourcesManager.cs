@@ -33,18 +33,17 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             TimerCallback TimerDelegate = ReleaseOrphans;
             var TimerItem = new Timer(TimerDelegate, null, 1000, 1000);
             TimerReference = TimerItem;
-            
-
         }
 
         private static void CheckClients()
         {
-            foreach (Client c in GetConnectedClients())
+            foreach (var c in GetConnectedClients())
             {
                 if (!c.IsClientSocketConnected())
                 {
                     DropClient(c.GetSocketHandle());
-                    try {
+                    try
+                    {
                         c.Socket.Shutdown(SocketShutdown.Both);
                         c.Socket.Close();
                     }
@@ -65,11 +64,18 @@ namespace Ultrapowa_Clash_Server_GUI.Core
 
         public static void DropClient(long socketHandle)
         {
-            Client c;
-            m_vClients.TryRemove(socketHandle, out c);
-            if (c.GetLevel() != null)
-                LogPlayerOut(c.GetLevel());
-            MainWindow.RemoteWindow.UpdateTheListPlayers();
+            try
+            {
+                Client c;
+                m_vClients.TryRemove(socketHandle, out c);
+                if (c.GetLevel() != null)
+                    LogPlayerOut(c.GetLevel());
+                    MainWindow.RemoteWindow.UpdateTheListPlayers();
+            }
+            catch (Exception ex)
+            {
+                MainWindow.RemoteWindow.WriteConsoleDebug("Error when dropping client: " + ex, (int)MainWindow.level.DEBUGFATAL);
+            }
         }
 
         public static List<long> GetAllClanIds()
