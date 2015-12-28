@@ -132,6 +132,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ucsdb.sqlite.edmx</DependentUpon>
     </Compile>
+    <Compile Include="PopupConfiguration.xaml.cs">
+      <DependentUpon>PopupConfiguration.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="LoadingServerScreen.xaml.cs">
       <DependentUpon>LoadingServerScreen.xaml</DependentUpon>
@@ -171,6 +174,10 @@
     <Compile Include="Sys\LoadLanguage.cs" />
     <Compile Include="Sys\UpdateChecker.cs" />
     <Page Include="Feedback.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopupConfiguration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

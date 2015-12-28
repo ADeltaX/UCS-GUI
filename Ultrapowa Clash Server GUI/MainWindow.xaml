@@ -19,9 +19,9 @@
         </Grid.RowDefinitions>
         <Menu x:Name="MI_GRID" Grid.Row="0" Margin="12,12,0,0" Background="Transparent">
             <MenuItem x:Name="MI_Menu" Header="_Menu" BorderBrush="{x:Null}" Height="22" Foreground="#39c8e2" Background="{x:Null}">
-                <MenuItem Header="_Restart" />
-                <Separator />
-                <MenuItem Header="_Exit" Click="MenuItem_Click" BorderBrush="{x:Null}"/>
+                <MenuItem Header="_Restart" Foreground="Black" Click="MI_Restart_Click"/>
+                <Separator Foreground="Black" Background="Black"/>
+                <MenuItem Header="_Exit" Foreground="Black" Click="MenuItem_Click" BorderBrush="{x:Null}"/>
             </MenuItem>
             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" x:Name="SEP_1" Background="#4aa3df" Opacity="0.8" />
             <MenuItem x:Name="MI_Comands" Header="_Commands" Height="22" BorderBrush="{x:Null}" Foreground="#39c8e2" Background="{x:Null}">
@@ -45,6 +45,8 @@
             </MenuItem>
             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" x:Name="SEP_2" Background="#4aa3df" Opacity="0.8"/>
             <MenuItem x:Name="MI_Utility" Header="_Utility" Height="22" BorderBrush="{x:Null}" Foreground="#39c8e2" Background="{x:Null}">
+                <MenuItem Header="Configuration" Click="MI_Configuration_Click" Foreground="Black">
+                </MenuItem>
             </MenuItem>
             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" x:Name="SEP_3" Background="#4aa3df" Opacity="0.8"/>
             <MenuItem x:Name="MI_Options" Header="_Options" Height="22" BorderBrush="{x:Null}" Foreground="#39c8e2" Background="{x:Null}">
@@ -58,6 +60,7 @@
             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="#4aa3df" x:Name="SEP_6" Opacity="0.8"/>
             <MenuItem Header="_Check Update" x:Name="MI_CheckUpdate" Height="22" BorderBrush="{x:Null}" Foreground="#39c8e2" Background="{x:Null}" Click="MI_CheckUpdate_Click">
             </MenuItem>
+            
         </Menu>
         <Grid Grid.Row="1">
             <Label x:Name="label_console" Content="Console:" HorizontalAlignment="Left" Margin="16,40,0,0" VerticalAlignment="Top" Height="16" Padding="0,0,0,0" Foreground="White">
@@ -68,7 +71,7 @@
             </Rectangle>
             <Rectangle Fill="#2980b9" Height="1" Margin="24,0,24,63" VerticalAlignment="Bottom" Opacity="0.8">
             </Rectangle>
-            <Rectangle Fill="#2980b9" Margin="12,35,0,0" Height="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="449" Opacity="0.8">
+            <Rectangle Fill="#2980b9" Margin="12,35,0,0" Height="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="580" Opacity="0.8" RenderTransformOrigin="0.5,0.5">
             </Rectangle>
             <RichTextBox Template="{StaticResource FlatRichTextBoxStyle}" Padding="2" x:Name="RTB_Console" x:FieldModifier="public" Margin="12,60,182,70" AllowDrop="False" BorderThickness="2" IsReadOnly="True" Background="Transparent" SelectionBrush="#FF005DB9" VerticalScrollBarVisibility="Auto" FontFamily="Consolas" BorderBrush="#39c8e2">
                 <FlowDocument>

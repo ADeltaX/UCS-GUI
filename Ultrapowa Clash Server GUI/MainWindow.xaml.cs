@@ -17,6 +17,9 @@ using Ultrapowa_Clash_Server_GUI.Helpers;
 using System.IO;
 using System.Diagnostics;
 using Ultrapowa_Clash_Server_GUI.Sys;
+using Ultrapowa_Clash_Server_GUI.PacketProcessing;
+using Ultrapowa_Clash_Server_GUI.Logic;
+using System.Threading.Tasks;
 
 namespace Ultrapowa_Clash_Server_GUI
 {
@@ -93,8 +96,6 @@ namespace Ultrapowa_Clash_Server_GUI
 
         }
 
-        
-
 
         #region Events
 
@@ -165,11 +166,17 @@ namespace Ultrapowa_Clash_Server_GUI
             {
                 Hide();
                 ManageConsole();
+                LaunchServer();
             }
             else
             {
                 WriteConsole("GUI loaded", (int)level.LOG);
                 DoAnimation();
+
+                AsyncUtils.DelayCall(1500, () => {
+                    LaunchServer();
+                });
+
             }
         }
 
@@ -220,6 +227,10 @@ namespace Ultrapowa_Clash_Server_GUI
         }
 
         #region MenuItems
+        private void MI_Restart_Click(object sender, RoutedEventArgs e)
+        {
+            CommandRead("/restart");
+        }
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
@@ -228,6 +239,14 @@ namespace Ultrapowa_Clash_Server_GUI
         private void MI_Ban_Click(object sender, RoutedEventArgs e)
         {
             SendPopup((int)Popup.cause.BAN);
+        }
+
+        private void MI_Configuration_Click(object sender, RoutedEventArgs e)
+        {
+            IsFocusOk = false;
+            PopupConfiguration PC = new PopupConfiguration();
+            PC.Owner = this;
+            PC.ShowDialog();
         }
 
         private void MI_Ban_IP_Click(object sender, RoutedEventArgs e)
@@ -389,7 +408,7 @@ namespace Ultrapowa_Clash_Server_GUI
             AnimationLib.MoveToTargetX(SEP_5, DeltaVariation - 600, 0.5, 200);
             AnimationLib.MoveToTargetX(MI_Feedback, DeltaVariation - 600, 0.5, 250);
             AnimationLib.MoveToTargetX(SEP_6, DeltaVariation - 600, 0.5, 250);
-            AnimationLib.MoveToTargetX(MI_CheckUpdate, DeltaVariation - 600, 0.5, 300);
+            AnimationLib.MoveToTargetX(MI_CheckUpdate, DeltaVariation - 600, 0.5, 350);
 
         }
 
@@ -414,8 +433,8 @@ namespace Ultrapowa_Clash_Server_GUI
             else WriteConsole("Using basic performance timer", (int)level.WARNING);
             WriteConsole("Measuring loading time.", (int)level.WARNING);
             PerformanceCounter.Start();
-
             WriteConsole("Starting server...", (int)level.WARNING);
+            WriteConsole("Loading symbols/library...", (int)level.WARNING);
             if (ConfUCS.IsConsoleMode) Console.CursorVisible = false;
 
             new ResourcesManager();
@@ -485,30 +504,29 @@ namespace Ultrapowa_Clash_Server_GUI
                 Console.CursorVisible = true;
                 ManageConsole();
             }
-
-            if (Convert.ToBoolean(Utils.parseConfigString("consoleCommand")))
-            {
-                //new Core.Menu();            //PLACEHOLDER DEBUG 
-            }
-            else
-            {
-                //Application.Run(new UCSManager());
-            }
         }
 
-        private static void InitProgramThreads()
+        private void InitProgramThreads1()
         {
-            RemoteWindow.WriteConsoleDebug("\t", (int)level.DEBUGLOG);
+            WriteConsoleDebug("Server Thread's:", (int)level.DEBUGLOG);
             var programThreads = new List<Thread>();
+            for (var i = 0; i < int.Parse(ConfigurationManager.AppSettings["programThreadCount"]); i++)
+            {
+                var pt = new ProgramThread();
+                programThreads.Add(new Thread(pt.Start));
+                programThreads[i].Start();
+                WriteConsoleDebug("\tServer Running On Thread " + i, (int)level.DEBUGLOG);
+            }
+
+        }
+
+        private void InitProgramThreads()
+        {
+            WriteConsoleDebug("Server Thread's:", (int)level.DEBUGLOG);
             var pt = new ProgramThread();
             pt.Start();
-            RemoteWindow.WriteConsoleDebug("\tServer Running On Thread 1", (int)level.DEBUGLOG);
+            WriteConsoleDebug("\tServer Running On Thread 1", (int)level.DEBUGLOG);
 
-        }
-
-        private void LoadDefaultConfig()
-        {
-            //Reset the config file
         }
 
         #region Blur Settings
@@ -748,21 +766,24 @@ namespace Ultrapowa_Clash_Server_GUI
             {
                 WriteMessageConsole("/start                             <-- Start the server", (int)level.SERVERMSG);
                 WriteMessageConsole("/ban <PlayerID>                    <-- Ban a client", (int)level.SERVERMSG);
-                WriteMessageConsole("/banip <PlayerID>                  <-- Ban a client by IP", (int)level.SERVERMSG);
+               // WriteMessageConsole("/banip <PlayerID>                  <-- Ban a client by IP", (int)level.SERVERMSG);
                 WriteMessageConsole("/unban <PlayerID>                  <-- Unban a client", (int)level.SERVERMSG);
-                WriteMessageConsole("/unbanip <PlayerID>                <-- Unban a client", (int)level.SERVERMSG);
-                WriteMessageConsole("/tempban <PlayerID> <Seconds>      <-- Temporary ban a client", (int)level.SERVERMSG);
-                WriteMessageConsole("/tempbanip <PlayerID> <Seconds>    <-- Temporary ban a client by IP", (int)level.SERVERMSG);
+               // WriteMessageConsole("/unbanip <PlayerID>                <-- Unban a client", (int)level.SERVERMSG);
+               // WriteMessageConsole("/tempban <PlayerID> <Seconds>      <-- Temporary ban a client", (int)level.SERVERMSG);
+               // WriteMessageConsole("/tempbanip <PlayerID> <Seconds>    <-- Temporary ban a client by IP", (int)level.SERVERMSG);
                 WriteMessageConsole("/kick <PlayerID>                   <-- Kick a client from the server", (int)level.SERVERMSG);
                 WriteMessageConsole("/mute <PlayerID>                   <-- Mute a client", (int)level.SERVERMSG);
-                WriteMessageConsole("/unmute <PlayerID>                 <-- Unmute a client", (int)level.SERVERMSG);
+               // WriteMessageConsole("/unmute <PlayerID>                 <-- Unmute a client", (int)level.SERVERMSG);
                 WriteMessageConsole("/setlevel <PlayerID> <Level>       <-- Set a level for a player", (int)level.SERVERMSG);
                 WriteMessageConsole("/update                            <-- Check if update is available", (int)level.SERVERMSG);
-                WriteMessageConsole("/say <Text>                        <-- Send a text to all", (int)level.SERVERMSG);
-                WriteMessageConsole("/sayplayer <PlayerID> <Text>       <-- Send a text to a player", (int)level.SERVERMSG);
-                WriteMessageConsole("/stop                              <-- Stop the server and save data", (int)level.SERVERMSG);
+               // WriteMessageConsole("/say <Text>                        <-- Send a text to all", (int)level.SERVERMSG);
+               // WriteMessageConsole("/sayplayer <PlayerID> <Text>       <-- Send a text to a player", (int)level.SERVERMSG);
+                WriteMessageConsole("/stop  or   /shutdown              <-- Stop the server and save data", (int)level.SERVERMSG);
                 WriteMessageConsole("/forcestop                         <-- Force stop the server", (int)level.SERVERMSG);
                 WriteMessageConsole("/restart                           <-- Save data and then restart", (int)level.SERVERMSG);
+                WriteMessageConsole("/sysinfo                           <-- Send server info to all players", (int)level.SERVERMSG);
+                WriteMessageConsole("/status                            <-- Get server status", (int)level.SERVERMSG);
+                WriteMessageConsole("/startx                            <-- Start legacy UCS manager", (int)level.SERVERMSG);
 
             }
             else if (cmd.ToLower() == "/start")
@@ -773,7 +794,14 @@ namespace Ultrapowa_Clash_Server_GUI
             else if (cmd.ToLower() == "/stop" || cmd.ToLower() == "/shutdown")
             {
                 WriteConsole("Shutting down... Saving all data, wait.", (int)level.WARNING);
-                //EXECUTE
+
+                foreach (var onlinePlayer in ResourcesManager.GetOnlinePlayers())
+                {
+                    var p = new ShutdownStartedMessage(onlinePlayer.GetClient());
+                    p.SetCode(5);
+                    PacketManager.ProcessOutgoingPacket(p);
+                }
+
                 ConsoleManage.FreeConsole();
                 Environment.Exit(0);
             }
@@ -788,23 +816,266 @@ namespace Ultrapowa_Clash_Server_GUI
             }
             else if (cmd.ToLower() == "/restart")
             {
-                //EXECUTE
+
+                WriteConsole("System Restarting....", (int)level.WARNING);
+
+                var mail = new AllianceMailStreamEntry();
+                mail.SetId((int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
+                mail.SetSenderId(0);
+                mail.SetSenderAvatarId(0);
+                mail.SetSenderName("System Manager");
+                mail.SetIsNew(0);
+                mail.SetAllianceId(0);
+                mail.SetAllianceBadgeData(0);
+                mail.SetAllianceName("Legendary Administrator");
+                mail.SetMessage("System is about to restart in a few moments.");
+                mail.SetSenderLevel(500);
+                mail.SetSenderLeagueId(22);
+
+                foreach (var onlinePlayer in ResourcesManager.GetOnlinePlayers())
+                {
+                    var pm = new GlobalChatLineMessage(onlinePlayer.GetClient());
+                    var ps = new ShutdownStartedMessage(onlinePlayer.GetClient());
+                    var p = new AvatarStreamEntryMessage(onlinePlayer.GetClient());
+                    ps.SetCode(5);
+                    p.SetAvatarStreamEntry(mail);
+                    pm.SetChatMessage("System is about to restart in a few moments.");
+                    pm.SetPlayerId(0);
+                    pm.SetLeagueId(22);
+                    pm.SetPlayerName("System Manager");
+                    PacketManager.ProcessOutgoingPacket(p);
+                    PacketManager.ProcessOutgoingPacket(ps);
+                    PacketManager.ProcessOutgoingPacket(pm);
+                }
+                WriteConsole("Saving all data...", (int)level.WARNING);
+                foreach (var l in ResourcesManager.GetOnlinePlayers())
+                {
+                    DatabaseManager.Singelton.Save(l);
+                }
+
+                WriteConsole("Restarting now", (int)level.WARNING);
+
                 Process.Start(Application.ResourceAssembly.Location);
                 Process.GetCurrentProcess().Kill();
-            }    
-            else if (cmd.ToLower() == "/ban")
-            {
-                WriteConsole("IT WORKS!", (int)level.LOG);
             }
             else if (cmd.ToLower() == "/clear")
             {
-                WriteConsole("Console cleared", (int)level.LOG);
+                WriteMessageConsole("Console cleared", (int)level.SERVERMSG);
                 if (ConfUCS.IsConsoleMode) Console.Clear();
                 else
                 {
                     TextRange txt = new TextRange(RTB_Console.Document.ContentStart, RTB_Console.Document.ContentEnd);
                     txt.Text = "";
                 }
+            }
+            else if (cmd.ToLower() == "/reloadfilter")
+            {
+                WriteMessageConsole("Filter has been reloaded", (int)level.SERVERMSG);
+                Message.ReloadChatFilterList();
+            }
+
+            else if (cmd.ToLower() == "/status")
+            {
+                var IPM = GetIP();
+                WriteMessageConsole("Server IP: " + IPM + " on port 9339", (int)level.SERVERMSG);
+                WriteMessageConsole("Online Player: " + ResourcesManager.GetOnlinePlayers().Count, (int)level.SERVERMSG);
+                WriteMessageConsole("Connected Player: " + ResourcesManager.GetConnectedClients().Count, (int)level.SERVERMSG);
+                WriteMessageConsole("Starting Gold: " + int.Parse(ConfigurationManager.AppSettings["StartingGold"]), (int)level.SERVERMSG);
+                WriteMessageConsole("Starting Elixir: " +
+                                  int.Parse(ConfigurationManager.AppSettings["StartingElixir"]), (int)level.SERVERMSG);
+                WriteMessageConsole("Starting Dark Elixir: " +
+                                  int.Parse(ConfigurationManager.AppSettings["StartingDarkElixir"]), (int)level.SERVERMSG);
+                WriteMessageConsole("Starting Gems: " + int.Parse(ConfigurationManager.AppSettings["StartingGems"]), (int)level.SERVERMSG);
+                WriteMessageConsole("CoC Version: " + ConfigurationManager.AppSettings["ClientVersion"], (int)level.SERVERMSG);
+                if (Convert.ToBoolean(ConfigurationManager.AppSettings["useCustomPatch"]))
+                {
+                    WriteMessageConsole("Patch: Active", (int)level.SERVERMSG);
+                    WriteMessageConsole("Patching Server: " + ConfigurationManager.AppSettings["patchingServer"], (int)level.SERVERMSG);
+                }
+                else
+                {
+                    WriteMessageConsole("Patch: Disable", (int)level.SERVERMSG);
+                }
+                if (Convert.ToBoolean(ConfigurationManager.AppSettings["maintenanceMode"]))
+                {
+                    WriteMessageConsole("Maintance Mode: Active", (int)level.SERVERMSG);
+                    WriteMessageConsole("Maintance time: " +
+                                      Convert.ToInt32(ConfigurationManager.AppSettings["maintenanceTimeleft"]) +
+                                      " Seconds", (int)level.SERVERMSG);
+                }
+                else
+                {
+                    WriteMessageConsole("Maintance Mode: Disable", (int)level.SERVERMSG);
+                }
+            }
+            else if (cmd.ToLower() == "/sysinfo")
+            {
+                WriteMessageConsole("Server Status is now sent to all online players", (int)level.SERVERMSG);
+
+                var mail = new AllianceMailStreamEntry();
+                mail.SetId((int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
+                mail.SetSenderId(0);
+                mail.SetSenderAvatarId(0);
+                mail.SetSenderName("System Manager");
+                mail.SetIsNew(0);
+                mail.SetAllianceId(0);
+                mail.SetAllianceBadgeData(0);
+                mail.SetAllianceName("Legendary Administrator");
+                mail.SetMessage("Latest Server Status:\nConnected Players:" +
+                                ResourcesManager.GetConnectedClients().Count + "\nIn Memory Alliances:" +
+                                ObjectManager.GetInMemoryAlliances().Count + "\nIn Memory Levels:" +
+                                ResourcesManager.GetInMemoryLevels().Count);
+                mail.SetSenderLeagueId(22);
+                mail.SetSenderLevel(500);
+
+                foreach (var onlinePlayer in ResourcesManager.GetOnlinePlayers())
+                {
+                    var p = new AvatarStreamEntryMessage(onlinePlayer.GetClient());
+                    var pm = new GlobalChatLineMessage(onlinePlayer.GetClient());
+                    pm.SetChatMessage("Our current Server Status is now sent at your mailbox!");
+                    pm.SetPlayerId(0);
+                    pm.SetLeagueId(22);
+                    pm.SetPlayerName("System Manager");
+                    p.SetAvatarStreamEntry(mail);
+                    PacketManager.ProcessOutgoingPacket(p);
+                    PacketManager.ProcessOutgoingPacket(pm);
+                }
+            }
+
+            else if (cmd.ToLower() == "/update")
+            {
+                WriteConsole("No update found", (int)level.WARNING); //Until Aidid's server is ready
+            }
+
+            else if (cmd.ToLower().StartsWith("/kick"))
+            {
+                var CommGet = cmd.Split(' ');
+                if (CommGet.Length >= 2)
+                {
+                    try
+                    {
+                        var id = Convert.ToInt64(CommGet[1]);
+                        var l = ResourcesManager.GetPlayer(id);
+                        if (ResourcesManager.IsPlayerOnline(l))
+                        {
+                            ResourcesManager.LogPlayerOut(l);
+                            var p = new OutOfSyncMessage(l.GetClient());
+                            PacketManager.ProcessOutgoingPacket(p);
+                        }
+                        else
+                        {
+                            WriteConsoleDebug("Kick failed: id " + id + " not found", (int)level.DEBUGLOG);
+                        }
+                    }
+                    catch (FormatException)
+                    {
+                        WriteConsoleDebug("The given id is not a valid number", (int)level.DEBUGFATAL);
+                    }
+                    catch (Exception ex)
+                    {
+                        WriteConsoleDebug("Kick failed with error: " + ex, (int)level.DEBUGFATAL);
+                    }
+                }
+                else WriteConsoleDebug("Not enough arguments", (int)level.DEBUGFATAL);
+            }
+
+            else if (cmd.ToLower().StartsWith("/ban"))
+            {
+                var CommGet = cmd.Split(' ');
+                if (CommGet.Length >= 2)
+                {
+                    try
+                    {
+                         var id = Convert.ToInt64(CommGet[1]);
+                         var l = ResourcesManager.GetPlayer(id);
+                         if (l != null)
+                         {
+                              l.SetAccountStatus(99);
+                              l.SetAccountPrivileges(0);
+                              if (ResourcesManager.IsPlayerOnline(l))
+                              {
+                                    var p = new OutOfSyncMessage(l.GetClient());
+                                    PacketManager.ProcessOutgoingPacket(p);
+                              }
+                         }
+                         else
+                         {
+                              WriteConsoleDebug("Ban failed: id " + id + " not found", (int)level.DEBUGLOG);
+                         }
+                    }
+                    catch (FormatException)
+                    {
+                         WriteConsoleDebug("The given id is not a valid number", (int)level.DEBUGFATAL);
+                    }
+                    catch (Exception ex)
+                    {
+                        WriteConsoleDebug("Ban failed with error: " + ex, (int)level.DEBUGFATAL);
+                    }
+                }
+                else WriteConsoleDebug("Not enough arguments", (int)level.DEBUGFATAL);
+            }
+
+            else if (cmd.ToLower().StartsWith("/unban"))
+            {
+                var CommGet = cmd.Split(' ');
+                if (CommGet.Length >= 2)
+                {
+                    try
+                    {
+                        var id = Convert.ToInt64(CommGet[1]);
+                        var l = ResourcesManager.GetPlayer(id);
+                        if (l != null)
+                        {
+                            l.SetAccountStatus(0);
+                        }
+                        else
+                        {
+                            WriteConsoleDebug("Unban failed: id " + id + " not found", (int)level.DEBUGLOG);
+                        }
+                    }
+                    catch (FormatException)
+                    {
+                        WriteConsoleDebug("The given id is not a valid number", (int)level.DEBUGFATAL);
+                    }
+                    catch (Exception ex)
+                    {
+                        WriteConsoleDebug("Unban failed with error: " + ex, (int)level.DEBUGFATAL);
+                    }
+                }
+                else WriteConsoleDebug("Not enough arguments", (int)level.DEBUGFATAL);
+
+            }
+
+            else if (cmd.ToLower().StartsWith("/mute"))
+            {
+                var CommGet = cmd.Split(' ');
+                if (CommGet.Length >= 2)
+                {
+                    try
+                    {
+                        var id = Convert.ToInt64(CommGet[1]);
+                        var l = ResourcesManager.GetPlayer(id);
+                        if (ResourcesManager.IsPlayerOnline(l))
+                        {
+                            var p = new BanChatTrigger(l.GetClient());
+                            p.SetCode(999999999);
+                            PacketManager.ProcessOutgoingPacket(p);
+                        }
+                        else
+                        {
+                            WriteConsoleDebug("Chat Mute failed: id " + id + " not found", (int)level.DEBUGLOG);
+                        }
+                    }
+                    catch (FormatException)
+                    {
+                        WriteConsoleDebug("The given id is not a valid number", (int)level.DEBUGFATAL);
+                    }
+                    catch (Exception ex)
+                    {
+                        WriteConsoleDebug("Chat Mute failed with error: " + ex, (int)level.DEBUGFATAL);
+                    }
+                }
+                else WriteConsoleDebug("Not enough arguments", (int)level.DEBUGFATAL);
             }
 
             else
@@ -832,7 +1103,6 @@ namespace Ultrapowa_Clash_Server_GUI
 
 
         #endregion
-      
     }
 
     public class ConCatPlayers
@@ -843,6 +1113,18 @@ namespace Ultrapowa_Clash_Server_GUI
         public override string ToString()
         {
             return string.Format("{0} : {1}", PlayerNames, PlayerIDs);
+        }
+    }
+
+    static class AsyncUtils
+    {
+        static public void DelayCall(int msec, Action fn)
+        {
+            Dispatcher d = Dispatcher.CurrentDispatcher;
+            new Task(() => {
+                Thread.Sleep(msec);
+                d.BeginInvoke(fn);
+            }).Start();
         }
     }
 }

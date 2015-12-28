@@ -202,7 +202,7 @@ Y88b. .d88P Y88b  d88P Y88b  d88P
             var NamesEL = "";
             XmlTextReader ReadTheXML = null;
 
-            this.Dispatcher.BeginInvoke((Action)delegate ()
+            Dispatcher.BeginInvoke((Action)delegate ()
             {
                 label_txt.Content = "Checking Update";
             });

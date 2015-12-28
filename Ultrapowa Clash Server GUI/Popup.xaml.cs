@@ -43,7 +43,7 @@ namespace Ultrapowa_Clash_Server_GUI
                 "Error";
 
             if (Slc_cause == (int)cause.UNBAN || Slc_cause == (int)cause.UNBANIP || Slc_cause == (int)cause.MUTE ||
-                Slc_cause == (int)cause.UNMUTE || Slc_cause == (int)cause.KICK)
+                Slc_cause == (int)cause.UNMUTE || Slc_cause == (int)cause.KICK || Slc_cause == (int)cause.BAN)
             {
 
                 btn_ok.Content = "OK";
@@ -123,11 +123,20 @@ namespace Ultrapowa_Clash_Server_GUI
                 if (CB_Player.SelectedIndex == -1)
                     MessageBox.Show("Select a player first.");
                 else {
-                    if (CC == 0)
+                    string[] SPLT = CB_Player.SelectedItem.ToString().Split(' ');
+                    switch (CC)
                     {
-                        MainWindow.RemoteWindow.CommandRead("/ban " + CB_Player.SelectedItem.ToString());
-                        Close();
+                        case 0:
+                            MainWindow.RemoteWindow.CommandRead("/ban " + SPLT[2]);
+                            Close(); break;
+                        case 4:
+                            MainWindow.RemoteWindow.CommandRead("/unban " + SPLT[2]);
+                            Close(); break;
+                        case 8:
+                            MainWindow.RemoteWindow.CommandRead("/kick " + SPLT[2]);
+                            Close(); break;
                     }
+
                 }
             }
         }

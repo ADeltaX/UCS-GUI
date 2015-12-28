@@ -14,7 +14,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
             </Trigger>
             <Trigger Property="Width" Value="Auto">
-                <Setter Property="MinWidth" Value="100"/>
+                <Setter Property="MinWidth" Value="50"/>
             </Trigger>
             <Trigger Property="Height" Value="Auto">
                 <Setter Property="MinHeight" Value="20"/>
@@ -470,7 +470,7 @@
             HorizontalAlignment="Left" />
           </Grid>
           <ControlTemplate.Triggers>
-            <!-- Getting vertical style working using technique described here: http://stackoverflow.com/a/6849237/7532 -->
+
             <Trigger Property="Orientation" Value="Vertical">
               <Setter TargetName="Root" Property="LayoutTransform">
                 <Setter.Value>

@@ -60,6 +60,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             var socketHandle = c.Socket.Handle.ToInt64();
             if (!m_vClients.ContainsKey(socketHandle))
                 m_vClients.TryAdd(socketHandle, c);
+            MainWindow.RemoteWindow.UpdateTheListPlayers();
         }
 
         public static void DropClient(long socketHandle)
@@ -97,6 +98,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
         {
             var clients = new List<Client>();
             clients.AddRange(m_vClients.Values);
+            MainWindow.RemoteWindow.UpdateTheListPlayers();
             return clients;
         }
 
@@ -159,7 +161,6 @@ namespace Ultrapowa_Clash_Server_GUI.Core
                 {
                     m_vOnlinePlayers.Add(level);
                     LoadLevel(level);
-                    MainWindow.RemoteWindow.UpdateTheListPlayers();
                 }
             }
         }
@@ -172,6 +173,7 @@ namespace Ultrapowa_Clash_Server_GUI.Core
             }
             DatabaseManager.Singelton.Save(level);
             m_vInMemoryLevels.TryRemove(level.GetPlayerAvatar().GetId());
+            MainWindow.RemoteWindow.UpdateTheListPlayers();
         }
 
         private static Level GetInMemoryPlayer(long id)
