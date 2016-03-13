@@ -1,17 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.IO;
+using System.Reflection;
 
-namespace Ultrapowa_Clash_Server_GUI.GameFiles
+namespace UCS.GameFiles
 {
-    internal class CSVTable
+    class CSVTable
     {
-        private readonly List<string> m_vColumnHeaders;
-
-        private readonly List<string> m_vColumnTypes;
-
-        private readonly List<CSVColumn> m_vCSVColumns;
-
-        private readonly List<CSVRow> m_vCSVRows;
+        private List<CSVRow> m_vCSVRows;
+        private List<string> m_vColumnHeaders;
+        private List<string> m_vColumnTypes;
+        private List<CSVColumn> m_vCSVColumns;
 
         public CSVTable(string filePath)
         {
@@ -38,13 +42,13 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
                 while (!sr.EndOfStream)
                 {
                     var values = sr.ReadLine().Replace("\"", "").Split(',');
-
-                    if (values[0] != string.Empty)
+                    
+                    if(values[0] != String.Empty)
                     {
                         CreateRow();
                     }
 
-                    for (var i = 0; i < m_vColumnHeaders.Count; i++)
+                    for (int i = 0; i < m_vColumnHeaders.Count;i++ )
                     {
                         m_vCSVColumns[i].Add(values[i]);
                     }
@@ -52,34 +56,34 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
             }
         }
 
-        public void AddRow(CSVRow row)
-        {
-            m_vCSVRows.Add(row);
-        }
-
-        public void CreateRow()
-        {
-            new CSVRow(this);
-        }
-
         public int GetArraySizeAt(CSVRow row, int columnIndex)
         {
-            var rowIndex = m_vCSVRows.IndexOf(row);
+            int rowIndex = m_vCSVRows.IndexOf(row);
             if (rowIndex == -1)
                 return 0;
-            var c = m_vCSVColumns[columnIndex];
-            var nextOffset = 0;
-            if (rowIndex + 1 >= m_vCSVRows.Count)
+            CSVColumn c = m_vCSVColumns[columnIndex];
+            int nextOffset = 0;
+            if(rowIndex + 1 >= m_vCSVRows.Count)
             {
                 nextOffset = c.GetSize();
             }
             else
             {
-                var nextRow = m_vCSVRows[rowIndex + 1];
+                CSVRow nextRow = m_vCSVRows[rowIndex + 1];
                 nextOffset = nextRow.GetRowOffset();
             }
-            var currentOffset = row.GetRowOffset();
+            int currentOffset = row.GetRowOffset();
             return c.GetArraySize(currentOffset, nextOffset);
+        }
+
+        public int GetRowCount()
+        {
+            return m_vCSVRows.Count;
+        }
+
+        public CSVRow GetRowAt(int index)
+        {
+            return m_vCSVRows[index];
         }
 
         public int GetColumnIndexByName(string name)
@@ -92,33 +96,34 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
             return m_vColumnHeaders[index];
         }
 
-        public int GetColumnRowCount()
-        {
-            var result = 0;
-            if (m_vCSVColumns.Count > 0)
-                result = m_vCSVColumns[0].GetSize();
-            return result;
-        }
-
-        public CSVRow GetRowAt(int index)
-        {
-            return m_vCSVRows[index];
-        }
-
-        public int GetRowCount()
-        {
-            return m_vCSVRows.Count;
-        }
-
-        public string GetValue(string name, int level)
-        {
-            var index = m_vColumnHeaders.IndexOf(name);
-            return GetValueAt(index, level);
-        }
-
         public string GetValueAt(int column, int row)
         {
             return m_vCSVColumns[column].Get(row);
         }
+
+        public string GetValue(string name, int level)
+        {
+            int index = m_vColumnHeaders.IndexOf(name);
+            return GetValueAt(index, level);
+        }
+
+        public void CreateRow()
+        {
+            new CSVRow(this);
+        }
+
+        public void AddRow(CSVRow row)
+        {
+            m_vCSVRows.Add(row);
+        }
+
+        public int GetColumnRowCount()
+        {
+            int result = 0;
+            if (m_vCSVColumns.Count > 0)
+                result = m_vCSVColumns[0].GetSize();
+            return result;
+        }
     }
+
 }

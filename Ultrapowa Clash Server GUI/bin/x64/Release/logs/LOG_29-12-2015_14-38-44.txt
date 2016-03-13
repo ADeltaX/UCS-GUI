@@ -1,0 +1,83 @@
+[LOG]<14:38:44>: Loading GUI...
+[LOG]<14:38:44>: GUI loaded
+[WARNING]<14:38:46>: Using high performance timer
+[WARNING]<14:38:46>: Measuring loading time.
+[WARNING]<14:38:46>: Starting server...
+[WARNING]<14:38:46>: Loading symbols/library...
+[LOG]<14:38:46>: ObjectManager: Loading gamefiles...
+[LOG]<14:38:46>: Achievements
+[LOG]<14:38:46>: 	...done
+[LOG]<14:38:46>: Buildings
+[LOG]<14:38:46>: 	...done
+[LOG]<14:38:46>: Characters
+[LOG]<14:38:47>: 	...done
+[LOG]<14:38:47>: Decos
+[LOG]<14:38:47>: 	...done
+[LOG]<14:38:47>: Experience Levels
+[LOG]<14:38:47>: 	...done
+[LOG]<14:38:47>: Globals
+[LOG]<14:38:47>: 	...done
+[LOG]<14:38:47>: Heroes
+[LOG]<14:38:47>: 	...done
+[LOG]<14:38:47>: Leagues
+[LOG]<14:38:47>: 	...done
+[LOG]<14:38:47>: NPCs
+[LOG]<14:38:47>: 	...done
+[LOG]<14:38:47>: Obstacles
+[LOG]<14:38:47>: 	...done
+[LOG]<14:38:47>: Shields
+[LOG]<14:38:47>: 	...done
+[LOG]<14:38:47>: Spells
+[LOG]<14:38:47>: 	...done
+[LOG]<14:38:47>: Townhall Levels
+[LOG]<14:38:47>: 	...done
+[LOG]<14:38:47>: Traps
+[LOG]<14:38:47>: 	...done
+[LOG]<14:38:47>: Resources
+[LOG]<14:38:47>: 	...done
+[LOG]<14:38:47>: Wars
+[LOG]<14:38:47>: 	...done
+[LOG]<14:38:47>: ObjectManager: 16 objects successfully loaded on 12 thread!
+[DEBUG-LOG]<14:38:47>: Database synchronized!
+[DEBUG-LOG]<14:38:47>: Hosting on port 9339
+[LOG]<14:38:47>: API Manager started on http://localhost:1172/Debug/
+[DEBUG-LOG]<14:38:47>: Server Thread's:
+[DEBUG-LOG]<14:38:47>: 	Server Running On Thread 0
+[DEBUG-LOG]<14:38:47>: 	Server Running On Thread 1
+[LOG]<14:38:47>: Thread started
+[LOG]<14:38:47>: Thread started
+[DEBUG-LOG]<14:38:47>: 	Server Running On Thread 2
+[LOG]<14:38:47>: Thread started
+[DEBUG-LOG]<14:38:47>: 	Server Running On Thread 3
+[DEBUG-LOG]<14:38:47>: 	Server Running On Thread 4
+[LOG]<14:38:47>: Thread started
+[LOG]<14:38:47>: Thread started
+[LOG]<14:38:47>: Thread started
+[DEBUG-LOG]<14:38:47>: 	Server Running On Thread 5
+[DEBUG-LOG]<14:38:47>: 	Server Running On Thread 6
+[LOG]<14:38:47>: Thread started
+[DEBUG-LOG]<14:38:47>: 	Server Running On Thread 7
+[LOG]<14:38:47>: Thread started
+[DEBUG-LOG]<14:38:47>: 	Server Running On Thread 8
+[LOG]<14:38:47>: Thread started
+[DEBUG-LOG]<14:38:47>: 	Server Running On Thread 9
+[DEBUG-LOG]<14:38:47>: 	Server Running On Thread 10
+[LOG]<14:38:47>: Thread started
+[LOG]<14:38:47>: Thread started
+[DEBUG-LOG]<14:38:47>: 	Server Running On Thread 11
+[LOG]<14:38:47>: Thread started
+[WARNING]<14:38:47>: Operation completed in 1162,0809 ms
+[LOG]<14:38:47>: Server started on port 9339. Let's play Clash of Clans!
+[SERVER] 14:39:02>> /start                             <-- Start the server
+[SERVER] 14:39:02>> /ban <PlayerID>                    <-- Ban a client
+[SERVER] 14:39:02>> /unban <PlayerID>                  <-- Unban a client
+[SERVER] 14:39:02>> /kick <PlayerID>                   <-- Kick a client from the server
+[SERVER] 14:39:02>> /mute <PlayerID>                   <-- Mute a client
+[SERVER] 14:39:02>> /setlevel <PlayerID> <Level>       <-- Set a level for a player
+[SERVER] 14:39:02>> /update                            <-- Check if update is available
+[SERVER] 14:39:02>> /stop  or   /shutdown              <-- Stop the server and save data
+[SERVER] 14:39:02>> /forcestop                         <-- Force stop the server
+[SERVER] 14:39:02>> /restart                           <-- Save data and then restart
+[SERVER] 14:39:02>> /sysinfo                           <-- Send server info to all players
+[SERVER] 14:39:02>> /status                            <-- Get server status
+[SERVER] 14:39:02>> /startx                            <-- Start legacy UCS manager

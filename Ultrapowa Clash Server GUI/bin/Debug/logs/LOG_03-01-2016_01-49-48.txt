@@ -1,0 +1,46 @@
+[LOG]<01:49:48>: Line arg typed: /console
+[LOG]<01:49:48>: Running in Console mode...
+[LOG]<01:49:48>: Local IP: 192.168.229.1
+[LOG]<01:49:48>: Ready
+[LOG]<01:49:48>: Write /start to start the server or write /help to get all commands
+[WARNING]<01:49:52>: Using high performance timer
+[WARNING]<01:49:52>: Measuring loading time.
+[WARNING]<01:49:52>: Starting server...
+[WARNING]<01:49:52>: Loading symbols/library...
+[LOG]<01:49:57>: ObjectManager: Loading gamefiles...
+[LOG]<01:49:57>: Achievements
+[LOG]<01:49:57>: 	...done
+[LOG]<01:49:57>: Buildings
+[LOG]<01:49:57>: 	...done
+[LOG]<01:49:57>: Characters
+[LOG]<01:49:57>: 	...done
+[LOG]<01:49:57>: Decos
+[LOG]<01:49:57>: 	...done
+[LOG]<01:49:57>: Experience Levels
+[LOG]<01:49:57>: 	...done
+[LOG]<01:49:57>: Globals
+[LOG]<01:49:57>: 	...done
+[LOG]<01:49:57>: Heroes
+[LOG]<01:49:57>: 	...done
+[LOG]<01:49:57>: Leagues
+[LOG]<01:49:57>: 	...done
+[LOG]<01:49:57>: NPCs
+[LOG]<01:49:57>: 	...done
+[LOG]<01:49:57>: Obstacles
+[LOG]<01:49:57>: 	...done
+[LOG]<01:49:57>: Shields
+[LOG]<01:49:57>: 	...done
+[LOG]<01:49:57>: Spells
+[LOG]<01:49:57>: 	...done
+[LOG]<01:49:57>: Townhall Levels
+[LOG]<01:49:57>: 	...done
+[LOG]<01:49:57>: Traps
+[LOG]<01:49:57>: 	...done
+[LOG]<01:49:57>: Resources
+[LOG]<01:49:57>: 	...done
+[LOG]<01:49:57>: Wars
+[LOG]<01:49:57>: 	...done
+[LOG]<01:49:57>: ObjectManager: 16 objects successfully loaded on 12 thread!
+[DEBUG-LOG]<01:49:58>: Database synchronized!
+[DEBUG-LOG]<01:49:58>: Hosting on port 9339
+[LOG]<01:49:58>: API Manager started on http://localhost:1172/Debug/

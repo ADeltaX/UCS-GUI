@@ -1,41 +1,31 @@
-﻿using System.IO;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.Logic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Threading.Tasks;
+using UCS.Logic;
+using UCS.Helpers;
+using UCS.GameFiles;
+using UCS.Core;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Commande 0x20D
-    internal class LoadTurretCommand : Command
+    class LoadTurretCommand : Command
     {
         public LoadTurretCommand(BinaryReader br)
         {
-            m_vUnknown1 = br.ReadUInt32WithEndian();
-            m_vBuildingId = br.ReadInt32WithEndian(); //buildingId - 0x1DCD6500;
-            m_vUnknown2 = br.ReadUInt32WithEndian();
-            MainWindow.RemoteWindow.WriteConsoleDebug(string.Format("U1: {0}, BId {1}, U2: {2}", m_vUnknown1, m_vBuildingId, m_vUnknown2), (int)MainWindow.level.DEBUGLOG);
+            Unknown1 = br.ReadUInt32WithEndian();
+            BuildingId = br.ReadUInt32WithEndian(); //buildingId - 0x1DCD6500;
+            Unknown2 = br.ReadUInt32WithEndian();
         }
 
         //00 00 02 0D 00 00 00 01 1D CD 65 03 00 00 01 DF
 
-        public int m_vBuildingId { get; set; }
-
-        public uint m_vUnknown1 { get; set; }
-
-        public uint m_vUnknown2 { get; set; }
-
-        public override void Execute(Level level)
-        {
-            var ca = level.GetPlayerAvatar();
-            var go = level.GameObjectManager.GetGameObjectByID(m_vBuildingId);
-
-            if (go != null)
-            {
-                if (go.GetComponent(1, true) != null)
-                {
-                    ((CombatComponent) go.GetComponent(1, true)).FillAmmo();
-                }
-            }
-        }
+        public uint Unknown1 { get; set; } 
+        public uint BuildingId { get; set; } 
+        public uint Unknown2 { get; set; }
+        
     }
 }

@@ -1,12 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.Configuration;
+using UCS.PacketProcessing;
+using UCS.Core;
+using UCS.GameFiles;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace Ultrapowa_Clash_Server_GUI.Logic
+namespace UCS.Logic
 {
-    internal class Timer
+    class Timer
     {
-        private int m_vSeconds;
-
         private DateTime m_vStartTime;
+        private int m_vSeconds;
 
         public Timer()
         {
@@ -19,37 +29,12 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             m_vSeconds -= seconds;
         }
 
-        public int GetRemainingSeconds(DateTime time, bool boost = false, DateTime boostEndTime = default(DateTime),
-            float multiplier = 0f)
+        public int GetRemainingSeconds(DateTime time)
         {
-            var result = int.MaxValue;
-            if (!boost)
-            {
-                result = m_vSeconds - (int) time.Subtract(m_vStartTime).TotalSeconds;
-            }
-            else
-            {
-                if (boostEndTime >= time)
-                {
-                    result = m_vSeconds - (int) (time.Subtract(m_vStartTime).TotalSeconds*multiplier);
-                }
-                else
-                {
-                    var boostedTime = (float) time.Subtract(m_vStartTime).TotalSeconds -
-                                      (float) (time - boostEndTime).TotalSeconds;
-                    var notBoostedTime = (float) time.Subtract(m_vStartTime).TotalSeconds - boostedTime;
-
-                    result = m_vSeconds - (int) (boostedTime*multiplier + notBoostedTime);
-                }
-            }
+            int result = m_vSeconds - (int)time.Subtract(m_vStartTime).TotalSeconds;
             if (result <= 0)
                 result = 0;
             return result;
-        }
-
-        public DateTime GetStartTime()
-        {
-            return m_vStartTime;
         }
 
         public void StartTimer(int seconds, DateTime time)

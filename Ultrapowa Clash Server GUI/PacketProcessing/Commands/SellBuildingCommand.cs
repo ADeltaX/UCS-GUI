@@ -1,13 +1,21 @@
-﻿using System.IO;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.Logic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Threading.Tasks;
+using UCS.Logic;
+using UCS.Helpers;
+using UCS.GameFiles;
+using UCS.Core;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Commande 503
-    internal class SellBuildingCommand : Command
+    class SellBuildingCommand : Command
     {
-        private readonly int m_vBuildingId;
+        private int m_vBuildingId;
+
 
         public SellBuildingCommand(BinaryReader br)
         {
@@ -17,26 +25,26 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Execute(Level level)
         {
-            var ca = level.GetPlayerAvatar();
-            var go = level.GameObjectManager.GetGameObjectByID(m_vBuildingId);
+            ClientAvatar ca = level.GetPlayerAvatar();
+            GameObject go = level.GameObjectManager.GetGameObjectByID(m_vBuildingId);
 
-            if (go != null)
+            if(go != null)
             {
-                if (go.ClassId == 4)
+                if(go.ClassId == 4)
                 {
-                    var t = (Trap) go;
-                    var upgradeLevel = t.GetUpgradeLevel();
+                    Trap t = (Trap)go;
+                    int upgradeLevel = t.GetUpgradeLevel();
                     var rd = t.GetTrapData().GetBuildResource(upgradeLevel);
-                    var sellPrice = t.GetTrapData().GetSellPrice(upgradeLevel);
+                    int sellPrice = t.GetTrapData().GetSellPrice(upgradeLevel);
                     ca.CommodityCountChangeHelper(0, rd, sellPrice);
                     level.GameObjectManager.RemoveGameObject(t);
                 }
-                else if (go.ClassId == 6)
+                else if(go.ClassId == 6)
                 {
-                    var d = (Deco) go;
+                    Deco d = (Deco)go;
                     var rd = d.GetDecoData().GetBuildResource();
-                    var sellPrice = d.GetDecoData().GetSellPrice();
-                    if (rd.PremiumCurrency)
+                    int sellPrice = d.GetDecoData().GetSellPrice();
+                    if(rd.PremiumCurrency)
                     {
                         ca.SetDiamonds(ca.GetDiamonds() + sellPrice);
                     }
@@ -46,7 +54,15 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                     }
                     level.GameObjectManager.RemoveGameObject(d);
                 }
-            }
+                else
+                {
+                    //TODO BUILDING
+                    /*
+                    Building b = (Building)go;
+                    level.GameObjectManager.RemoveGameObject(b);
+                     * */
+                }
+            }  
         }
     }
 }

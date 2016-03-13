@@ -72,9 +72,10 @@ C:\Users\ADeltaX\Desktop\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Styles\Sty
 C:\Users\ADeltaX\Desktop\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.g.resources
 C:\Users\ADeltaX\Desktop\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa_Clash_Server_GUI.Properties.Resources.resources
 C:\Users\ADeltaX\Desktop\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.csproj.GenerateResource.Cache
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\Ultrapowa Clash Server GUI.exe.config
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\Ultrapowa Clash Server GUI.exe
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\Ultrapowa Clash Server GUI.pdb
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\ucsconf.config
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\UCS.exe.config
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\UCS.exe
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\UCS.pdb
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\EntityFramework.dll
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\Ionic.Zlib.dll
@@ -88,29 +89,34 @@ C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\E
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\Newtonsoft.Json.xml
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\System.Data.SQLite.xml
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Feedback.g.cs
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UI\PopupConfiguration.g.cs
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\MainWindow.g.cs
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Popup.g.cs
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\PopupUpdater.g.cs
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\SplashScreen.g.cs
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UI\Popup.g.cs
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UI\PopupUpdater.g.cs
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UI\SplashScreen.g.cs
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UI\UC\Menu.g.cs
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\App.g.cs
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI_Content.g.cs
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI_MarkupCompile.cache
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI_MarkupCompile.lref
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UCS_Content.g.cs
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UCS_MarkupCompile.cache
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UCS_MarkupCompile.lref
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\App.baml
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Feedback.baml
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UI\PopupConfiguration.baml
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\MainWindow.baml
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Popup.baml
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\PopupUpdater.baml
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\SplashScreen.baml
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UI\Popup.baml
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UI\PopupUpdater.baml
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UI\SplashScreen.baml
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Styles\Styles.baml
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.g.resources
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa_Clash_Server_GUI.Properties.Resources.resources
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UI\UC\Menu.baml
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UCS.g.resources
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UCS.Properties.Resources.resources
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.csproj.GenerateResource.Cache
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.exe
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.pdb
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UCS.exe
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UCS.pdb
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.csprojResolveAssemblyReference.cache
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\LoadingServerScreen.g.cs
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\LoadingServerScreen.baml
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\PopupConfiguration.g.cs
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\PopupConfiguration.baml
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\it-IT\UCS.resources.dll
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UCS.Properties.Resources.it-IT.resources
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\it-IT\UCS.resources.dll
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\de-DE\UCS.resources.dll
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UCS.Properties.Resources.de-DE.resources
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\de-DE\UCS.resources.dll

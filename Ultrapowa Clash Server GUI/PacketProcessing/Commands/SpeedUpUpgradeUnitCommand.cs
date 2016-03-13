@@ -1,13 +1,20 @@
-﻿using System.IO;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.Logic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Threading.Tasks;
+using UCS.Logic;
+using UCS.Helpers;
+using UCS.GameFiles;
+using UCS.Core;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Commande 0x205
-    internal class SpeedUpUpgradeUnitCommand : Command
+    class SpeedUpUpgradeUnitCommand : Command
     {
-        private readonly int m_vBuildingId;
+        private int m_vBuildingId;
 
         public SpeedUpUpgradeUnitCommand(BinaryReader br)
         {
@@ -19,15 +26,15 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Execute(Level level)
         {
-            var ca = level.GetPlayerAvatar();
-            var go = level.GameObjectManager.GetGameObjectByID(m_vBuildingId);
-            if (go != null)
+            ClientAvatar ca = level.GetPlayerAvatar();
+            GameObject go = level.GameObjectManager.GetGameObjectByID(m_vBuildingId);
+            if(go != null)
             {
-                if (go.ClassId == 0)
+                if(go.ClassId == 0)
                 {
-                    var b = (Building) go;
-                    var uuc = b.GetUnitUpgradeComponent();
-                    if (uuc != null)
+                    Building b = (Building)go;
+                    UnitUpgradeComponent uuc = b.GetUnitUpgradeComponent();
+                    if(uuc != null)
                     {
                         if (uuc.GetCurrentlyUpgradedUnit() != null)
                         {
@@ -35,7 +42,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                         }
                     }
                 }
-            }
+            } 
         }
     }
 }

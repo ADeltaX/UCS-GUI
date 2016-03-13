@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="Ultrapowa_Clash_Server_GUIdbModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="ISO8601" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="ucsdbModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="ISO8601" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="clan">
     <Key>
       <PropertyRef Name="ClanId" />
@@ -19,7 +19,7 @@
     <Property Name="Avatar" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
     <Property Name="GameObjects" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
   </EntityType>
-  <EntityContainer Name="Ultrapowa_Clash_Server_GUIdbModelStoreContainer">
+  <EntityContainer Name="ucsdbModelStoreContainer">
     <EntitySet Name="clan" EntityType="Self.clan" store:Type="Tables" />
     <EntitySet Name="player" EntityType="Self.player" store:Type="Tables" />
   </EntityContainer>

@@ -1,43 +1,45 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.Configuration;
 using System.Windows;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
+using UCS.PacketProcessing;
+using UCS.Core;
+using UCS.GameFiles;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace Ultrapowa_Clash_Server_GUI.Logic
+namespace UCS.Logic
 {
-    internal class GameObject
+    class GameObject
     {
-        private readonly List<Component> m_vComponents;
+        private Data m_vData;
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int GlobalId { get; set; }//a1 + 4
+        public virtual int ClassId 
+        {
+            get { return -1; } 
+        }
 
-        private readonly Data m_vData;
-
-        private readonly Level m_vLevel;
+        private List<Component> m_vComponents;
+        private Level m_vLevel; //a1 + 8
 
         public GameObject(Data data, Level level)
         {
             m_vLevel = level;
             m_vData = data;
             m_vComponents = new List<Component>();
-            for (var i = 0; i < 11; i++)
+            for (int i = 0; i < 11; i++)
                 m_vComponents.Add(new Component());
         }
 
-        public virtual int ClassId
-        {
-            get { return -1; }
-        }
-
-        public int GlobalId { get; set; }
-
-        public int X { get; set; }
-
-        public int Y { get; set; }
-
-        //a1 + 4
-        //a1 + 8
         public void AddComponent(Component c)
         {
-            if (m_vComponents[c.Type].Type != -1)
+            if(m_vComponents[c.Type].Type != -1)
             {
                 //ignore, component already set
             }
@@ -68,7 +70,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         public Vector GetPosition()
         {
-            return new Vector(X, Y);
+            return new Vector(this.X, this.Y);
         }
 
         public virtual bool IsHero()
@@ -76,38 +78,29 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             return false;
         }
 
-        public void Load(JObject jsonObject)
+        public void SetPositionXY(int newX, int newY)
         {
-            X = jsonObject["x"].ToObject<int>();
-            Y = jsonObject["y"].ToObject<int>();
-            foreach (var c in m_vComponents)
-                c.Load(jsonObject);
+            this.X = newX;
+            this.Y = newY;
         }
+
+        public virtual void Tick() { }
 
         public JObject Save(JObject jsonObject)
         {
-            jsonObject.Add("x", X);
-            jsonObject.Add("y", Y);
+            jsonObject.Add("x", this.X);
+            jsonObject.Add("y", this.Y);
             foreach (var c in m_vComponents)
                 c.Save(jsonObject);
             return jsonObject;
         }
 
-        public void SetPositionXY(int newX, int newY)
+        public void Load(JObject jsonObject)
         {
-            X = newX;
-            Y = newY;
-        }
-
-        public virtual void Tick()
-        {
-            foreach (var comp in m_vComponents)
-            {
-                if (comp.IsEnabled())
-                {
-                    comp.Tick();
-                }
-            }
+            this.X = jsonObject["x"].ToObject<int>();
+            this.Y = jsonObject["y"].ToObject<int>();
+            foreach (var c in m_vComponents)
+                c.Load(jsonObject);
         }
     }
 }

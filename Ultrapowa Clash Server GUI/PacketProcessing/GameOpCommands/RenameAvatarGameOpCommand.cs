@@ -1,13 +1,20 @@
 ﻿using System;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Network;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Threading.Tasks;
+using UCS.Logic;
+using UCS.Helpers;
+using UCS.GameFiles;
+using UCS.Core;
+using UCS.Network;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
-    internal class RenameAvatarGameOpCommand : GameOpCommand
+    class RenameAvatarGameOpCommand : GameOpCommand
     {
-        private readonly string[] m_vArgs;
+        private string[] m_vArgs;
 
         public RenameAvatarGameOpCommand(string[] args)
         {
@@ -17,15 +24,15 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Execute(Level level)
         {
-            if (level.GetAccountPrivileges() >= GetRequiredAccountPrivileges())
+            if(level.GetAccountPrivileges() >= GetRequiredAccountPrivileges())
             {
-                if (m_vArgs.Length >= 3)
+                if(m_vArgs.Length >= 3)
                 {
                     try
                     {
-                        var id = Convert.ToInt64(m_vArgs[1]);
+                        long id = Convert.ToInt64(m_vArgs[1]);
                         var l = ResourcesManager.GetPlayer(id, true);
-                        if (l != null)
+                        if(l != null)
                         {
                             l.GetPlayerAvatar().SetName(m_vArgs[2]);
                             if (ResourcesManager.IsPlayerOnline(l))
@@ -33,16 +40,16 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                                 var p = new AvatarNameChangeOkMessage(l.GetClient());
                                 p.SetAvatarName(m_vArgs[2]);
                                 PacketManager.ProcessOutgoingPacket(p);
-                            }
+                            } 
                         }
                         else
                         {
-                            MainWindow.RemoteWindow.WriteConsoleDebug("RenameAvatar failed: id " + id + " not found", (int)MainWindow.level.DEBUGLOG);
+                            Debugger.WriteLine("RenameAvatar failed: id " + id + " not found");
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        MainWindow.RemoteWindow.WriteConsoleDebug("RenameAvatar failed with error: " + ex, (int)MainWindow.level.DEBUGFATAL);
+                    catch(Exception ex)
+                    { 
+                        Debugger.WriteLine("RenameAvatar failed with error: " + ex.ToString()); 
                     }
                 }
             }

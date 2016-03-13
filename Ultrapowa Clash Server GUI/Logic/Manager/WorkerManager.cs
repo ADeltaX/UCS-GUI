@@ -1,22 +1,41 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.ComponentModel;
+using Newtonsoft.Json;
+using UCS.PacketProcessing;
+using UCS.Core;
+using UCS.GameFiles;
 
-namespace Ultrapowa_Clash_Server_GUI.Logic
+namespace UCS.Logic
 {
-    internal class WorkerManager
+    class WorkerManager
     {
-        private readonly List<GameObject> m_vGameObjectReferences;
-
+        private List<GameObject> m_vGameObjectReferences;
         private int m_vWorkerCount;
 
-        public WorkerManager()
+        public WorkerManager() 
         {
             m_vGameObjectReferences = new List<GameObject>();
             m_vWorkerCount = 0;
         }
 
+        public int GetFreeWorkers()
+        {
+            return m_vWorkerCount - m_vGameObjectReferences.Count;
+        }
+
+        public int GetTotalWorkers()
+        {
+            return m_vWorkerCount;
+        }
+
         public void AllocateWorker(GameObject go)
         {
-            if (m_vGameObjectReferences.IndexOf(go) == -1)
+            if(m_vGameObjectReferences.IndexOf(go) == -1)
             {
                 m_vGameObjectReferences.Add(go);
             }
@@ -30,88 +49,62 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             }
         }
 
+        public void RemoveGameObjectReferences(GameObject go)
+        {
+
+        }
+
+        public void IncreaseWorkerCount()
+        {
+            m_vWorkerCount++;
+        }
+
         public void DecreaseWorkerCount()
         {
             m_vWorkerCount--;
         }
 
-        public void FinishTaskOfOneWorker()
-        {
-            var go = GetShortestTaskGO();
-            if (go != null)
-            {
-                if (go.ClassId == 3)
-                {
-                    var o = (Obstacle) go;
-                    if (o.IsClearingOnGoing())
-                        o.SpeedUpClearing();
-                }
-                else
-                {
-                    var b = (ConstructionItem) go;
-                    if (b.IsConstructing())
-                        b.SpeedUpConstruction();
-                    else
-                    {
-                        var hero = b.GetHeroBaseComponent();
-                        if (hero != null)
-                            hero.SpeedUpUpgrade();
-                    }
-                }
-            }
-        }
-
-        public int GetFinishTaskOfOneWorkerCost()
-        {
-            return 0;
-        }
-
-        public int GetFreeWorkers()
-        {
-            return m_vWorkerCount - m_vGameObjectReferences.Count;
-        }
-
         public GameObject GetShortestTaskGO()
         {
             GameObject shortestTaskGO = null;
-            var shortestGOTime = 0;
+            int shortestGOTime = 0;
             int currentGOTime;
 
-            foreach (var go in m_vGameObjectReferences)
+            foreach(var go in m_vGameObjectReferences)
             {
                 currentGOTime = -1;
-                if (go.ClassId == 3)
+                if(go.ClassId == 3)
                 {
-                    var o = (Obstacle) go;
-                    if (o.IsClearingOnGoing())
+                    Obstacle o = (Obstacle)go;
+                    if(o.IsClearingOnGoing())
                         currentGOTime = o.GetRemainingClearingTime();
                 }
                 else
                 {
-                    var c = (ConstructionItem) go;
-                    if (c.IsConstructing())
+                    ConstructionItem c = (ConstructionItem)go;
+                    if(c.IsConstructing())
                     {
                         currentGOTime = c.GetRemainingConstructionTime();
                     }
                     else
                     {
                         var hero = c.GetHeroBaseComponent();
-                        if (hero != null)
+                        if(hero != null)
                         {
-                            if (hero.IsUpgrading())
+                            if(hero.IsUpgrading())
                             {
                                 currentGOTime = hero.GetRemainingUpgradeSeconds();
                             }
                         }
                     }
                 }
-                if (shortestTaskGO == null)
+                if(shortestTaskGO == null)
                 {
-                    if (currentGOTime > -1)
+                    if(currentGOTime > -1)
                     {
                         shortestTaskGO = go;
                         shortestGOTime = currentGOTime;
-                    }
+                    }  
                 }
                 else if (currentGOTime > -1)
                 {
@@ -125,18 +118,35 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             return shortestTaskGO;
         }
 
-        public int GetTotalWorkers()
+        public int GetFinishTaskOfOneWorkerCost()
         {
-            return m_vWorkerCount;
+            return 0;
         }
 
-        public void IncreaseWorkerCount()
+        public void FinishTaskOfOneWorker()
         {
-            m_vWorkerCount++;
-        }
-
-        public void RemoveGameObjectReferences(GameObject go)
-        {
+            GameObject go = GetShortestTaskGO();
+            if(go != null)
+            {
+                if (go.ClassId == 3)
+                {
+                    Obstacle o = (Obstacle)go;
+                    if (o.IsClearingOnGoing())
+                        o.SpeedUpClearing();
+                }
+                else
+                {
+                    ConstructionItem b = (ConstructionItem)go;
+                    if (b.IsConstructing())
+                        b.SpeedUpConstruction();
+                    else
+                    {
+                        var hero = b.GetHeroBaseComponent();
+                        if (hero != null)
+                            hero.SpeedUpUpgrade();
+                    }
+                }
+            }
         }
     }
 }

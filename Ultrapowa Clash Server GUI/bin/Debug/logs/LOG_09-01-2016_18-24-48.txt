@@ -1,0 +1,53 @@
+[LOG]<18:24:48>: Line arg typed: /console
+[LOG]<18:24:48>: Running in Console mode...
+[LOG]<18:24:48>: Local IP: 192.168.1.2
+[LOG]<18:24:48>: Ready
+[LOG]<18:24:48>: Write /start to start the server or write /help to get all commands
+[WARNING]<18:24:57>: Using high performance timer
+[WARNING]<18:24:57>: Measuring loading time.
+[WARNING]<18:24:57>: Starting server...
+[WARNING]<18:24:57>: Loading symbols/library...
+[LOG]<18:24:58>: ObjectManager: Loading gamefiles...
+[LOG]<18:24:58>: Achievements
+[LOG]<18:24:58>: 	...done
+[LOG]<18:24:58>: Buildings
+[LOG]<18:24:58>: 	...done
+[LOG]<18:24:58>: Characters
+[LOG]<18:24:58>: 	...done
+[LOG]<18:24:58>: Decos
+[LOG]<18:24:58>: 	...done
+[LOG]<18:24:58>: Experience Levels
+[LOG]<18:24:58>: 	...done
+[LOG]<18:24:58>: Globals
+[LOG]<18:24:58>: 	...done
+[LOG]<18:24:58>: Heroes
+[LOG]<18:24:58>: 	...done
+[LOG]<18:24:58>: Leagues
+[LOG]<18:24:58>: 	...done
+[LOG]<18:24:58>: NPCs
+[LOG]<18:24:58>: 	...done
+[LOG]<18:24:58>: Obstacles
+[LOG]<18:24:58>: 	...done
+[LOG]<18:24:58>: Shields
+[LOG]<18:24:58>: 	...done
+[LOG]<18:24:58>: Spells
+[LOG]<18:24:58>: 	...done
+[LOG]<18:24:58>: Townhall Levels
+[LOG]<18:24:58>: 	...done
+[LOG]<18:24:58>: Traps
+[LOG]<18:24:58>: 	...done
+[LOG]<18:24:58>: Resources
+[LOG]<18:24:58>: 	...done
+[LOG]<18:24:58>: Wars
+[LOG]<18:24:58>: 	...done
+[LOG]<18:24:58>: ObjectManager: 16 objects successfully loaded on 12 thread!
+[DEBUG-LOG]<18:24:58>: Database synchronized!
+[DEBUG-LOG]<18:24:58>: Hosting on port 9339
+[LOG]<18:24:58>: API Manager started on http://localhost:1172/Debug/
+[DEBUG-LOG]<18:24:58>: Server Thread's:
+[DEBUG-LOG]<18:24:58>: 	Server Running On Thread 1
+[WARNING]<18:24:58>: Operation completed in 699,6385 ms
+[LOG]<18:24:58>: Server started on port 9339. Let's play Clash of Clans!
+[DEBUG-LOG]<18:25:58>: Starting saving alliances from memory to database
+[DEBUG-LOG]<18:25:58>: Finished saving alliances from memory to database
+[WARNING]<18:26:00>: Shutting down... Saving all data, wait.

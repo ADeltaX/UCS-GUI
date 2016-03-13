@@ -1,0 +1,70 @@
+[LOG]<00:42:40>: Loading GUI...
+[LOG]<00:42:40>: GUI loaded
+[WARNING]<00:42:41>: Using high performance timer
+[WARNING]<00:42:41>: Measuring loading time.
+[WARNING]<00:42:41>: Starting server...
+[WARNING]<00:42:41>: Loading symbols/library...
+[LOG]<00:42:42>: ObjectManager: Loading gamefiles...
+[LOG]<00:42:42>: Achievements
+[LOG]<00:42:42>: 	...done
+[LOG]<00:42:42>: Buildings
+[LOG]<00:42:42>: 	...done
+[LOG]<00:42:42>: Characters
+[LOG]<00:42:42>: 	...done
+[LOG]<00:42:42>: Decos
+[LOG]<00:42:42>: 	...done
+[LOG]<00:42:42>: Experience Levels
+[LOG]<00:42:42>: 	...done
+[LOG]<00:42:42>: Globals
+[LOG]<00:42:42>: 	...done
+[LOG]<00:42:42>: Heroes
+[LOG]<00:42:42>: 	...done
+[LOG]<00:42:42>: Leagues
+[LOG]<00:42:42>: 	...done
+[LOG]<00:42:42>: NPCs
+[LOG]<00:42:42>: 	...done
+[LOG]<00:42:42>: Obstacles
+[LOG]<00:42:42>: 	...done
+[LOG]<00:42:42>: Shields
+[LOG]<00:42:42>: 	...done
+[LOG]<00:42:42>: Spells
+[LOG]<00:42:42>: 	...done
+[LOG]<00:42:42>: Townhall Levels
+[LOG]<00:42:42>: 	...done
+[LOG]<00:42:42>: Traps
+[LOG]<00:42:42>: 	...done
+[LOG]<00:42:42>: Resources
+[LOG]<00:42:42>: 	...done
+[LOG]<00:42:42>: Wars
+[LOG]<00:42:42>: 	...done
+[LOG]<00:42:42>: ObjectManager: 16 objects successfully loaded on 12 thread!
+[DEBUG-LOG]<00:42:42>: Database synchronized!
+[DEBUG-LOG]<00:42:42>: Hosting on port 9339
+[LOG]<00:42:42>: API Manager started on http://localhost:1172/Debug/
+[DEBUG-LOG]<00:42:43>: Server Thread's:
+[DEBUG-LOG]<00:42:43>: 	Server Running On Thread 0
+[LOG]<00:42:43>: Thread started
+[LOG]<00:42:43>: Thread started
+[DEBUG-LOG]<00:42:43>: 	Server Running On Thread 1
+[DEBUG-LOG]<00:42:43>: 	Server Running On Thread 2
+[DEBUG-LOG]<00:42:43>: 	Server Running On Thread 3
+[LOG]<00:42:43>: Thread started
+[LOG]<00:42:43>: Thread started
+[DEBUG-LOG]<00:42:43>: 	Server Running On Thread 4
+[LOG]<00:42:43>: Thread started
+[DEBUG-LOG]<00:42:43>: 	Server Running On Thread 5
+[DEBUG-LOG]<00:42:43>: 	Server Running On Thread 6
+[LOG]<00:42:43>: Thread started
+[DEBUG-LOG]<00:42:43>: 	Server Running On Thread 7
+[LOG]<00:42:43>: Thread started
+[DEBUG-LOG]<00:42:43>: 	Server Running On Thread 8
+[LOG]<00:42:43>: Thread started
+[DEBUG-LOG]<00:42:43>: 	Server Running On Thread 9
+[LOG]<00:42:43>: Thread started
+[DEBUG-LOG]<00:42:43>: 	Server Running On Thread 10
+[LOG]<00:42:43>: Thread started
+[DEBUG-LOG]<00:42:43>: 	Server Running On Thread 11
+[LOG]<00:42:43>: Thread started
+[WARNING]<00:42:43>: Operation completed in 1476,659 ms
+[LOG]<00:42:43>: Server started on port 9339. Let's play Clash of Clans!
+[LOG]<00:42:43>: Thread started

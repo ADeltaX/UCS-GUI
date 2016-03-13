@@ -1,35 +1,35 @@
-﻿namespace Ultrapowa_Clash_Server_GUI.GameFiles
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.ComponentModel;
+using System.IO;
+using System.Reflection;
+
+namespace UCS.GameFiles
 {
-    internal class ResourceData : Data
+    class ResourceData : Data
     {
+
         public ResourceData(CSVRow row, DataTable dt)
             : base(row, dt)
         {
-            LoadData(this, GetType(), row);
+            LoadData(this, this.GetType(), row); 
         }
 
-        public string CapFullTID { get; set; }
-
-        public string CollectEffect { get; set; }
-
-        public string HudInstanceName { get; set; }
-
-        public bool PremiumCurrency { get; set; }
-
-        public string ResourceIconExportName { get; set; }
-
-        public string StealEffect { get; set; }
-
-        public string SWF { get; set; }
-
-        public int TextBlue { get; set; }
-
-        public int TextGreen { get; set; }
-
+        public String TID { get; set; }
+        public String SWF { get; set; }
+        public String CollectEffect { get; set; }
+        public String ResourceIconExportName { get; set; }
+        public String StealEffect { get; set; }
+        public Boolean PremiumCurrency { get; set; }
+        public String HudInstanceName { get; set; }
+        public String CapFullTID { get; set; }
         public int TextRed { get; set; }
-
-        public string TID { get; set; }
-
-        public string WarRefResource { get; set; }
+        public int TextGreen { get; set; }
+        public int TextBlue { get; set; }
+        public String WarRefResource { get; set; }
     }
 }

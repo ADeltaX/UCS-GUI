@@ -1,51 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ultrapowa_Clash_Server_GUI.Helpers;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UCS.PacketProcessing;
+using UCS.Helpers;
 
-namespace Ultrapowa_Clash_Server_GUI.Logic
+namespace UCS.Logic
 {
-    internal class AvatarStreamEntry
+    class AvatarStreamEntry
     {
-        private DateTime m_vCreationTime;
-
-        //private byte m_vIsRemoved;
         private int m_vId;
-
-        private byte m_vIsNew;
-
         private long m_vSenderId;
-
-        private int m_vSenderLeagueId;
-
-        private int m_vSenderLevel;
-
         private string m_vSenderName;
+        private int m_vSenderLevel;
+        private int m_vSenderLeagueId;
+        private DateTime m_vCreationTime;
+        private byte m_vIsNew;
+        //private byte m_vIsRemoved;
 
         public AvatarStreamEntry()
         {
             m_vCreationTime = DateTime.UtcNow;
         }
 
-        public virtual byte[] Encode()
-        {
-            var data = new List<byte>();
-
-            data.AddInt32(GetStreamEntryType()); //alliancemailstreamentry
-            data.AddInt32(0);
-            data.AddInt32(m_vId);
-            data.AddInt64(m_vSenderId);
-            data.AddString(m_vSenderName);
-            data.AddInt32(m_vSenderLevel);
-            data.AddInt32(m_vSenderLeagueId);
-            data.Add(m_vIsNew);
-
-            return data.ToArray();
-        }
-
         public int GetAgeSeconds()
         {
-            return (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds -
-                   (int) m_vCreationTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            return (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds - (int)m_vCreationTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
         }
 
         public int GetId()
@@ -73,6 +54,22 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             return -1;
         }
 
+        public virtual byte[] Encode()
+        {
+            List<Byte> data = new List<Byte>();
+
+            data.AddInt32(GetStreamEntryType());//alliancemailstreamentry
+            data.AddInt32(0);
+            data.AddInt32(m_vId);
+            data.AddInt64(m_vSenderId);
+            data.AddString(m_vSenderName);
+            data.AddInt32(m_vSenderLevel);
+            data.AddInt32(m_vSenderLeagueId);
+            data.Add(m_vIsNew);
+
+            return data.ToArray();
+        }
+
         public byte IsNew()
         {
             return m_vIsNew;
@@ -96,11 +93,6 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             m_vIsNew = isNew;
         }
 
-        public void SetSenderAvatarId(long id)
-        {
-            m_vSenderId = id;
-        }
-
         public void SetSenderLeagueId(int id)
         {
             m_vSenderLeagueId = id;
@@ -111,6 +103,11 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             m_vIsRemoved = removed;
         }*/
 
+        public void SetSenderAvatarId(long id)
+        {
+            m_vSenderId = id;
+        }
+
         public void SetSenderLevel(int level)
         {
             m_vSenderLevel = level;
@@ -120,5 +117,5 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
         {
             m_vSenderName = name;
         }
-    }
+    }    
 }

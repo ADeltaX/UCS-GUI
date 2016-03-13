@@ -1,35 +1,28 @@
-﻿using System.IO;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.Logic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Threading.Tasks;
+using UCS.Logic;
+using UCS.Helpers;
+using UCS.GameFiles;
+using UCS.Core;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Commande 0x20B
-    internal class ClaimAchievementRewardCommand : Command
+    class ClaimAchievementRewardCommand : Command
     {
         public ClaimAchievementRewardCommand(BinaryReader br)
         {
-            AchievementId = br.ReadInt32WithEndian(); //= achievementId - 0x015EF3C0;
+            AchievementId = br.ReadUInt32WithEndian();//= achievementId - 0x015EF3C0;
             Unknown1 = br.ReadUInt32WithEndian();
         }
 
-        public int AchievementId { get; set; }
-
         //00 00 02 0B 01 5E F3 C6 00 00 06 53
+
+        public uint AchievementId { get; set; } 
         public uint Unknown1 { get; set; }
-
-        public override void Execute(Level level)
-        {
-            var ca = level.GetPlayerAvatar();
-
-            var ad = (AchievementData) ObjectManager.DataTables.GetDataById(AchievementId);
-
-            ca.AddDiamonds(ad.DiamondReward);
-            ca.AddExperience(ad.ExpReward);
-
-            ca.SetAchievment(ad, true);
-        }
     }
 }

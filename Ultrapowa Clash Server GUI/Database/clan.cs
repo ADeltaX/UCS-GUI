@@ -7,17 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ultrapowa_Clash_Server_GUI.Database
+namespace UCS.Database
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class clan
     {
         public long ClanId { get; set; }
-
-        public string Data { get; set; }
-
         public System.DateTime LastUpdateTime { get; set; }
+        public string Data { get; set; }
     }
 }

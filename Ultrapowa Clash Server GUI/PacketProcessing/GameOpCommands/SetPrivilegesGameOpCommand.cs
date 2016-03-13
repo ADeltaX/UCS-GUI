@@ -1,12 +1,20 @@
 ﻿using System;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.Logic;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Threading.Tasks;
+using UCS.Logic;
+using UCS.Helpers;
+using UCS.GameFiles;
+using UCS.Core;
+using UCS.Network;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
-    internal class SetPrivilegesGameOpCommand : GameOpCommand
+    class SetPrivilegesGameOpCommand : GameOpCommand
     {
-        private readonly string[] m_vArgs;
+        private string[] m_vArgs;
 
         public SetPrivilegesGameOpCommand(string[] args)
         {
@@ -16,14 +24,14 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Execute(Level level)
         {
-            if (level.GetAccountPrivileges() >= GetRequiredAccountPrivileges())
+            if(level.GetAccountPrivileges() >= GetRequiredAccountPrivileges())
             {
-                if (m_vArgs.Length >= 3)
+                if(m_vArgs.Length >= 3)
                 {
                     try
                     {
-                        var id = Convert.ToInt64(m_vArgs[1]);
-                        var accountPrivileges = Convert.ToByte(m_vArgs[2]);
+                        long id = Convert.ToInt64(m_vArgs[1]);
+                        byte accountPrivileges = Convert.ToByte(m_vArgs[2]);
                         var l = ResourcesManager.GetPlayer(id);
                         if (accountPrivileges < level.GetAccountPrivileges())
                         {
@@ -33,17 +41,17 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                             }
                             else
                             {
-                                MainWindow.RemoteWindow.WriteConsoleDebug("SetPrivileges failed: id " + id + " not found", (int)MainWindow.level.DEBUGLOG);
+                                Debugger.WriteLine("SetPrivileges failed: id " + id + " not found");
                             }
                         }
                         else
                         {
-                            MainWindow.RemoteWindow.WriteConsoleDebug("SetPrivileges failed: target privileges too high", (int)MainWindow.level.DEBUGLOG);
+                            Debugger.WriteLine("SetPrivileges failed: target privileges too high");
                         }
                     }
-                    catch (Exception ex)
+                    catch(Exception ex)
                     {
-                        MainWindow.RemoteWindow.WriteConsoleDebug("SetPrivileges failed with error: " + ex, (int)MainWindow.level.DEBUGFATAL);
+                        Debugger.WriteLine("SetPrivileges failed with error: " + ex.ToString()); 
                     }
                 }
             }

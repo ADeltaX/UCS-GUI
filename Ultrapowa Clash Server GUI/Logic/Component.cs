@@ -1,14 +1,28 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.Configuration;
+using UCS.PacketProcessing;
+using UCS.Core;
+using UCS.GameFiles;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace Ultrapowa_Clash_Server_GUI.Logic
+namespace UCS.Logic
 {
-    internal class Component
+    class Component
     {
-        private readonly GameObject m_vParentGameObject;
+        private bool m_vIsEnabled;//a1 + 8
+        private GameObject m_vParentGameObject;
 
-        private bool m_vIsEnabled;
+        public virtual int Type
+        {
+            get { return -1; }
+        }
 
-        //a1 + 8
         public Component()
         {
             //do not modify
@@ -20,9 +34,9 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             m_vParentGameObject = go;
         }
 
-        public virtual int Type
+        public bool IsEnabled()
         {
-            get { return -1; }
+            return m_vIsEnabled;
         }
 
         public GameObject GetParent()
@@ -30,13 +44,9 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             return m_vParentGameObject;
         }
 
-        public bool IsEnabled()
-        {
-            return m_vIsEnabled;
-        }
-
         public virtual void Load(JObject jsonObject)
         {
+        
         }
 
         public virtual JObject Save(JObject jsonObject)
@@ -51,6 +61,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         public virtual void Tick()
         {
+
         }
     }
 }

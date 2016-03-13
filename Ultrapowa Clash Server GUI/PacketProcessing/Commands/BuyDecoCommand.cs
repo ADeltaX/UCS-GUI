@@ -1,13 +1,18 @@
-﻿using System.IO;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.Logic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Threading.Tasks;
+using UCS.Logic;
+using UCS.Helpers;
+using UCS.GameFiles;
+using UCS.Core;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Commande 0x200
-    internal class BuyDecoCommand : Command
+    class BuyDecoCommand : Command
     {
         public BuyDecoCommand(BinaryReader br)
         {
@@ -17,28 +22,25 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             Unknown1 = br.ReadUInt32WithEndian();
         }
 
-        public int DecoId { get; set; }
-
         //00 00 02 00 00 00 00 22 00 00 00 1C 01 12 A8 81 00 00 0C 4F
-        //01 12 A8 81
-        public uint Unknown1 { get; set; }
 
-        public int X { get; set; }
-
+        public int X { get; set; } 
         public int Y { get; set; }
+        public int DecoId { get; set; } //01 12 A8 81
+        public uint Unknown1 { get; set; }
 
         public override void Execute(Level level)
         {
-            var ca = level.GetPlayerAvatar();
+            ClientAvatar ca = level.GetPlayerAvatar();
 
-            var dd = (DecoData) ObjectManager.DataTables.GetDataById(DecoId);
+            DecoData dd = (DecoData)ObjectManager.DataTables.GetDataById(DecoId);
 
             if (ca.HasEnoughResources(dd.GetBuildResource(), dd.GetBuildCost()))
             {
-                var rd = dd.GetBuildResource();
+                ResourceData rd = dd.GetBuildResource();
                 ca.CommodityCountChangeHelper(0, rd, -dd.GetBuildCost());
 
-                var d = new Deco(dd, level);
+                Deco d = new Deco(dd, level);
                 d.SetPositionXY(X, Y);
                 level.GameObjectManager.AddGameObject(d);
             }

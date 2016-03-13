@@ -1,29 +1,28 @@
-﻿using System.IO;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Network;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Threading.Tasks;
+using UCS.Core;
+using UCS.Helpers;
+using UCS.Network;
+using UCS.Logic;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Packet 14301
-    internal class CreateAllianceMessage : Message
+    class CreateAllianceMessage : Message
     {
-        private int m_vAllianceBadgeData;
-
-        private string m_vAllianceDescription;
-
         private string m_vAllianceName;
-
+        private string m_vAllianceDescription;
+        private int m_vAllianceBadgeData;
+        private int m_vAllianceType;
+        private int m_vRequiredScore;
+        private int m_vWarFrequency;
         private int m_vAllianceOrigin;
 
-        private int m_vAllianceType;
-
-        private int m_vRequiredScore;
-
-        private int m_vWarFrequency;
-
-        public CreateAllianceMessage(Client client, BinaryReader br) : base(client, br)
+        public CreateAllianceMessage(Client client, BinaryReader br) : base (client, br)
         {
         }
 
@@ -34,41 +33,40 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             using (var br = new BinaryReader(new MemoryStream(GetData())))
             {
                 m_vAllianceName = br.ReadScString(); //6E 61 6D 65
-                m_vAllianceDescription = br.ReadScString(); //64 65 73 63 72 69 70 74 69 6F 6E
-                m_vAllianceBadgeData = br.ReadInt32WithEndian(); //5B 00 02 52
-                m_vAllianceType = br.ReadInt32WithEndian(); //00 00 00 01
-                m_vRequiredScore = br.ReadInt32WithEndian(); //00 00 07 D0
-                m_vWarFrequency = br.ReadInt32WithEndian(); //00 00 00 02
-                m_vAllianceOrigin = br.ReadInt32WithEndian(); //01 E8 48 39
+                m_vAllianceDescription = br.ReadScString();//64 65 73 63 72 69 70 74 69 6F 6E
+                m_vAllianceBadgeData = br.ReadInt32WithEndian();//5B 00 02 52
+                m_vAllianceType = br.ReadInt32WithEndian();//00 00 00 01
+                m_vRequiredScore = br.ReadInt32WithEndian();//00 00 07 D0
+                m_vWarFrequency = br.ReadInt32WithEndian();//00 00 00 02
+                m_vAllianceOrigin = br.ReadInt32WithEndian();//01 E8 48 39
             }
         }
 
         public override void Process(Level level)
         {
             //Clan creation
-            var alliance = ObjectManager.CreateAlliance(0);
+            Alliance alliance = ObjectManager.CreateAlliance(0);
             alliance.SetAllianceName(m_vAllianceName);
             alliance.SetAllianceDescription(m_vAllianceDescription);
             alliance.SetAllianceType(m_vAllianceType);
             alliance.SetRequiredScore(m_vRequiredScore);
             alliance.SetAllianceBadgeData(m_vAllianceBadgeData);
-            alliance.SetAllianceOrigin(m_vAllianceOrigin);
+            //alliance.SetAllianceOrigin(m_vAllianceOrigin);
             alliance.SetWarFrequency(m_vWarFrequency);
 
             //Set player clan
             //ObjectManager.OnlinePlayers.TryGetValue(p.Client, out player);
             level.GetPlayerAvatar().SetAllianceId(alliance.GetAllianceId());
-            var member = new AllianceMemberEntry(level.GetPlayerAvatar().GetId());
+            AllianceMemberEntry member = new AllianceMemberEntry(level.GetPlayerAvatar().GetId());
             member.SetRole(2);
             alliance.AddAllianceMember(member);
 
             var joinAllianceCommand = new JoinAllianceCommand();
             joinAllianceCommand.SetAlliance(alliance);
-            var availableServerCommandMessage = new AvailableServerCommandMessage(Client);
+            var availableServerCommandMessage = new AvailableServerCommandMessage(this.Client);
             availableServerCommandMessage.SetCommandId(1);
             availableServerCommandMessage.SetCommand(joinAllianceCommand);
             PacketManager.ProcessOutgoingPacket(availableServerCommandMessage);
-            PacketManager.ProcessOutgoingPacket(new OwnHomeDataMessage(Client, level));
         }
     }
 }

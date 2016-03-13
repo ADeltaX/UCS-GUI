@@ -1,7 +1,19 @@
-﻿namespace Ultrapowa_Clash_Server_GUI.GameFiles
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.ComponentModel;
+using System.IO;
+using System.Reflection;
+using UCS.Core;
+
+namespace UCS.GameFiles
 {
-    internal class CombatItemData : Data
+    class CombatItemData : Data
     {
+
         public CombatItemData(CSVRow row, DataTable dt)
             : base(row, dt)
         {
@@ -27,14 +39,14 @@
             return -1;
         }
 
-        public virtual int GetTrainingCost(int level)
-        {
-            return -1;
-        }
-
         public virtual ResourceData GetTrainingResource()
         {
             return null;
+        }
+
+        public virtual int GetTrainingCost(int level)
+        {
+            return -1;
         }
 
         public virtual int GetTrainingTime(int level)
@@ -61,5 +73,6 @@
         {
             return -1;
         }
+
     }
 }

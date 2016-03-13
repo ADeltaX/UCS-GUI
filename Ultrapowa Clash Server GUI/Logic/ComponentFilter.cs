@@ -1,12 +1,23 @@
-﻿namespace Ultrapowa_Clash_Server_GUI.Logic
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.Configuration;
+using UCS.PacketProcessing;
+using UCS.Core;
+using UCS.GameFiles;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+namespace UCS.Logic
 {
-    internal class ComponentFilter : GameObjectFilter
+    class ComponentFilter : GameObjectFilter
     {
-        public int Type;
+        public int Type;//a1 + 20
 
-        //a1 + 20
-
-        public ComponentFilter(int type)
+        public ComponentFilter(int type) : base()
         {
             Type = type;
         }
@@ -16,21 +27,21 @@
             return true;
         }
 
-        public bool TestComponent(Component c)
-        {
-            var go = c.GetParent();
-            return TestGameObject(go);
-        }
-
         public new bool TestGameObject(GameObject go)
         {
-            var result = false;
-            var c = go.GetComponent(Type, true);
-            if (c != null)
+            bool result = false;
+            Component c = go.GetComponent(Type, true);
+            if(c != null)
             {
                 result = base.TestGameObject(go);
             }
             return result;
+        }
+
+        public bool TestComponent(Component c)
+        {
+            GameObject go = c.GetParent();
+            return TestGameObject(go);
         }
     }
 }

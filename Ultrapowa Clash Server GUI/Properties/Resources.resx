@@ -46,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,6 +60,7 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
@@ -68,9 +69,10 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="name" use="required" type="xsd:string" />
               <xsd:attribute name="type" type="xsd:string" />
               <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
@@ -85,9 +87,10 @@
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -109,9 +112,109 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+    <comment>UC About</comment>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Cancel button</comment>
+  </data>
+  <data name="Changelog" xml:space="preserve">
+    <value>Error, changelog not downloaded...</value>
+    <comment>Default value if changelog is not downloaded</comment>
+  </data>
+  <data name="CheckUpdate" xml:space="preserve">
+    <value>Check update</value>
+    <comment>UC Check Update</comment>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Commands</value>
+    <comment>UC Commands</comment>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continue</value>
+    <comment>Name button</comment>
+  </data>
+  <data name="DebugMode" xml:space="preserve">
+    <value>Debug mode</value>
+    <comment>CheckBox Debug mode</comment>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+    <comment>UC Exit</comment>
+  </data>
+  <data name="Feedback" xml:space="preserve">
+    <value>Feedback</value>
+    <comment>UC Feedback</comment>
+  </data>
+  <data name="GUILoaded" xml:space="preserve">
+    <value>GUI loaded</value>
+  </data>
+  <data name="LaunchServer" xml:space="preserve">
+    <value>Launch Server</value>
+    <comment>Button Launch Server</comment>
+  </data>
+  <data name="LoadingGUI" xml:space="preserve">
+    <value>Loading GUI...</value>
+  </data>
+  <data name="LocalIP" xml:space="preserve">
+    <value>Local IP:</value>
+  </data>
+  <data name="NowMeasuringTime" xml:space="preserve">
+    <value>Now measuring loading time</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+    <comment>OK button</comment>
+  </data>
+  <data name="OperationCompletedIn" xml:space="preserve">
+    <value>Operation completed in</value>
+  </data>
+  <data name="PlayerInfo" xml:space="preserve">
+    <value>Player info</value>
+    <comment>UC Player Info</comment>
+  </data>
+  <data name="PlayersOnline" xml:space="preserve">
+    <value>Players online</value>
+    <comment>Label Players online</comment>
+  </data>
+  <data name="RestartServer" xml:space="preserve">
+    <value>Restart Server</value>
+    <comment>UC Restart Server</comment>
+  </data>
+  <data name="SelectAPlayerFirst" xml:space="preserve">
+    <value>Select a player first</value>
+  </data>
+  <data name="ServerAlreadyOnline" xml:space="preserve">
+    <value>Server is already online</value>
+  </data>
+  <data name="ServerConfig" xml:space="preserve">
+    <value>Server config.</value>
+    <comment>UC Server Config.</comment>
+  </data>
+  <data name="ServerNotRunning" xml:space="preserve">
+    <value>The server is not running</value>
+  </data>
+  <data name="ServerOnline" xml:space="preserve">
+    <value>Server Online</value>
+  </data>
+  <data name="UpTime" xml:space="preserve">
+    <value>Up time:</value>
+  </data>
+  <data name="UsingBasicTimer" xml:space="preserve">
+    <value>Using basic performance timer</value>
+  </data>
+  <data name="UsingHighTimer" xml:space="preserve">
+    <value>Using high performance timer</value>
+  </data>
+  <data name="Utility" xml:space="preserve">
+    <value>Utility</value>
+    <comment>UC Utility</comment>
+  </data>
 </root>

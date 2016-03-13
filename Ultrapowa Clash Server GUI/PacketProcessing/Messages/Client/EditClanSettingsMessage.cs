@@ -1,33 +1,26 @@
 ﻿using System;
 using System.IO;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Network;
+using UCS.Core;
+using UCS.Helpers;
+using UCS.Logic;
+using UCS.Network;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Packet 14316
 
     internal class EditClanSettingsMessage : Message
     {
         private int m_vAllianceBadgeData;
-
         private string m_vAllianceDescription;
-
         private int m_vAllianceOrigin;
-
         private int m_vAllianceType;
-
         private int m_vRequiredScore;
-
         private int m_vWarFrequency;
-
         private int Unknown;
 
         public EditClanSettingsMessage(Client client, BinaryReader br) : base(client, br)
         {
-            //Not sure if there should be something here o.O
         }
 
         public override void Decode()
@@ -42,12 +35,12 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 m_vWarFrequency = br.ReadInt32WithEndian();
                 m_vAllianceOrigin = br.ReadInt32WithEndian();
 
-                MainWindow.RemoteWindow.WriteConsoleDebug("\t" + m_vAllianceDescription, (int)MainWindow.level.DEBUGLOG);
-                MainWindow.RemoteWindow.WriteConsoleDebug("\t" + m_vAllianceBadgeData, (int)MainWindow.level.DEBUGLOG);
-                MainWindow.RemoteWindow.WriteConsoleDebug("\t" + m_vAllianceType, (int)MainWindow.level.DEBUGLOG);
-                MainWindow.RemoteWindow.WriteConsoleDebug("\t" + m_vRequiredScore, (int)MainWindow.level.DEBUGLOG);
-                MainWindow.RemoteWindow.WriteConsoleDebug("\t" + m_vWarFrequency, (int)MainWindow.level.DEBUGLOG);
-                MainWindow.RemoteWindow.WriteConsoleDebug("\t" + m_vAllianceOrigin, (int)MainWindow.level.DEBUGLOG);
+                Debugger.WriteLine("\t" + m_vAllianceDescription, null, 5);
+                Debugger.WriteLine("\t" + m_vAllianceBadgeData, null, 5);
+                Debugger.WriteLine("\t" + m_vAllianceType, null, 5);
+                Debugger.WriteLine("\t" + m_vRequiredScore, null, 5);
+                Debugger.WriteLine("\t" + m_vWarFrequency, null, 5);
+                Debugger.WriteLine("\t" + m_vAllianceOrigin, null, 5);
             }
         }
 
@@ -73,9 +66,9 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                     cm.SetSenderId(0);
                     cm.SetHomeId(0);
                     cm.SetSenderLeagueId(22);
-                    cm.SetSenderName("System Manager");
+                    cm.SetSenderName("Clan Manager");
                     cm.SetSenderRole(2);
-                    cm.SetMessage("Clan settings updated!");
+                    cm.SetMessage("Clan settings were updated!");
 
                     var alliance1 = ObjectManager.GetAlliance(allianceId);
                     if (alliance != null)

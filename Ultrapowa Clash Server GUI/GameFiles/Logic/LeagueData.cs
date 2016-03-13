@@ -1,53 +1,43 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.ComponentModel;
+using System.IO;
+using System.Reflection;
 
-namespace Ultrapowa_Clash_Server_GUI.GameFiles
+namespace UCS.GameFiles
 {
-    internal class LeagueData : Data
+    class LeagueData : Data
     {
+
         public LeagueData(CSVRow row, DataTable dt)
             : base(row, dt)
         {
-            LoadData(this, GetType(), row);
+            LoadData(this, this.GetType(), row);
         }
 
-        public List<int> BucketPlacementHardLimit { get; set; }
-
-        public List<int> BucketPlacementRangeHigh { get; set; }
-
-        public List<int> BucketPlacementRangeLow { get; set; }
-
-        public List<int> BucketPlacementSoftLimit { get; set; }
-
-        public int DarkElixirReward { get; set; }
-
-        public bool DemoteEnabled { get; set; }
-
-        public int DemoteLimit { get; set; }
-
-        public int ElixirReward { get; set; }
-
+        public String TID { get; set; }
+        public String TIDShort { get; set; }
+        public String IconSWF { get; set; }
+        public String IconExportName { get; set; }
+        public String LeagueBannerIcon { get; set; }
+        public String LeagueBannerIconNum { get; set; }
         public int GoldReward { get; set; }
-
-        public string IconExportName { get; set; }
-
-        public string IconSWF { get; set; }
-
-        public bool IgnoredByServer { get; set; }
-
-        public string LeagueBannerIcon { get; set; }
-
-        public string LeagueBannerIconNum { get; set; }
-
-        public int PlacementLimitHigh { get; set; }
-
+        public int ElixirReward { get; set; }
+        public int DarkElixirReward { get; set; }
         public int PlacementLimitLow { get; set; }
-
-        public bool PromoteEnabled { get; set; }
-
+        public int PlacementLimitHigh { get; set; }
+        public int DemoteLimit { get; set; }
         public int PromoteLimit { get; set; }
-
-        public string TID { get; set; }
-
-        public string TIDShort { get; set; }
+        public int BucketPlacementRangeLow { get; set; }
+        public int BucketPlacementRangeHigh { get; set; }
+        public int BucketPlacementSoftLimit { get; set; }
+        public int BucketPlacementHardLimit { get; set; }
+        public bool IgnoredByServer { get; set; }
+        public bool DemoteEnabled { get; set; }
+        public bool PromoteEnabled { get; set; }
     }
 }

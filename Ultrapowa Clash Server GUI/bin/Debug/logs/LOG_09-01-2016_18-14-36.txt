@@ -1,0 +1,49 @@
+[LOG]<18:14:36>: Loading GUI...
+[LOG]<18:14:36>: GUI loaded
+[WARNING]<18:14:37>: Using high performance timer
+[WARNING]<18:14:37>: Measuring loading time.
+[WARNING]<18:14:37>: Starting server...
+[WARNING]<18:14:37>: Loading symbols/library...
+[LOG]<18:14:40>: ObjectManager: Loading gamefiles...
+[LOG]<18:14:40>: Achievements
+[LOG]<18:14:40>: 	...done
+[LOG]<18:14:40>: Buildings
+[LOG]<18:14:40>: 	...done
+[LOG]<18:14:40>: Characters
+[LOG]<18:14:40>: 	...done
+[LOG]<18:14:40>: Decos
+[LOG]<18:14:40>: 	...done
+[LOG]<18:14:40>: Experience Levels
+[LOG]<18:14:40>: 	...done
+[LOG]<18:14:40>: Globals
+[LOG]<18:14:40>: 	...done
+[LOG]<18:14:40>: Heroes
+[LOG]<18:14:40>: 	...done
+[LOG]<18:14:40>: Leagues
+[LOG]<18:14:40>: 	...done
+[LOG]<18:14:40>: NPCs
+[LOG]<18:14:40>: 	...done
+[LOG]<18:14:40>: Obstacles
+[LOG]<18:14:40>: 	...done
+[LOG]<18:14:40>: Shields
+[LOG]<18:14:40>: 	...done
+[LOG]<18:14:40>: Spells
+[LOG]<18:14:40>: 	...done
+[LOG]<18:14:40>: Townhall Levels
+[LOG]<18:14:40>: 	...done
+[LOG]<18:14:40>: Traps
+[LOG]<18:14:40>: 	...done
+[LOG]<18:14:40>: Resources
+[LOG]<18:14:40>: 	...done
+[LOG]<18:14:40>: Wars
+[LOG]<18:14:40>: 	...done
+[LOG]<18:14:40>: ObjectManager: 16 objects successfully loaded on 12 thread!
+[DEBUG-LOG]<18:14:40>: Database synchronized!
+[DEBUG-LOG]<18:14:40>: Hosting on port 9339
+[LOG]<18:14:40>: API Manager started on http://localhost:1172/Debug/
+[DEBUG-LOG]<18:14:40>: Server Thread's:
+[DEBUG-LOG]<18:14:40>: 	Server Running On Thread 1
+[WARNING]<18:14:40>: Operation completed in 3015,8226 ms
+[LOG]<18:14:40>: Server started on port 9339. Let's play Clash of Clans!
+[DEBUG-LOG]<18:15:40>: Starting saving alliances from memory to database
+[DEBUG-LOG]<18:15:40>: Finished saving alliances from memory to database

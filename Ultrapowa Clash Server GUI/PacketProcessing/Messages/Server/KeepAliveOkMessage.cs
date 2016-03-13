@@ -1,9 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UCS.Logic;
+using UCS.Core;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Packet 20108
-    internal class KeepAliveOkMessage : Message
+    class KeepAliveOkMessage : Message
     {
         public KeepAliveOkMessage(Client client, KeepAliveMessage cka)
             : base(client)
@@ -13,7 +19,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Encode()
         {
-            var data = new List<byte>();
+            List<Byte> data = new List<Byte>();
             SetData(data.ToArray());
         }
     }

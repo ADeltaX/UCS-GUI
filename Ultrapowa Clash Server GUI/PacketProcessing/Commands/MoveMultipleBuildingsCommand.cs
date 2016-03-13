@@ -1,29 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.IO;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.Logic;
+using System.Threading.Tasks;
+using UCS.Logic;
+using UCS.Helpers;
+using UCS.GameFiles;
+using UCS.Core;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
-    internal class BuildingToMove
-    {
-        public int GameObjectId { get; set; }
-
-        public int X { get; set; }
-
-        public int Y { get; set; }
-    }
-
     //Commande 0x215
-    internal class MoveMultipleBuildingsCommand : Command
+    class MoveMultipleBuildingsCommand : Command
     {
-        private readonly List<BuildingToMove> m_vBuildingsToMove;
+        private List<BuildingToMove> m_vBuildingsToMove;
 
         public MoveMultipleBuildingsCommand(BinaryReader br)
         {
             m_vBuildingsToMove = new List<BuildingToMove>();
-            var buildingCount = br.ReadInt32WithEndian();
-            for (var i = 0; i < buildingCount; i++)
+            int buildingCount = br.ReadInt32WithEndian();
+            for (int i = 0; i < buildingCount; i++)
             {
                 var buildingToMove = new BuildingToMove();
                 buildingToMove.X = br.ReadInt32WithEndian();
@@ -40,9 +37,17 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
         {
             foreach (var buildingToMove in m_vBuildingsToMove)
             {
-                var go = level.GameObjectManager.GetGameObjectByID(buildingToMove.GameObjectId);
+                GameObject go = level.GameObjectManager.GetGameObjectByID(buildingToMove.GameObjectId);
                 go.SetPositionXY(buildingToMove.X, buildingToMove.Y);
             }
         }
+    }
+
+    class BuildingToMove
+    {
+        public BuildingToMove() { }
+        public int GameObjectId { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
     }
 }

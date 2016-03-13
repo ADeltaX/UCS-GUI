@@ -1,21 +1,19 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
 using System.Collections.Generic;
-using Ultrapowa_Clash_Server_GUI.Helpers;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UCS.PacketProcessing;
+using UCS.Helpers;
 
-namespace Ultrapowa_Clash_Server_GUI.Logic
+namespace UCS.Logic
 {
-    internal class ChatStreamEntry : StreamEntry
+    class ChatStreamEntry : StreamEntry
     {
         private string m_vMessage;
-
-        public override byte[] Encode()
+        
+        public ChatStreamEntry() : base()
         {
-            var data = new List<byte>();
-
-            data.AddRange(base.Encode());
-            data.AddString(m_vMessage);
-
-            return data.ToArray();
         }
 
         public string GetMessage()
@@ -28,22 +26,19 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             return 2;
         }
 
-        public override void Load(JObject jsonObject)
+        public override byte[] Encode()
         {
-            base.Load(jsonObject);
-            m_vMessage = jsonObject["message"].ToObject<string>();
-        }
+            List<Byte> data = new List<Byte>();
 
-        public override JObject Save(JObject jsonObject)
-        {
-            jsonObject = base.Save(jsonObject);
-            jsonObject.Add("message", m_vMessage);
-            return jsonObject;
+            data.AddRange(base.Encode());
+            data.AddString(m_vMessage);
+
+            return data.ToArray();
         }
 
         public void SetMessage(string message)
         {
             m_vMessage = message;
         }
-    }
+    }    
 }

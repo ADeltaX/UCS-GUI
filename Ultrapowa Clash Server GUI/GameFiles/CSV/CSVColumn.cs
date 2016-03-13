@@ -1,10 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.ComponentModel;
+using System.IO;
+using System.Reflection;
 
-namespace Ultrapowa_Clash_Server_GUI.GameFiles
+namespace UCS.GameFiles
 {
-    internal class CSVColumn
+    class CSVColumn
     {
-        private readonly List<string> m_vValues;
+        private List<string> m_vValues;
 
         public CSVColumn()
         {
@@ -24,14 +32,15 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
             return m_vValues[row];
         }
 
-        public int GetArraySize(int currentOffset, int nextOffset)
-        {
-            return nextOffset - currentOffset;
-        }
-
         public int GetSize()
         {
             return m_vValues.Count;
         }
+
+        public int GetArraySize(int currentOffset, int nextOffset)
+        {
+            return nextOffset - currentOffset;
+        }
     }
+
 }

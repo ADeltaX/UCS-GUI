@@ -1,0 +1,61 @@
+[LOG]<01:07:09>: Line arg typed: /console
+[LOG]<01:07:09>: Running in Console mode...
+[LOG]<01:07:09>: Local IP: 192.168.229.1
+[LOG]<01:07:09>: Ready
+[LOG]<01:07:09>: Write /start to start the server or write /help to get all commands
+[WARNING]<01:07:12>: Using high performance timer
+[WARNING]<01:07:12>: Measuring loading time.
+[WARNING]<01:07:12>: Starting server...
+[WARNING]<01:07:12>: Loading symbols/library...
+[LOG]<01:07:14>: ObjectManager: Loading gamefiles...
+[LOG]<01:07:14>: Achievements
+[LOG]<01:07:14>: 	...done
+[LOG]<01:07:14>: Buildings
+[LOG]<01:07:14>: 	...done
+[LOG]<01:07:14>: Characters
+[LOG]<01:07:14>: 	...done
+[LOG]<01:07:14>: Decos
+[LOG]<01:07:14>: 	...done
+[LOG]<01:07:14>: Experience Levels
+[LOG]<01:07:14>: 	...done
+[LOG]<01:07:14>: Globals
+[LOG]<01:07:14>: 	...done
+[LOG]<01:07:14>: Heroes
+[LOG]<01:07:14>: 	...done
+[LOG]<01:07:14>: Leagues
+[LOG]<01:07:14>: 	...done
+[LOG]<01:07:14>: NPCs
+[LOG]<01:07:14>: 	...done
+[LOG]<01:07:14>: Obstacles
+[LOG]<01:07:14>: 	...done
+[LOG]<01:07:14>: Shields
+[LOG]<01:07:14>: 	...done
+[LOG]<01:07:14>: Spells
+[LOG]<01:07:14>: 	...done
+[LOG]<01:07:14>: Townhall Levels
+[LOG]<01:07:14>: 	...done
+[LOG]<01:07:14>: Traps
+[LOG]<01:07:14>: 	...done
+[LOG]<01:07:14>: Resources
+[LOG]<01:07:15>: 	...done
+[LOG]<01:07:15>: Wars
+[LOG]<01:07:15>: 	...done
+[LOG]<01:07:15>: ObjectManager: 16 objects successfully loaded on 12 thread!
+[DEBUG-LOG]<01:07:15>: Database synchronized!
+[DEBUG-LOG]<01:07:15>: Hosting on port 9339
+[LOG]<01:07:15>: API Manager started on http://localhost:1172/Debug/
+[DEBUG-LOG]<01:07:15>: Server Thread's:
+[DEBUG-LOG]<01:07:15>: 	Server Running On Thread 0
+[DEBUG-LOG]<01:07:15>: 	Server Running On Thread 1
+[DEBUG-LOG]<01:07:15>: 	Server Running On Thread 2
+[DEBUG-LOG]<01:07:15>: 	Server Running On Thread 3
+[DEBUG-LOG]<01:07:15>: 	Server Running On Thread 4
+[DEBUG-LOG]<01:07:15>: 	Server Running On Thread 5
+[DEBUG-LOG]<01:07:15>: 	Server Running On Thread 6
+[DEBUG-LOG]<01:07:15>: 	Server Running On Thread 7
+[DEBUG-LOG]<01:07:15>: 	Server Running On Thread 8
+[DEBUG-LOG]<01:07:15>: 	Server Running On Thread 9
+[DEBUG-LOG]<01:07:15>: 	Server Running On Thread 10
+[DEBUG-LOG]<01:07:15>: 	Server Running On Thread 11
+[WARNING]<01:07:15>: Operation completed in 3389,8623 ms
+[LOG]<01:07:15>: Server started on port 9339. Let's play Clash of Clans!

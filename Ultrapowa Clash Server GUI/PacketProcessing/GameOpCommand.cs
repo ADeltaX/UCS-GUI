@@ -1,35 +1,44 @@
-﻿using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Network;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading.Tasks;
+using System.IO;
+using UCS.Core;
+using UCS.Network;
+using UCS.Helpers;
+using UCS.Logic;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
-    internal class GameOpCommand
+    class GameOpCommand
     {
         private byte m_vRequiredAccountPrivileges;
 
-        public virtual void Execute(Level level)
-        {
-        }
+        public GameOpCommand() { }
+
+        public virtual void Execute(Level level) { }
 
         public byte GetRequiredAccountPrivileges()
         {
             return m_vRequiredAccountPrivileges;
         }
 
-        public void SendCommandFailedMessage(Client c)
-        {
-            MainWindow.RemoteWindow.WriteConsoleDebug("GameOp command failed. Insufficient privileges", (int)MainWindow.level.DEBUGFATAL);
-            var p = new GlobalChatLineMessage(c);
-            p.SetChatMessage("GameOp command failed. Insufficient privileges.");
-            p.SetPlayerId(0);
-            p.SetPlayerName("System Manager");
-            PacketManager.ProcessOutgoingPacket(p);
-        }
-
         public void SetRequiredAccountPrivileges(byte level)
         {
             m_vRequiredAccountPrivileges = level;
+        }
+
+        public void SendCommandFailedMessage(Client c)
+        {
+            //Debugger.WriteLine("GameOp command failed. Insufficient privileges.");
+            var p = new GlobalChatLineMessage(c);
+            p.SetChatMessage("GameOp command failed. Insufficient privileges.");
+            p.SetPlayerId(0);
+            p.SetPlayerName("Ultrapowa Clash Server");
+            PacketManager.ProcessOutgoingPacket(p);
         }
     }
 }

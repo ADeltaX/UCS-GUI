@@ -1,16 +1,20 @@
-﻿using System.IO;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Network;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using UCS.Core;
+using UCS.Helpers;
+using UCS.Logic;
+using UCS.Network;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //14325
-    internal class AskForAvatarProfileMessage : Message
+    class AskForAvatarProfileMessage : Message
     {
         private long m_vAvatarId;
-
         private long m_vCurrentHomeId;
 
         public AskForAvatarProfileMessage(Client client, BinaryReader br) : base(client, br)
@@ -33,10 +37,10 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             if (targetLevel != null)
             {
                 targetLevel.Tick();
-                var p = new AvatarProfileMessage(Client);
+                var p = new AvatarProfileMessage(this.Client);
                 p.SetLevel(targetLevel);
                 PacketManager.ProcessOutgoingPacket(p);
-            }
+            } 
         }
     }
 }

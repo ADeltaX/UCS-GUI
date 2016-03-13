@@ -1,10 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UCS.Helpers;
+using UCS.Logic;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Packet 24303
-    internal class AllianceJoinOkMessage : Message
+    class AllianceJoinOkMessage : Message
     {
+
         public AllianceJoinOkMessage(Client client) : base(client)
         {
             SetMessageType(24303);
@@ -12,7 +19,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Encode()
         {
-            var pack = new List<byte>();
+            List<Byte> pack = new List<Byte>();
             SetData(pack.ToArray());
         }
     }

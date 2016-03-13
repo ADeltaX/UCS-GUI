@@ -35,3 +35,4 @@ C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Deb
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Debug\Ultrapowa Clash Server GUI.csproj.GenerateResource.Cache
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Debug\Ultrapowa Clash Server GUI.exe
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Debug\Ultrapowa Clash Server GUI.pdb
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\x64\Debug\UCS.exe.config

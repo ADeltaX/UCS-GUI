@@ -1,13 +1,20 @@
 ﻿using System;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Network;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Threading.Tasks;
+using UCS.Logic;
+using UCS.Helpers;
+using UCS.GameFiles;
+using UCS.Core;
+using UCS.Network;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
-    internal class AttackGameOpCommand : GameOpCommand
+    class AttackGameOpCommand : GameOpCommand
     {
-        private readonly string[] m_vArgs;
+        private string[] m_vArgs;
 
         public AttackGameOpCommand(string[] args)
         {
@@ -17,30 +24,28 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Execute(Level level)
         {
-            if (level.GetAccountPrivileges() >= GetRequiredAccountPrivileges())
+            if(level.GetAccountPrivileges() >= GetRequiredAccountPrivileges())
             {
-                if (m_vArgs.Length >= 1)
+                if(m_vArgs.Length >= 2)
                 {
                     try
                     {
-                        var id = Convert.ToInt64(m_vArgs[1]);
+                        long id = Convert.ToInt64(m_vArgs[1]);
                         var l = ResourcesManager.GetPlayer(id);
-                        if (l != null)
+                        if(l != null)
                         {
                             l.Tick();
-
-                            //var p = new EnemyHomeDataMessage(level.GetClient(), l, level);
-                            var p = new VisitedHomeDataMessage(level.GetClient(), l, level);
+                            var p = new EnemyHomeDataMessage(level.GetClient(), l, level);
                             PacketManager.ProcessOutgoingPacket(p);
                         }
                         else
                         {
-                            MainWindow.RemoteWindow.WriteConsoleDebug("Attack failed: id " + id + " not found", (int)MainWindow.level.DEBUGLOG);
+                            Debugger.WriteLine("Attack failed: id " + id + " not found");
                         }
                     }
-                    catch (Exception ex)
+                    catch(Exception ex)
                     {
-                        MainWindow.RemoteWindow.WriteConsoleDebug("Attack failed with error: " + ex, (int)MainWindow.level.DEBUGFATAL);
+                        Debugger.WriteLine("Attack failed with error: " + ex.ToString()); 
                     }
                 }
             }

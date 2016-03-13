@@ -1,58 +1,49 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.IO;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.Helpers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using UCS.Core;
+using UCS.PacketProcessing;
+using UCS.Helpers;
 
-namespace Ultrapowa_Clash_Server_GUI.Logic
+namespace UCS.Logic
 {
-    internal class AllianceMemberEntry
+    class AllianceMemberEntry
     {
-        private readonly int m_vDonatedTroops;
-
-        private readonly byte m_vIsNewMember;
-
-        private readonly int m_vReceivedTroops;
-
-        private readonly int[] m_vRoleTable = {1, 1, 4, 2, 3};
-
-        //mapping roles so comparison is easier
-        private readonly int m_vWarCooldown;
-
-        private readonly int m_vWarOptInStatus;
-
         //private long m_vHomeId;
         private long m_vAvatarId;
-
+        //private string m_vName;
+        private int m_vRole; //1 : member, 2 : chef, 3 : aîné, 4 : chef adjoint
+        private readonly int[] m_vRoleTable = {1, 1, 4, 2, 3 };//mapping roles so comparison is easier
         //private int m_vExpLevel;
         //private int m_vScore;
         private int m_vOrder;
-
         private int m_vPreviousOrder;
+        private int m_vReceivedTroops;
+        private int m_vDonatedTroops;
+        private byte m_vIsNewMember;
+        private int m_vWarCooldown;
+        private int m_vWarOptInStatus;
 
-        //private string m_vName;
-        private int m_vRole;
+        
 
-        //1 : member, 2 : chef, 3 : aîné, 4 : chef adjoint
-        public AllianceMemberEntry(long avatarId)
-        {
-            var r = new Random();
+        public AllianceMemberEntry(long avatarId) {
             m_vAvatarId = avatarId;
             m_vIsNewMember = 0;
             m_vOrder = 1;
             m_vPreviousOrder = 1;
             m_vRole = 1;
-            m_vDonatedTroops = r.Next(1000, 3000);
-            m_vReceivedTroops = r.Next(0, 4000);
+            m_vDonatedTroops = 200;
+            m_vReceivedTroops = 100;
             m_vWarCooldown = 0;
             m_vWarOptInStatus = 1;
         }
-
-        /*public void SetScore(int score)
-        {
-            m_vScore = score;
-        } */
 
         public void Decode(byte[] avatarData)
         {
@@ -61,28 +52,28 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             }
         }
 
-        //00 00 00 2A 00 17 E8 BD
-        //00 00 00 06
-        //6B 61 69 73 65 72
-        //00 00 00 02
-        //00 00 00 58
-        //00 00 00 00
-        //00 00 0B 0C
-        //00 00 00 83
-        //00 00 00 5B
-        //00 00 00 01
-        //00 00 00 01
-        //00
+        //00 00 00 2A 00 17 E8 BD 
+        //00 00 00 06 
+        //6B 61 69 73 65 72 
+        //00 00 00 02 
+        //00 00 00 58 
+        //00 00 00 00 
+        //00 00 0B 0C 
+        //00 00 00 83 
+        //00 00 00 5B 
+        //00 00 00 01 
+        //00 00 00 01 
+        //00 
         //00 01 15 7A
-        //00 00 00 01
-        //01
+        //00 00 00 01 
+        //01 
         //00 00 00 2A 00 17 E8 BD
 
         public byte[] Encode()
         {
-            var data = new List<byte>();
+            List<Byte> data = new List<Byte>();
 
-            var avatar = ResourcesManager.GetPlayer(m_vAvatarId);
+            Level avatar = ResourcesManager.GetPlayer(m_vAvatarId);
             data.AddInt64(m_vAvatarId);
             data.AddString(avatar.GetPlayerAvatar().GetAvatarName());
             data.AddInt32(m_vRole);
@@ -149,7 +140,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         public bool HasLowerRoleThan(int role)
         {
-            var result = true;
+            bool result = true;
             if (role < m_vRoleTable.Length && m_vRole < m_vRoleTable.Length)
             {
                 if (m_vRoleTable[m_vRole] >= m_vRoleTable[role])
@@ -163,17 +154,17 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             return m_vIsNewMember;
         }
 
-        public void Load(JObject jsonObject)
-        {
-            m_vAvatarId = jsonObject["avatar_id"].ToObject<long>();
-            m_vRole = jsonObject["role"].ToObject<int>();
-        }
-
         public JObject Save(JObject jsonObject)
         {
             jsonObject.Add("avatar_id", m_vAvatarId);
             jsonObject.Add("role", m_vRole);
             return jsonObject;
+        }
+
+        public void Load(JObject jsonObject)
+        {
+            m_vAvatarId = jsonObject["avatar_id"].ToObject<long>();
+            m_vRole = jsonObject["role"].ToObject<int>();
         }
 
         public void SetAvatarId(long id)
@@ -210,5 +201,10 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
         {
             m_vRole = role;
         }
+
+        /*public void SetScore(int score)
+        {
+            m_vScore = score;
+        } */
     }
 }

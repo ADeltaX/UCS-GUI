@@ -1,0 +1,2 @@
+"UCS.exe" /gui
+pause

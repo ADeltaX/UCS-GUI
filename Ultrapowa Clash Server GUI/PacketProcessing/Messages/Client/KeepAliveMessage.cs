@@ -1,11 +1,17 @@
-﻿using System.IO;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Network;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using UCS.Helpers;
+using UCS.Logic;
+using UCS.Network;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Packet 10108
-    internal class KeepAliveMessage : Message
+    class KeepAliveMessage : Message
     {
         public KeepAliveMessage(Client client, BinaryReader br)
             : base(client, br)
@@ -18,7 +24,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Process(Level level)
         {
-            PacketManager.ProcessOutgoingPacket(new KeepAliveOkMessage(Client, this));
+            PacketManager.ProcessOutgoingPacket(new KeepAliveOkMessage(this.Client,this));
         }
     }
 }

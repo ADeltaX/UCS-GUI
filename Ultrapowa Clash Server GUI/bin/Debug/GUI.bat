@@ -1,2 +1,2 @@
-"Ultrapowa Clash Server GUI.exe" /gui
+"UCS.exe" /gui
 exit

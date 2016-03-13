@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Ultrapowa_Clash_Server_GUI.Sys
+namespace UCS.Sys
 {
     class LoadLanguage
     {

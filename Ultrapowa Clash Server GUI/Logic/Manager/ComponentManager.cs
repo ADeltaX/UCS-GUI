@@ -1,22 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.Windows;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
+using Newtonsoft.Json;
+using UCS.PacketProcessing;
+using UCS.Core;
+using UCS.GameFiles;
 
-namespace Ultrapowa_Clash_Server_GUI.Logic
+namespace UCS.Logic
 {
-    internal class ComponentManager
+    class ComponentManager
     {
-        private readonly List<List<Component>> m_vComponents;
+        private List<List<Component>> m_vComponents;
+        private Level m_vLevel;
 
-        private readonly Level m_vLevel;
-
-        public ComponentManager(Level l)
+        public ComponentManager(Level l) 
         {
             //m_vComponents = new List<Component>();
 
             m_vComponents = new List<List<Component>>();
-            for (var i = 0; i <= 10; i++)
+            for (int i = 0; i <= 10 ; i++)
             {
                 m_vComponents.Add(new List<Component>());
             }
@@ -32,20 +39,20 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
         public Component GetClosestComponent(int x, int y, ComponentFilter cf)
         {
             Component result = null;
-            var componentType = cf.Type;
-            var components = m_vComponents[componentType];
-            var v = new Vector(x, y);
+            int componentType = cf.Type;
+            List<Component> components = m_vComponents[componentType];
+            Vector v = new Vector(x,y);
             double maxLengthSquared = 0;
 
             if (components.Count > 0)
             {
-                foreach (var c in components)
+                foreach(var c in components)
                 {
-                    if (cf.TestComponent(c))
+                    if(cf.TestComponent(c))
                     {
-                        var go = c.GetParent();
-                        var lengthSquared = (v - go.GetPosition()).LengthSquared;
-                        if (lengthSquared < maxLengthSquared || result == null)
+                        GameObject go = c.GetParent();
+                        double lengthSquared = (v - go.GetPosition()).LengthSquared; 
+                        if(lengthSquared < maxLengthSquared || result == null)
                         {
                             maxLengthSquared = lengthSquared;
                             result = c;
@@ -63,15 +70,15 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         public int GetMaxBarrackLevel()
         {
-            var result = 0;
-            var components = m_vComponents[3];
-            if (components.Count > 0)
+            int result = 0;
+            List<Component> components = m_vComponents[3];
+            if(components.Count > 0)
             {
-                foreach (UnitProductionComponent c in components)
+                foreach(UnitProductionComponent c in components)
                 {
-                    if (!c.IsSpellForge())
+                    if(!c.IsSpellForge())
                     {
-                        var level = ((Building) c.GetParent()).GetUpgradeLevel();
+                        int level = ((Building)c.GetParent()).GetUpgradeLevel();
                         if (level > result)
                             result = level;
                     }
@@ -82,18 +89,18 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         public int GetMaxSpellForgeLevel()
         {
-            var result = 0;
-            var components = m_vComponents[3];
+            int result = 0;
+            List<Component> components = m_vComponents[3];
             if (components.Count > 0)
             {
                 foreach (UnitProductionComponent c in components)
                 {
                     if (c.IsSpellForge())
                     {
-                        var b = (Building) c.GetParent();
-                        if (!b.IsConstructing() || b.IsUpgrading())
+                        Building b = (Building)c.GetParent();
+                        if(!b.IsConstructing() || b.IsUpgrading())
                         {
-                            var level = b.GetUpgradeLevel();
+                            int level = b.GetUpgradeLevel();
                             if (level > result)
                                 result = level;
                         }
@@ -105,45 +112,45 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         public int GetTotalMaxHousing(bool IsSpellForge = false)
         {
-            var result = 0;
+            int result = 0;
             var components = m_vComponents[0];
             if (components.Count >= 1)
                 foreach (var c in components)
                 {
-                    if (((UnitStorageComponent) c).IsSpellForge == IsSpellForge)
-                        result += ((UnitStorageComponent) c).GetMaxCapacity();
+                    if (((UnitStorageComponent)c).IsSpellForge == IsSpellForge)
+                        result += ((UnitStorageComponent)c).GetMaxCapacity();
                 }
             return result;
-        }
+        } 
 
         public int GetTotalUsedHousing(bool IsSpellForge = false)
         {
-            var result = 0;
+            int result = 0;
             var components = m_vComponents[0];
-            if (components.Count >= 1)
-                foreach (var c in components)
-                {
-                    if (((UnitStorageComponent) c).IsSpellForge == IsSpellForge)
-                        result += ((UnitStorageComponent) c).GetUsedCapacity();
-                }
+            if(components.Count >= 1)
+            foreach (var c in components)
+            {
+                if (((UnitStorageComponent)c).IsSpellForge == IsSpellForge)
+                    result += ((UnitStorageComponent)c).GetUsedCapacity();
+            }
             return result;
         }
 
         public void RefreshResourcesCaps()
         {
             var table = ObjectManager.DataTables.GetTable(2);
-            var resourceCount = table.GetItemCount();
-            var resourceStorageComponentCount = GetComponents(6).Count;
-            for (var i = 0; i < resourceCount; i++)
+            int resourceCount = table.GetItemCount();
+            int resourceStorageComponentCount = GetComponents(6).Count;
+            for(int i = 0; i < resourceCount; i++)
             {
-                var resourceCap = 0;
-                for (var j = 0; j < resourceStorageComponentCount; j++)
+                int resourceCap = 0;
+                for(int j = 0; j < resourceStorageComponentCount ; j++)
                 {
-                    var res = (ResourceStorageComponent) GetComponents(6)[j];
-                    if (res.IsEnabled())
+                    var res = (ResourceStorageComponent)GetComponents(6)[j];
+                    if(res.IsEnabled())
                         resourceCap += res.GetMax(i);
-                    var resource = (ResourceData) table.GetItemAt(i);
-                    if (!resource.PremiumCurrency)
+                    var resource = (ResourceData)table.GetItemAt(i);
+                    if(!resource.PremiumCurrency)
                     {
                         m_vLevel.GetPlayerAvatar().SetResourceCap(resource, resourceCap);
                     }
@@ -155,10 +162,8 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
         {
             foreach (var components in m_vComponents)
             {
-                var markedForRemoval = new List<Component>();
-
-                //can't remove in foreach so create a temp structure to store components to remove
-                foreach (var component in components)
+                var markedForRemoval = new List<Component>();//can't remove in foreach so create a temp structure to store components to remove
+                foreach(var component in components)
                 {
                     if (component.GetParent() == go)
                         markedForRemoval.Add(component);
@@ -170,6 +175,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         public void Tick()
         {
+
         }
     }
 }

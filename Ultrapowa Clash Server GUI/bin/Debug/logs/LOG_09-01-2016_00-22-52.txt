@@ -1,0 +1,68 @@
+[LOG]<00:22:52>: Loading GUI...
+[LOG]<00:22:53>: GUI loaded
+[WARNING]<00:22:54>: Using high performance timer
+[WARNING]<00:22:54>: Measuring loading time.
+[WARNING]<00:22:54>: Starting server...
+[WARNING]<00:22:54>: Loading symbols/library...
+[LOG]<00:22:57>: ObjectManager: Loading gamefiles...
+[LOG]<00:22:57>: Achievements
+[LOG]<00:22:57>: 	...done
+[LOG]<00:22:57>: Buildings
+[LOG]<00:22:57>: 	...done
+[LOG]<00:22:57>: Characters
+[LOG]<00:22:57>: 	...done
+[LOG]<00:22:57>: Decos
+[LOG]<00:22:57>: 	...done
+[LOG]<00:22:57>: Experience Levels
+[LOG]<00:22:57>: 	...done
+[LOG]<00:22:57>: Globals
+[LOG]<00:22:57>: 	...done
+[LOG]<00:22:57>: Heroes
+[LOG]<00:22:57>: 	...done
+[LOG]<00:22:57>: Leagues
+[LOG]<00:22:57>: 	...done
+[LOG]<00:22:57>: NPCs
+[LOG]<00:22:57>: 	...done
+[LOG]<00:22:57>: Obstacles
+[LOG]<00:22:57>: 	...done
+[LOG]<00:22:57>: Shields
+[LOG]<00:22:57>: 	...done
+[LOG]<00:22:57>: Spells
+[LOG]<00:22:57>: 	...done
+[LOG]<00:22:57>: Townhall Levels
+[LOG]<00:22:57>: 	...done
+[LOG]<00:22:57>: Traps
+[LOG]<00:22:57>: 	...done
+[LOG]<00:22:57>: Resources
+[LOG]<00:22:57>: 	...done
+[LOG]<00:22:57>: Wars
+[LOG]<00:22:57>: 	...done
+[LOG]<00:22:57>: ObjectManager: 16 objects successfully loaded on 12 thread!
+[DEBUG-LOG]<00:22:57>: Database synchronized!
+[DEBUG-LOG]<00:22:57>: Hosting on port 9339
+[LOG]<00:22:57>: API Manager started on http://localhost:1172/Debug/
+[DEBUG-LOG]<00:22:58>: Server Thread's:
+[DEBUG-LOG]<00:22:58>: 	Server Running On Thread 0
+[DEBUG-LOG]<00:22:58>: 	Server Running On Thread 1
+[DEBUG-LOG]<00:22:58>: 	Server Running On Thread 2
+[DEBUG-LOG]<00:22:58>: 	Server Running On Thread 3
+[DEBUG-LOG]<00:22:58>: 	Server Running On Thread 4
+[DEBUG-LOG]<00:22:58>: 	Server Running On Thread 5
+[DEBUG-LOG]<00:22:58>: 	Server Running On Thread 6
+[DEBUG-LOG]<00:22:58>: 	Server Running On Thread 7
+[DEBUG-LOG]<00:22:58>: 	Server Running On Thread 8
+[DEBUG-LOG]<00:22:58>: 	Server Running On Thread 9
+[DEBUG-LOG]<00:22:58>: 	Server Running On Thread 10
+[DEBUG-LOG]<00:22:58>: 	Server Running On Thread 11
+[WARNING]<00:22:58>: Operation completed in 3651,9595 ms
+[LOG]<00:22:58>: Server started on port 9339. Let's play Clash of Clans!
+[DEBUG-LOG]<00:23:57>: Starting saving alliances from memory to database
+[DEBUG-LOG]<00:23:57>: Finished saving alliances from memory to database
+[DEBUG-LOG]<00:24:57>: Starting saving alliances from memory to database
+[DEBUG-LOG]<00:24:57>: Finished saving alliances from memory to database
+[DEBUG-LOG]<00:25:57>: Starting saving alliances from memory to database
+[DEBUG-LOG]<00:25:57>: Finished saving alliances from memory to database
+[DEBUG-LOG]<00:26:57>: Starting saving alliances from memory to database
+[DEBUG-LOG]<00:26:57>: Finished saving alliances from memory to database
+[DEBUG-LOG]<00:27:57>: Starting saving alliances from memory to database
+[DEBUG-LOG]<00:27:57>: Finished saving alliances from memory to database

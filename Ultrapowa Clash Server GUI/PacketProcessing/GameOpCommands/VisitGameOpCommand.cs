@@ -1,13 +1,20 @@
 ﻿using System;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Network;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Threading.Tasks;
+using UCS.Logic;
+using UCS.Helpers;
+using UCS.GameFiles;
+using UCS.Core;
+using UCS.Network;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
-    internal class VisitGameOpCommand : GameOpCommand
+    class VisitGameOpCommand : GameOpCommand
     {
-        private readonly string[] m_vArgs;
+        private string[] m_vArgs;
 
         public VisitGameOpCommand(string[] args)
         {
@@ -17,15 +24,15 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Execute(Level level)
         {
-            if (level.GetAccountPrivileges() >= GetRequiredAccountPrivileges())
+            if(level.GetAccountPrivileges() >= GetRequiredAccountPrivileges())
             {
-                if (m_vArgs.Length >= 2)
+                if(m_vArgs.Length >= 2)
                 {
                     try
                     {
-                        var id = Convert.ToInt64(m_vArgs[1]);
+                        long id = Convert.ToInt64(m_vArgs[1]);
                         var l = ResourcesManager.GetPlayer(id);
-                        if (l != null)
+                        if(l != null)
                         {
                             l.Tick();
                             var p = new VisitedHomeDataMessage(level.GetClient(), l, level);
@@ -33,12 +40,12 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                         }
                         else
                         {
-                            MainWindow.RemoteWindow.WriteConsoleDebug("Visit failed: id " + id + " not found", (int)MainWindow.level.DEBUGLOG);
+                            Debugger.WriteLine("Visit failed: id " + id + " not found");
                         }
                     }
-                    catch (Exception ex)
+                    catch(Exception ex)
                     {
-                        MainWindow.RemoteWindow.WriteConsoleDebug("Visit failed with error: " + ex, (int)MainWindow.level.DEBUGFATAL);
+                        Debugger.WriteLine("Visit failed with error: " + ex.ToString()); 
                     }
                 }
             }

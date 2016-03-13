@@ -1,63 +1,32 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Ultrapowa_Clash_Server_GUI.Helpers;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UCS.PacketProcessing;
+using UCS.Helpers;
 
-namespace Ultrapowa_Clash_Server_GUI.Logic
+namespace UCS.Logic
 {
-    internal class StreamEntry
+    class StreamEntry
     {
-        private long m_vHomeId;
-
         private int m_vId;
-
-        private DateTime m_vMessageTime;
-
-        private int m_vRole;
-
         private long m_vSenderId;
-
-        private int m_vSenderLeagueId;
-
-        private int m_vSenderLevel;
-
+        private long m_vHomeId;
         private string m_vSenderName;
-
+        private int m_vSenderLeagueId;
+        private int m_vSenderLevel;
         private int m_vSenderRole;
-
+        private DateTime m_vMessageTime;
+        
         public StreamEntry()
         {
             m_vMessageTime = DateTime.UtcNow;
         }
 
-        public virtual byte[] Encode()
-        {
-            var data = new List<byte>();
-
-            data.AddInt32(GetStreamEntryType()); //chatstreamentry
-            data.AddInt32(0);
-            data.AddInt32(m_vId);
-            data.Add(3);
-            data.AddInt64(m_vSenderId);
-            data.AddInt64(m_vHomeId);
-            data.AddString(m_vSenderName);
-            data.AddInt32(m_vSenderLevel);
-            data.AddInt32(m_vSenderLeagueId);
-            data.AddInt32(m_vSenderRole);
-            data.AddInt32(GetAgeSeconds());
-
-            return data.ToArray();
-        }
-
         public int GetAgeSeconds()
         {
-            return (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds -
-                   (int)m_vMessageTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-        }
-
-        public long GetHomeId()
-        {
-            return m_vHomeId;
+            return (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds - (int)m_vMessageTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
         }
 
         public int GetId()
@@ -65,14 +34,19 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             return m_vId;
         }
 
-        public long GetSenderId()
+        public long GetHomeId()
         {
-            return m_vSenderId;
+            return m_vHomeId;
         }
 
         public int GetSenderLeagueId()
         {
             return m_vSenderLeagueId;
+        }
+
+        public long GetSenderId()
+        {
+            return m_vSenderId;
         }
 
         public int GetSenderLevel()
@@ -95,41 +69,33 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
             return -1;
         }
 
-        public virtual void Load(JObject jsonObject)
+        public virtual byte[] Encode()
         {
-            m_vId = jsonObject["id"].ToObject<int>();
-            m_vSenderId = jsonObject["sender_id"].ToObject<long>();
-            m_vHomeId = jsonObject["home_id"].ToObject<long>();
-            m_vSenderLevel = jsonObject["sender_level"].ToObject<int>();
-            m_vSenderName = jsonObject["sender_name"].ToObject<string>();
-            m_vSenderLeagueId = jsonObject["sender_leagueId"].ToObject<int>();
-            m_vSenderRole = jsonObject["sender_role"].ToObject<int>();
-            m_vMessageTime = jsonObject["message_time"].ToObject<DateTime>();
-        }
+            List<Byte> data = new List<Byte>();
 
-        public virtual JObject Save(JObject jsonObject)
-        {
-            jsonObject.Add("type", GetStreamEntryType());
-            jsonObject.Add("id", m_vId);
-            jsonObject.Add("sender_id", m_vSenderId);
-            jsonObject.Add("home_id", m_vHomeId);
-            jsonObject.Add("sender_level", m_vSenderLevel);
-            jsonObject.Add("sender_name", m_vSenderName);
-            jsonObject.Add("sender_leagueId", m_vSenderLeagueId);
-            jsonObject.Add("sender_role", m_vSenderRole);
-            jsonObject.Add("message_time", m_vMessageTime);
+            data.AddInt32(GetStreamEntryType());//chatstreamentry
+            data.AddInt32(0);
+            data.AddInt32(m_vId);
+            data.Add(3);
+            data.AddInt64(m_vSenderId);
+            data.AddInt64(m_vHomeId);
+            data.AddString(m_vSenderName);
+            data.AddInt32(m_vSenderLevel);
+            data.AddInt32(m_vSenderLeagueId);
+            data.AddInt32(m_vSenderRole);
+            data.AddInt32(GetAgeSeconds());
 
-            return jsonObject;
+            return data.ToArray();
         }
 
         public void SetAvatar(ClientAvatar avatar)
         {
             m_vSenderId = avatar.GetId();
-            m_vHomeId = avatar.GetId();
+            m_vHomeId = avatar.GetId() ;
             m_vSenderName = avatar.GetAvatarName();
             m_vSenderLeagueId = avatar.GetLeagueId();
             m_vSenderLevel = avatar.GetAvatarLevel();
-            m_vSenderRole = avatar.GetAllianceRole();
+            m_vSenderRole = 1;
         }
 
         public void SetHomeId(long id)
@@ -166,5 +132,5 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
         {
             m_vSenderRole = role;
         }
-    }
+    }    
 }

@@ -1,14 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.Logic;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using UCS.Logic;
+using UCS.Helpers;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Packet 24311
-    internal class AllianceStreamMessage : Message
+    class AllianceStreamMessage : Message
     {
-        private readonly Alliance m_vAlliance;
+        private Alliance m_vAlliance;
 
         public AllianceStreamMessage(Client client, Alliance alliance)
             : base(client)
@@ -19,26 +23,16 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Encode()
         {
-            var pack = new List<byte>();
+            List<Byte> pack = new List<Byte>();
 
-            var chatMessages = m_vAlliance.GetChatMessages().ToList(); //avoid concurrent access issues
+            List<StreamEntry> chatMessages = m_vAlliance.GetChatMessages().ToList();//avoid concurrent access issues
 
             pack.AddInt32(chatMessages.Count);
             foreach (var chatMessage in chatMessages)
             {
-                if (Client.GetLevel().isPermittedUser())
-                {
-                    var name = chatMessage.GetSenderName();
-                    chatMessage.SetSenderName(name + " #" + chatMessage.GetSenderId());
-                    pack.AddRange(chatMessage.Encode());
-                    chatMessage.SetSenderName(name);
-                }
-                else
-                {
-                    pack.AddRange(chatMessage.Encode());
-                }
+                pack.AddRange(chatMessage.Encode());
             }
-
+            
             SetData(pack.ToArray());
         }
     }

@@ -1,16 +1,9 @@
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\x64\Release\Ultrapowa Clash Server GUI.exe.config
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\Ultrapowa Clash Server GUI.csprojResolveAssemblyReference.cache
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\Feedback.g.cs
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\MainWindow.g.cs
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\Popup.g.cs
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\PopupUpdater.g.cs
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\SplashScreen.g.cs
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\App.g.cs
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\Ultrapowa Clash Server GUI_Content.g.cs
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\Ultrapowa Clash Server GUI_MarkupCompile.cache
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\Ultrapowa Clash Server GUI_MarkupCompile.lref
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\x64\Release\Ultrapowa Clash Server GUI.exe
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\x64\Release\Ultrapowa Clash Server GUI.pdb
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\x64\Release\EntityFramework.dll
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\x64\Release\EntityFramework.SqlServer.dll
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\x64\Release\Ionic.Zlib.dll
@@ -31,8 +24,20 @@ C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Rel
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\PopupUpdater.baml
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\SplashScreen.baml
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\Styles\Styles.baml
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\Ultrapowa Clash Server GUI.g.resources
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\Ultrapowa_Clash_Server_GUI.Properties.Resources.resources
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\Ultrapowa Clash Server GUI.csproj.GenerateResource.Cache
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\Ultrapowa Clash Server GUI.exe
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\Ultrapowa Clash Server GUI.pdb
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\x64\Release\UCS.exe.config
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\LoadingThreads.g.cs
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\PopupConfiguration.g.cs
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\LoadingServerScreen.g.cs
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\UCS_Content.g.cs
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\UCS_MarkupCompile.cache
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\UCS_MarkupCompile.lref
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\x64\Release\UCS.exe
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\x64\Release\UCS.pdb
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\LoadingThreads.baml
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\PopupConfiguration.baml
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\LoadingServerScreen.baml
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\UCS.g.resources
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\UCS.Properties.Resources.resources
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\UCS.exe
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\x64\Release\UCS.pdb

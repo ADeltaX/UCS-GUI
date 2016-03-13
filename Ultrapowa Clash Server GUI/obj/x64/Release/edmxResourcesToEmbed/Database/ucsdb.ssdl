@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="Ultrapowa_Clash_Server_GUIdbModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="ucsdbModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="clan">
     <Key>
       <PropertyRef Name="ClanId" />
@@ -19,8 +19,8 @@
     <Property Name="Avatar" Type="text" Nullable="false" />
     <Property Name="GameObjects" Type="text" Nullable="false" />
   </EntityType>
-  <EntityContainer Name="Ultrapowa_Clash_Server_GUIdbModelStoreContainer">
-    <EntitySet Name="clan" EntityType="Self.clan" Schema="Ultrapowa_Clash_Server_GUIdb" store:Type="Tables" />
-    <EntitySet Name="player" EntityType="Self.player" Schema="Ultrapowa_Clash_Server_GUIdb" store:Type="Tables" />
+  <EntityContainer Name="ucsdbModelStoreContainer">
+    <EntitySet Name="clan" EntityType="Self.clan" Schema="ucsdb" store:Type="Tables" />
+    <EntitySet Name="player" EntityType="Self.player" Schema="ucsdb" store:Type="Tables" />
   </EntityContainer>
 </Schema>

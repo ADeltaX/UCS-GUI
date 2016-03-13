@@ -1,0 +1,75 @@
+[LOG]<01:10:51>: Line arg typed: /console
+[LOG]<01:10:51>: Running in Console mode...
+[LOG]<01:10:51>: Local IP: 192.168.229.1
+[LOG]<01:10:51>: Ready
+[LOG]<01:10:51>: Write /start to start the server or write /help to get all commands
+[WARNING]<01:11:47>: Using high performance timer
+[WARNING]<01:11:47>: Measuring loading time.
+[WARNING]<01:11:47>: Starting server...
+[WARNING]<01:11:47>: Loading symbols/library...
+[LOG]<01:11:49>: ObjectManager: Loading gamefiles...
+[LOG]<01:11:49>: Achievements
+[LOG]<01:11:49>: 	...done
+[LOG]<01:11:49>: Buildings
+[LOG]<01:11:49>: 	...done
+[LOG]<01:11:49>: Characters
+[LOG]<01:11:49>: 	...done
+[LOG]<01:11:49>: Decos
+[LOG]<01:11:49>: 	...done
+[LOG]<01:11:49>: Experience Levels
+[LOG]<01:11:49>: 	...done
+[LOG]<01:11:49>: Globals
+[LOG]<01:11:49>: 	...done
+[LOG]<01:11:49>: Heroes
+[LOG]<01:11:49>: 	...done
+[LOG]<01:11:49>: Leagues
+[LOG]<01:11:49>: 	...done
+[LOG]<01:11:49>: NPCs
+[LOG]<01:11:49>: 	...done
+[LOG]<01:11:49>: Obstacles
+[LOG]<01:11:49>: 	...done
+[LOG]<01:11:49>: Shields
+[LOG]<01:11:49>: 	...done
+[LOG]<01:11:49>: Spells
+[LOG]<01:11:49>: 	...done
+[LOG]<01:11:49>: Townhall Levels
+[LOG]<01:11:49>: 	...done
+[LOG]<01:11:49>: Traps
+[LOG]<01:11:49>: 	...done
+[LOG]<01:11:49>: Resources
+[LOG]<01:11:49>: 	...done
+[LOG]<01:11:49>: Wars
+[LOG]<01:11:49>: 	...done
+[LOG]<01:11:49>: ObjectManager: 16 objects successfully loaded on 12 thread!
+[DEBUG-LOG]<01:11:49>: Database synchronized!
+[DEBUG-LOG]<01:11:49>: Hosting on port 9339
+[LOG]<01:11:49>: API Manager started on http://localhost:1172/Debug/
+[DEBUG-LOG]<01:11:49>: Server Thread's:
+[DEBUG-LOG]<01:11:49>: 	Server Running On Thread 0
+[DEBUG-LOG]<01:11:49>: 	Server Running On Thread 1
+[DEBUG-LOG]<01:11:49>: 	Server Running On Thread 2
+[DEBUG-LOG]<01:11:49>: 	Server Running On Thread 3
+[DEBUG-LOG]<01:11:49>: 	Server Running On Thread 4
+[DEBUG-LOG]<01:11:49>: 	Server Running On Thread 5
+[DEBUG-LOG]<01:11:49>: 	Server Running On Thread 6
+[DEBUG-LOG]<01:11:49>: 	Server Running On Thread 7
+[DEBUG-LOG]<01:11:49>: 	Server Running On Thread 8
+[DEBUG-LOG]<01:11:49>: 	Server Running On Thread 9
+[DEBUG-LOG]<01:11:49>: 	Server Running On Thread 10
+[DEBUG-LOG]<01:11:49>: 	Server Running On Thread 11
+[WARNING]<01:11:49>: Operation completed in 2045,0817 ms
+[LOG]<01:11:49>: Server started on port 9339. Let's play Clash of Clans!
+[WARNING]<01:12:02>: Command not found, try typing /help
+[SERVER] 01:12:04>> /start                             <-- Start the server
+[SERVER] 01:12:04>> /ban <PlayerID>                    <-- Ban a client
+[SERVER] 01:12:04>> /unban <PlayerID>                  <-- Unban a client
+[SERVER] 01:12:04>> /kick <PlayerID>                   <-- Kick a client from the server
+[SERVER] 01:12:04>> /mute <PlayerID>                   <-- Mute a client
+[SERVER] 01:12:04>> /setlevel <PlayerID> <Level>       <-- Set a level for a player
+[SERVER] 01:12:04>> /update                            <-- Check if update is available
+[SERVER] 01:12:04>> /stop  or   /shutdown              <-- Stop the server and save data
+[SERVER] 01:12:04>> /forcestop                         <-- Force stop the server
+[SERVER] 01:12:04>> /restart                           <-- Save data and then restart
+[SERVER] 01:12:04>> /sysinfo                           <-- Send server info to all players
+[SERVER] 01:12:04>> /status                            <-- Get server status
+[SERVER] 01:12:04>> /startx                            <-- Start legacy UCS manager

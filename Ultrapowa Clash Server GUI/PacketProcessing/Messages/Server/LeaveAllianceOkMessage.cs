@@ -1,15 +1,18 @@
-﻿using System.Collections.Generic;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.Logic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UCS.Helpers;
+using UCS.Logic;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Packet 24111
-    internal class LeaveAllianceOkMessage : Message
+    class LeaveAllianceOkMessage : Message
     {
-        private readonly Alliance m_vAlliance;
-
-        private readonly int m_vServerCommandType;
+        private int m_vServerCommandType;
+        private Alliance m_vAlliance;
 
         public LeaveAllianceOkMessage(Client client, Alliance alliance)
             : base(client)
@@ -23,11 +26,11 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
         //00 00 00 02 00 00 00 3B 00 0A 40 1E 00 00 00 01 FF FF FF FF
         public override void Encode()
         {
-            var pack = new List<byte>();
+            List<Byte> pack = new List<Byte>();
 
             pack.AddInt32(m_vServerCommandType);
             pack.AddInt64(m_vAlliance.GetAllianceId());
-            pack.AddInt32(1); //reason? 1= leave, 2=kick
+            pack.AddInt32(1);//reason? 1= leave, 2=kick
             pack.AddInt32(-1);
 
             SetData(pack.ToArray());

@@ -9,3 +9,4 @@ C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Release
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Release\Ultrapowa Clash Server GUI_MarkupCompile.cache
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Release\Ultrapowa Clash Server GUI_MarkupCompile.lref
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Release\Ultrapowa Clash Server GUI.csprojResolveAssemblyReference.cache
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Release\UCS.exe.config

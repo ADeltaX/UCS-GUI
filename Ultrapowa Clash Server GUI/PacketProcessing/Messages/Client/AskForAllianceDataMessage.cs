@@ -1,13 +1,18 @@
-﻿using System.IO;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Network;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Threading.Tasks;
+using UCS.Core;
+using UCS.Helpers;
+using UCS.Network;
+using UCS.Logic;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //14302
-    internal class AskForAllianceDataMessage : Message
+    class AskForAllianceDataMessage : Message
     {
         private long m_vAllianceId;
 
@@ -25,10 +30,10 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Process(Level level)
         {
-            var alliance = ObjectManager.GetAlliance(m_vAllianceId);
+            Alliance alliance = ObjectManager.GetAlliance(m_vAllianceId);
             if (alliance != null)
             {
-                PacketManager.ProcessOutgoingPacket(new AllianceDataMessage(Client, alliance));
+                PacketManager.ProcessOutgoingPacket(new AllianceDataMessage(this.Client, alliance));
             }
         }
     }

@@ -1,54 +1,53 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows;
-using Ultrapowa_Clash_Server_GUI.Sys;
-namespace Ultrapowa_Clash_Server_GUI
+﻿using System.Windows;
+using UCS.Sys;
+using UCS.Core;
+using UCS.Core.Threading;
+using System.Configuration;
+using System;
+using System.IO;
+using System.Threading;
+
+namespace UCS
 {
-    /// <summary>
-    /// Logica di interazione per App.xaml
-    /// </summary>
     public partial class App : Application
     {
-
+        [STAThread]
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+           // Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("de-DE", true);
+           // Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("de-DE", true);
+           // UCS.Properties.Resources.Culture = new System.Globalization.CultureInfo("de-DE",true);
+
+            if (ConfigurationManager.AppSettings["guiMode"].ToLower() == "true")
+                ConfUCS.IsConsoleMode = false;
+            else
+            {
+                ConfUCS.IsConsoleMode = true;
+                ConfUCS.IsConsoleFirst = true;
+            }
+
             for (int i = 0; i != e.Args.Length; ++i)
             {
                 if (e.Args[i].ToLower() == "/gui") ConfUCS.IsConsoleMode = false;
                 if (e.Args[i].ToLower() == "/default") ConfUCS.IsDefaultMode = true;
                 if (e.Args[i].ToLower() == "/nodebug") ConfUCS.DebugMode = false;
+                //if (e.Args[i].ToLower() == "/pirate") null;
             }
-
-            if (ConfUCS.IsConsoleMode == false)
+            if (!ConfUCS.IsConsoleMode)
             {
-                //MainWindow SC = new MainWindow();
-                //SC.Show();
-                SplashScreen SC = new SplashScreen();
-                SC.Show();
+                AllocateConsole.Allocate(true);
+                AllocateConsole.GetConsoleValue();
+                UI.SplashScreen SC = new UI.SplashScreen(); SC.Show();
 
             }
             else
             {
-
-                IntPtr ptr = ConsoleManage.GetForegroundWindow();
-                int u;
-                ConsoleManage.GetWindowThreadProcessId(ptr, out u);
-                Process process = Process.GetProcessById(u);
-                if (process.ProcessName == "cmd")
-                {
-                    ConsoleManage.AttachConsole(process.Id);
-                }
-                else
-                {
-                    ConsoleManage.AllocConsole();
-                }
-                ConsoleManage.DisableConsoleExit();
-                Console.Clear();
-                Version thisAppVer = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                Console.Title = "UCS Server " + ConfUCS.VersionUCS;
-                SplashScreen SC = new SplashScreen();
-                SC.Show();
+                AllocateConsole.Allocate();
+                AllocateConsole.GetConsoleValue();
+                ConsoleThread CT = new ConsoleThread();
+                CT.Start();
             }
         }
+
     }
 }

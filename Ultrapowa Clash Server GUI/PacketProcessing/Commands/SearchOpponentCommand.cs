@@ -1,13 +1,19 @@
-﻿using System.IO;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Network;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Threading.Tasks;
+using UCS.Logic;
+using UCS.Helpers;
+using UCS.GameFiles;
+using UCS.Core;
+using UCS.Network;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Commande 700
-    internal class SearchOpponentCommand : Command
+    class SearchOpponentCommand : Command
     {
         public SearchOpponentCommand(BinaryReader br)
         {
@@ -20,8 +26,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Execute(Level level)
         {
-            //PlaceHolder to disable attack
-            var l = ObjectManager.GetRandomPlayerFromAll();
+            var l = ObjectManager.GetRandomPlayer();
             if (l != null)
             {
                 l.Tick();

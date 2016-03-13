@@ -1,10 +1,16 @@
-﻿using System.Collections.Generic;
-using Ultrapowa_Clash_Server_GUI.Helpers;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UCS.Logic;
+using UCS.Core;
+using UCS.Helpers;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Packet 20161
-    internal class ShutdownStartedMessage : Message
+    class ShutdownStartedMessage : Message
     {
         private int m_vCode;
 
@@ -16,7 +22,7 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
         public override void Encode()
         {
-            var data = new List<byte>();
+            List<Byte> data = new List<Byte>();
             data.AddInt32(m_vCode);
             SetData(data.ToArray());
         }

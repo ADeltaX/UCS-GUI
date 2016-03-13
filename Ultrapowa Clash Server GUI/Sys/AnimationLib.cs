@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace Ultrapowa_Clash_Server_GUI
+namespace UCS
 {
     class AnimationLib
     {
@@ -22,7 +22,7 @@ namespace Ultrapowa_Clash_Server_GUI
         /// <param name="YPos">Here the position to add</param>
         /// <param name="TimeSecond">The duration of the animation</param>
         /// <param name="TimeMillisecond">The delay of the animation</param>
-        public static void MoveToTargetY(Control cntrl, double YPos, double TimeSecond, double TimeMillisecond = 0)
+        public static void MoveToTargetY(FrameworkElement cntrl, double YPos, double TimeSecond, double TimeMillisecond = 0)
         {
             cntrl.Margin = new Thickness(cntrl.Margin.Left, cntrl.Margin.Top - YPos, cntrl.Margin.Right, cntrl.Margin.Bottom + YPos);
             QuadraticEase EP = new QuadraticEase();
@@ -48,7 +48,7 @@ namespace Ultrapowa_Clash_Server_GUI
         /// <param name="XPos">Here the position to add</param>
         /// <param name="TimeSecond">The duration of the animation</param>
         /// <param name="TimeMillisecond">The delay of the animation</param>
-        public static void MoveToTargetX(Control cntrl, double XPos, double TimeSecond, double TimeMillisecond = 0)
+        public static void MoveToTargetX(FrameworkElement cntrl, double XPos, double TimeSecond, double TimeMillisecond = 0)
         {
             cntrl.Margin = new Thickness(cntrl.Margin.Left - XPos, cntrl.Margin.Top, cntrl.Margin.Right + XPos, cntrl.Margin.Bottom);
             QuadraticEase EP = new QuadraticEase();
@@ -67,6 +67,23 @@ namespace Ultrapowa_Clash_Server_GUI
             cntrl.RenderTransform.BeginAnimation(TranslateTransform.XProperty, DirX);
         }
 
+        public static void MoveToTargetXwoMargin(Control cntrl, double XPos, double FromXPos=0, double TimeSecond=0, double TimeMillisecond = 0)
+        {
+            QuadraticEase EP = new QuadraticEase();
+            EP.EasingMode = EasingMode.EaseOut;
+
+            var DirX = new DoubleAnimation
+            {
+                Duration = new Duration(TimeSpan.FromSeconds(TimeSecond)),
+                From = FromXPos,
+                To = XPos,
+                BeginTime = TimeSpan.FromMilliseconds(TimeMillisecond),
+                EasingFunction = EP,
+                AutoReverse = false
+            };
+            cntrl.RenderTransform = new TranslateTransform();
+            cntrl.RenderTransform.BeginAnimation(TranslateTransform.XProperty, DirX);
+        }
 
         /// <summary>
         /// Use this method to make an animation for a window in Y axis
@@ -118,6 +135,24 @@ namespace Ultrapowa_Clash_Server_GUI
             };
 
             cntrl.BeginAnimation(Window.TopProperty, DirX);
+        }
+
+        public static void ChangeForegroundColor(Control cntrl, Color FromColor, Color ToColor, double TimeSecond, double TimeMillisecond = 0)
+        {
+            QuadraticEase EP = new QuadraticEase();
+            EP.EasingMode = EasingMode.EaseInOut;
+
+            var DirColor = new ColorAnimation
+            {
+                Duration = new Duration(TimeSpan.FromSeconds(TimeSecond)),
+                From = FromColor,
+                To = ToColor,
+                BeginTime = TimeSpan.FromMilliseconds(TimeMillisecond),
+                EasingFunction = EP,
+                AutoReverse = false
+            };
+
+            cntrl.BeginAnimation(SolidColorBrush.ColorProperty,DirColor);
         }
 
     }

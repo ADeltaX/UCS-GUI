@@ -1,17 +1,22 @@
-﻿using System.IO;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.Logic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Threading.Tasks;
+using UCS.Logic;
+using UCS.Helpers;
+using UCS.GameFiles;
+using UCS.Core;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Commande 0x209
-    internal class FreeWorkerCommand : Command
+    class FreeWorkerCommand : Command
     {
-        private readonly object m_vCommand;
-
-        private readonly byte m_vIsCommandEmbedded;
-
         public int m_vTimeLeftSeconds;
+        private byte m_vIsCommandEmbedded;
+        private object m_vCommand;
 
         public FreeWorkerCommand(BinaryReader br)
         {
@@ -29,8 +34,8 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
             {
                 level.WorkerManager.FinishTaskOfOneWorker();
                 if (m_vIsCommandEmbedded >= 1)
-                    ((Command) m_vCommand).Execute(level);
-            }
+                    ((Command)m_vCommand).Execute(level);
+            }  
         }
     }
 }

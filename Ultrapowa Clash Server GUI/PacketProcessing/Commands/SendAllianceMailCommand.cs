@@ -1,16 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.IO;
-using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.Helpers;
-using Ultrapowa_Clash_Server_GUI.Logic;
-using Ultrapowa_Clash_Server_GUI.Network;
+using System.Threading.Tasks;
+using UCS.Logic;
+using UCS.Helpers;
+using UCS.GameFiles;
+using UCS.Core;
+using UCS.Network;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Commande 0x219
-    internal class SendAllianceMailCommand : Command
+    class SendAllianceMailCommand : Command
     {
-        private readonly string m_vMailContent;
+        private string m_vMailContent;
 
         public SendAllianceMailCommand(BinaryReader br)
         {
@@ -27,8 +32,8 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
                 var alliance = ObjectManager.GetAlliance(allianceId);
                 if (alliance != null)
                 {
-                    var mail = new AllianceMailStreamEntry();
-                    mail.SetId((int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
+                    AllianceMailStreamEntry mail = new AllianceMailStreamEntry();
+                    mail.SetId((int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
                     mail.SetAvatar(avatar);
                     mail.SetIsNew(0);
                     mail.SetSenderId(avatar.GetId());

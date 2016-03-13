@@ -1,10 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.Configuration;
 using System.IO;
-using Ultrapowa_Clash_Server_GUI.Helpers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using UCS.Core;
+using UCS.PacketProcessing;
+using UCS.GameFiles;
+using UCS.Helpers;
 
-namespace Ultrapowa_Clash_Server_GUI.Logic
+namespace UCS.Logic
 {
-    internal class Base
+    class Base
     {
         private int m_vUnknown1;
 
@@ -23,7 +34,7 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
 
         public virtual byte[] Encode()
         {
-            var data = new List<byte>();
+            List<Byte> data = new List<Byte>();
             data.AddInt32(m_vUnknown1);
             return data.ToArray();
         }

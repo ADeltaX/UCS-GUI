@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ultrapowa_Clash_Server_GUI.Sys
+namespace UCS.Sys
 {
     public class ConsoleManage
     {

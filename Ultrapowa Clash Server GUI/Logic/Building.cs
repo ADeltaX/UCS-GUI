@@ -1,17 +1,32 @@
-﻿using Ultrapowa_Clash_Server_GUI.Core;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.Configuration;
+using UCS.PacketProcessing;
+using UCS.Core;
+using UCS.GameFiles;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace Ultrapowa_Clash_Server_GUI.Logic
+namespace UCS.Logic
 {
-    internal class Building : ConstructionItem
+    class Building : ConstructionItem
     {
-        public Building(Data data, Level level) : base(data, level)
+        public override int ClassId
         {
-            Locked = GetBuildingData().Locked;
+            get { return 0; }
+        }
+
+        public Building(Data data, Level level) : base(data, level) 
+        {
+            this.Locked = GetBuildingData().Locked;
             AddComponent(new HitpointComponent());
             if (GetBuildingData().IsHeroBarrack)
             {
-                var hd = ObjectManager.DataTables.GetHeroByName(GetBuildingData().HeroType);
+                HeroData hd = ObjectManager.DataTables.GetHeroByName(GetBuildingData().HeroType);
                 AddComponent(new HeroBaseComponent(this, hd));
             }
             if (GetBuildingData().UpgradesUnits)
@@ -26,12 +41,9 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
                     AddComponent(new UnitStorageComponent(this, 0));
             }
             if (GetBuildingData().Damage[0] > 0)
-                AddComponent(new CombatComponent(this, level));
-            if (GetBuildingData().ProducesResource != null && GetBuildingData().ProducesResource != string.Empty)
-            {
-                var s = GetBuildingData().ProducesResource;
-                AddComponent(new ResourceProductionComponent(this, level));
-            }
+                AddComponent(new CombatComponent());
+            if (GetBuildingData().ProducesResource != String.Empty)
+                AddComponent(new ResourceProductionComponent());
             if (GetBuildingData().MaxStoredGold[0] > 0 ||
                 GetBuildingData().MaxStoredElixir[0] > 0 ||
                 GetBuildingData().MaxStoredDarkElixir[0] > 0 ||
@@ -41,14 +53,10 @@ namespace Ultrapowa_Clash_Server_GUI.Logic
                 AddComponent(new ResourceStorageComponent(this));
         }
 
-        public override int ClassId
-        {
-            get { return 0; }
-        }
-
         public BuildingData GetBuildingData()
         {
-            return (BuildingData) GetData();
+            return (BuildingData)GetData();
         }
     }
+
 }

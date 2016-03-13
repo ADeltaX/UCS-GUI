@@ -1,0 +1,63 @@
+[LOG]<18:19:25>: Line arg typed: /console
+[LOG]<18:19:25>: Running in Console mode...
+[LOG]<18:19:25>: Local IP: 192.168.1.2
+[LOG]<18:19:25>: Ready
+[LOG]<18:19:25>: Write /start to start the server or write /help to get all commands
+[WARNING]<18:19:28>: Using high performance timer
+[WARNING]<18:19:28>: Measuring loading time.
+[WARNING]<18:19:28>: Starting server...
+[WARNING]<18:19:28>: Loading symbols/library...
+[LOG]<18:19:28>: ObjectManager: Loading gamefiles...
+[LOG]<18:19:28>: Achievements
+[LOG]<18:19:28>: 	...done
+[LOG]<18:19:28>: Buildings
+[LOG]<18:19:28>: 	...done
+[LOG]<18:19:28>: Characters
+[LOG]<18:19:28>: 	...done
+[LOG]<18:19:28>: Decos
+[LOG]<18:19:28>: 	...done
+[LOG]<18:19:28>: Experience Levels
+[LOG]<18:19:28>: 	...done
+[LOG]<18:19:28>: Globals
+[LOG]<18:19:28>: 	...done
+[LOG]<18:19:28>: Heroes
+[LOG]<18:19:28>: 	...done
+[LOG]<18:19:28>: Leagues
+[LOG]<18:19:28>: 	...done
+[LOG]<18:19:28>: NPCs
+[LOG]<18:19:28>: 	...done
+[LOG]<18:19:28>: Obstacles
+[LOG]<18:19:28>: 	...done
+[LOG]<18:19:28>: Shields
+[LOG]<18:19:28>: 	...done
+[LOG]<18:19:28>: Spells
+[LOG]<18:19:28>: 	...done
+[LOG]<18:19:28>: Townhall Levels
+[LOG]<18:19:28>: 	...done
+[LOG]<18:19:28>: Traps
+[LOG]<18:19:28>: 	...done
+[LOG]<18:19:28>: Resources
+[LOG]<18:19:28>: 	...done
+[LOG]<18:19:28>: Wars
+[LOG]<18:19:28>: 	...done
+[LOG]<18:19:28>: ObjectManager: 16 objects successfully loaded on 12 thread!
+[DEBUG-LOG]<18:19:29>: Database synchronized!
+[DEBUG-LOG]<18:19:29>: Hosting on port 9339
+[LOG]<18:19:29>: API Manager started on http://localhost:1172/Debug/
+[DEBUG-LOG]<18:19:29>: Server Thread's:
+[DEBUG-LOG]<18:19:29>: 	Server Running On Thread 1
+[WARNING]<18:19:29>: Operation completed in 801,3636 ms
+[LOG]<18:19:29>: Server started on port 9339. Let's play Clash of Clans!
+[DEBUG-LOG]<18:20:29>: Starting saving alliances from memory to database
+[DEBUG-LOG]<18:20:29>: Finished saving alliances from memory to database
+[DEBUG-LOG]<18:21:29>: Starting saving alliances from memory to database
+[DEBUG-LOG]<18:21:29>: Finished saving alliances from memory to database
+[DEBUG-LOG]<18:22:29>: Starting saving alliances from memory to database
+[DEBUG-LOG]<18:22:29>: Finished saving alliances from memory to database
+[DEBUG-LOG]<18:23:29>: Starting saving alliances from memory to database
+[DEBUG-LOG]<18:23:29>: Finished saving alliances from memory to database
+[DEBUG-LOG]<18:24:29>: Starting saving alliances from memory to database
+[DEBUG-LOG]<18:24:29>: Finished saving alliances from memory to database
+[WARNING]<18:24:44>: System Restarting....
+[WARNING]<18:24:44>: Saving all data...
+[WARNING]<18:24:44>: Restarting now

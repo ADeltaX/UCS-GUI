@@ -1,0 +1,5 @@
+[LOG]<01:10:38>: Line arg typed: /console
+[LOG]<01:10:38>: Running in Console mode...
+[LOG]<01:10:38>: Local IP: 192.168.229.1
+[LOG]<01:10:38>: Ready
+[LOG]<01:10:38>: Write /start to start the server or write /help to get all commands

@@ -1,14 +1,18 @@
-﻿using System.Collections.Generic;
-using Ultrapowa_Clash_Server_GUI.Helpers;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UCS.Helpers;
+using UCS.Logic;
 
-namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
+namespace UCS.PacketProcessing
 {
     //Packet 24111
-    internal class AvatarNameChangeOkMessage : Message
+    class AvatarNameChangeOkMessage : Message
     {
-        private readonly int m_vServerCommandType;
-
         private string m_vAvatarName;
+        private int m_vServerCommandType;
 
         public AvatarNameChangeOkMessage(Client client) : base(client)
         {
@@ -16,18 +20,6 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
 
             m_vServerCommandType = 0x03;
             m_vAvatarName = "Megapumba";
-        }
-
-        public override void Encode()
-        {
-            var pack = new List<byte>();
-
-            pack.AddInt32(m_vServerCommandType);
-            pack.AddString(m_vAvatarName);
-            pack.AddInt32(1);
-            pack.AddInt32(-1);
-
-            SetData(pack.ToArray());
         }
 
         public string GetAvatarName()
@@ -40,5 +32,18 @@ namespace Ultrapowa_Clash_Server_GUI.PacketProcessing
         {
             m_vAvatarName = name;
         }
+
+        public override void Encode()
+        {
+            List<Byte> pack = new List<Byte>();
+
+            pack.AddInt32(m_vServerCommandType);
+            pack.AddString(m_vAvatarName);
+            pack.AddInt32(1);
+            pack.AddInt32(-1);
+
+            SetData(pack.ToArray());
+        }
+
     }
 }

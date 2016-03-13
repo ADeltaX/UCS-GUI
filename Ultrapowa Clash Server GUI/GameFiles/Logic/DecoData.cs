@@ -1,44 +1,24 @@
-﻿using Ultrapowa_Clash_Server_GUI.Core;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.ComponentModel;
+using System.IO;
+using System.Reflection;
+using UCS.Core;
 
-namespace Ultrapowa_Clash_Server_GUI.GameFiles
+namespace UCS.GameFiles
 {
-    internal class DecoData : Data
+    class DecoData : Data
     {
+
         public DecoData(CSVRow row, DataTable dt)
             : base(row, dt)
         {
-            LoadData(this, GetType(), row);
+            LoadData(this, this.GetType(), row);
         }
-
-        public int BuildCost { get; set; }
-
-        public string BuildResource { get; set; }
-
-        public string ExportName { get; set; }
-
-        public string ExportNameBase { get; set; }
-
-        public string ExportNameBaseNpc { get; set; }
-
-        public string ExportNameBaseWar { get; set; }
-
-        public string ExportNameConstruction { get; set; }
-
-        public int Height { get; set; }
-
-        public string Icon { get; set; }
-
-        public string InfoTID { get; set; }
-
-        public int MaxCount { get; set; }
-
-        public int RequiredExpLevel { get; set; }
-
-        public string SWF { get; set; }
-
-        public string TID { get; set; }
-
-        public int Width { get; set; }
 
         public int GetBuildCost()
         {
@@ -52,8 +32,25 @@ namespace Ultrapowa_Clash_Server_GUI.GameFiles
 
         public int GetSellPrice()
         {
-            var calculation = (int) ((BuildCost*(long) 1717986919) >> 32);
-            return (calculation >> 2) + (calculation >> 31);
+            int calculation = (int)(((long)BuildCost * (long)1717986919) >> 32);
+            return ((calculation >> 2) + (calculation >> 31));
         }
+
+        public String TID { get; set; }
+        public String InfoTID { get; set; }
+        public String SWF { get; set; }
+        public String ExportName { get; set; }
+        public String ExportNameConstruction { get; set; }
+        public String BuildResource { get; set; }
+        public int BuildCost { get; set; }
+        public int RequiredExpLevel { get; set; }
+        public int MaxCount { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public String Icon { get; set; }
+        public String ExportNameBase { get; set; }
+        public String ExportNameBaseNpc { get; set; }
+        public String ExportNameBaseWar { get; set; }
+
     }
 }

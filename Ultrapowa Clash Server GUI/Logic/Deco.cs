@@ -1,36 +1,46 @@
-﻿using Newtonsoft.Json.Linq;
-using Ultrapowa_Clash_Server_GUI.GameFiles;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.Configuration;
+using UCS.PacketProcessing;
+using UCS.Core;
+using UCS.GameFiles;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace Ultrapowa_Clash_Server_GUI.Logic
+namespace UCS.Logic
 {
-    internal class Deco : GameObject
+    class Deco : GameObject
     {
         private Level m_vLevel;
-
-        public Deco(Data data, Level l) : base(data, l)
-        {
-            m_vLevel = l;
-        }
 
         public override int ClassId
         {
             get { return 6; }
         }
 
-        public DecoData GetDecoData()
+        public Deco(Data data, Level l) : base(data, l)
         {
-            return (DecoData) GetData();
+            m_vLevel = l;
         }
 
-        public new void Load(JObject jsonObject)
+        public DecoData GetDecoData()
         {
-            base.Load(jsonObject);
+            return (DecoData)GetData();
         }
 
         public new JObject Save(JObject jsonObject)
         {
             base.Save(jsonObject);
             return jsonObject;
+        }
+
+        public new void Load(JObject jsonObject)
+        {
+            base.Load(jsonObject);
         }
     }
 }
