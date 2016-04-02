@@ -254,6 +254,7 @@
 
             <Button x:Name="BTN_Save" Style="{StaticResource RoundedButton}" Content="Save changes" Margin="306,0,140,10" Height="28" VerticalAlignment="Bottom" Click="BTN_SaveChanges_Click" Foreground="White" FontSize="13.333" Background="#FF262626" FontFamily="Segoe UI Light"/>
             <Button x:Name="BTN_Load" Style="{StaticResource RoundedButton}" Content="Reload configuration" Margin="140,0,306,10" Height="28" VerticalAlignment="Bottom" Click="BTN_ReloadConfig_Click" Foreground="White" FontSize="13.333" Background="#FF262626" FontFamily="Segoe UI Light"/>
+            <Button x:Name="BTN_Discard" Style="{StaticResource RoundedButton}" Content="Discard" Margin="521,0,12,10" Height="28" VerticalAlignment="Bottom" Click="BTN_SaveChanges_Click" Foreground="White" FontSize="13.333" Background="#FF262626" FontFamily="Segoe UI Light"/>
         </Grid>
     </Border>
 </Window>

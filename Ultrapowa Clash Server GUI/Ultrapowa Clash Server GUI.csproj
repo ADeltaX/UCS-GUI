@@ -151,6 +151,7 @@
     <Compile Include="Core\AllocateConsole.cs" />
     <Compile Include="Core\ConsoleStreamer.cs" />
     <Compile Include="Core\ControlTimer.cs" />
+    <Compile Include="Core\CoreWriter.cs" />
     <Compile Include="Properties\Resources.de-DE.Designer.cs">
       <DependentUpon>Resources.de-DE.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -162,6 +163,9 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Sys\Preload.cs" />
+    <Compile Include="UI\PlayerInfo.xaml.cs">
+      <DependentUpon>PlayerInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\PopupConfiguration.xaml.cs">
       <DependentUpon>PopupConfiguration.xaml</DependentUpon>
     </Compile>
@@ -181,6 +185,10 @@
     <Compile Include="UI\UC\Menu.xaml.cs">
       <DependentUpon>Menu.xaml</DependentUpon>
     </Compile>
+    <Page Include="UI\PlayerInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\PopupConfiguration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -272,6 +280,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="UI\Images\Arrow.png" />
     <Resource Include="UI\Images\UCS logo icon.png" />
     <Resource Include="UI\Images\UCS logo.png" />
     <Resource Include="UI\Images\Timer.png" />

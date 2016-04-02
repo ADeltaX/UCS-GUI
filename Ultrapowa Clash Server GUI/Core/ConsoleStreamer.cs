@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace UCS.Core
 {
@@ -24,7 +25,7 @@ namespace UCS.Core
             TB.Dispatcher.BeginInvoke(new Action(() =>
             {
                 TB.AppendText(value.ToString());
-            }));
+            }), DispatcherPriority.Render);
         }
 
         public override Encoding Encoding

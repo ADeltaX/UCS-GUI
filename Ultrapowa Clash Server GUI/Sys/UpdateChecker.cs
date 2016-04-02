@@ -33,11 +33,8 @@ namespace UCS.Sys
                             }
                         }
             }
-            catch (Exception ex)
+            catch
             {
-
-              //  SplashScreen.SS.label_txt.Content = "Can't check update. Error: " + ex.Message;
-
                 Thread.Sleep(500);
             }
             finally
@@ -50,9 +47,9 @@ namespace UCS.Sys
             if (thisAppVer.CompareTo(ConfUCS.NewVer) < 0)
             {
 
-                UI.SplashScreen.SS.Dispatcher.BeginInvoke((Action)delegate () {
-                    UI.SplashScreen.SS.PB_Loader.Value = 90;
-                    UI.SplashScreen.SS.label_txt.Content = "New update is available.";
+                SplashScreen.SS.Dispatcher.BeginInvoke((Action)delegate () {
+                    SplashScreen.SS.PB_Loader.Value = 90;
+                    SplashScreen.SS.label_txt.Content = "New update is available.";
                 });
 
                 ConfUCS.IsUpdateAvailable = true;
@@ -61,9 +58,9 @@ namespace UCS.Sys
             else
             {
 
-                UI.SplashScreen.SS.Dispatcher.BeginInvoke((Action)delegate ()
+                SplashScreen.SS.Dispatcher.BeginInvoke((Action)delegate ()
                 {
-                    UI.SplashScreen.SS.label_txt.Content = "No update found";
+                    SplashScreen.SS.label_txt.Content = "No update found";
                 });
 
             }

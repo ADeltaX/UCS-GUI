@@ -1,0 +1,41 @@
+﻿<Window x:Class="Ultrapowa_Clash_Server_GUI.PopupUpdater"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Ultrapowa_Clash_Server_GUI"
+        mc:Ignorable="d"
+        Title="Popup" Height="300" Width="400" Topmost="True" WindowStyle="None" Background="Transparent" AllowsTransparency="True" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" Closing="Window_Closing" Loaded="Window_Loaded">
+    <Border Name="windowBorder" BorderThickness="2" BorderBrush="#39c8e2" CornerRadius="10">
+
+        <Border.Background>
+            <ImageBrush ImageSource="BG/Blur.png" Opacity="0.7"/> 
+        </Border.Background>
+
+        <Grid>
+            <Rectangle Fill="#2980b9" Height="1" Margin="24,0,24,216" VerticalAlignment="Bottom" Opacity="0.8">
+            </Rectangle>
+            <Rectangle Fill="#2980b9" Height="1" Margin="24,0,24,247" VerticalAlignment="Bottom" Opacity="0.8">
+            </Rectangle>
+            <Button Style="{StaticResource RoundedButton}" x:Name="btn_Cancel" Content="Close" HorizontalAlignment="Left" Margin="225,263,0,0" VerticalAlignment="Top" Width="79" Height="25" Click="btn_Cancel_Click" BorderThickness="3">
+            </Button>
+            <Button Style="{StaticResource RoundedButton}" x:Name="btn_GoPage" Content="Download" HorizontalAlignment="Left" Margin="309,263,0,0" VerticalAlignment="Top" Width="79" Height="25" Click="btn_GoPage_Click">
+            </Button>
+            <Label x:Name="lbl_Title" Content="A new version of UCS is available!" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#FF39C8E2" Width="378" FontSize="24">
+            </Label>
+            <Label x:Name="lbl_CurVer" Content="Current UCS version: " HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" Foreground="#FF39C8E2" Width="182">
+            </Label>
+            <Label x:Name="lbl_NewVer" Content="New UCS version: " Margin="0,52,10,0" HorizontalContentAlignment="Right" VerticalAlignment="Top" Foreground="#FF39C8E2" HorizontalAlignment="Right" Width="177">
+            </Label>
+            <Label x:Name="lbl_Changelog" Content="Changelog:" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" Foreground="#FF39C8E2">
+            </Label>
+            <RichTextBox Template="{StaticResource FlatRichTextBoxStyle}" Padding="2" x:Name="RTB_Console" x:FieldModifier="public" Margin="10,107,10,40" AllowDrop="False" BorderThickness="2" IsReadOnly="True" Background="#A500697C" SelectionBrush="#FF005DB9" VerticalScrollBarVisibility="Auto" FontFamily="Consolas" BorderBrush="#39c8e2" Foreground="White">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text=""/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </Grid>
+    </Border>
+</Window>

@@ -28,6 +28,7 @@ namespace UCS.UI
             AnimationLib.MoveToTargetY(lbl_EnableMaintenance, -DeltaVariation/2, 0.25, 50);
             AnimationLib.MoveToTargetY(BTN_Load, -DeltaVariation/2, 0.25, 100);
             AnimationLib.MoveToTargetY(BTN_Save, -DeltaVariation/2, 0.25, 150);
+            AnimationLib.MoveToTargetY(BTN_Discard, -DeltaVariation / 2, 0.25, 200);
             AnimationLib.MoveToTargetX(TB_Gems, DeltaVariation, 0.25);
             AnimationLib.MoveToTargetX(lbl_Gems, DeltaVariation, 0.25, 25);
             AnimationLib.MoveToTargetX(TB_Gold, DeltaVariation, 0.25, 25);
@@ -96,10 +97,14 @@ namespace UCS.UI
 
         private void BTN_SaveChanges_Click(object sender, RoutedEventArgs e)
         {
-            if (BlockSaves[0] || BlockSaves[1] || BlockSaves[2] || BlockSaves[3] || BlockSaves[4]
-                 || BlockSaves[5] || BlockSaves[6] || BlockSaves[7] || BlockSaves[8] || BlockSaves[9])
-                MessageBox.Show("There are some invalid values, fix it before saving.\nHelp: Starting items should not exceed the maximum value of 999999999 and the minum value of 0\nPort max value: 65535 and should be same of debug port\nStarting level max value: 9");
-            else SaveChanges();
+            foreach (var item in BlockSaves)
+                if (item)
+                { 
+                    MessageBox.Show("There are some invalid values, fix it before saving.\nHelp: Starting items should not exceed the maximum value of 999999999 and the minum value of 0\nPort max value: 65535 and should be same of debug port\nStarting level max value: 9");
+                    return;
+                }
+
+            SaveChanges();
         }
 
         private void BTN_ReloadConfig_Click(object sender, RoutedEventArgs e)
@@ -107,10 +112,17 @@ namespace UCS.UI
             LoadConfig();
         }
 
+        private void DiscardChanges()
+        {
+            var DG = MessageBox.Show("Are you sure?", "Warning", MessageBoxButton.YesNo);
+            if (DG == MessageBoxResult.Yes)
+                Close();
+        }
+
         private void SaveChanges()
         {
-            MessageBox.Show("OK!");
-            this.Close();
+            
+            Close();
         }
 
         private void LoadConfig()
@@ -182,7 +194,6 @@ namespace UCS.UI
 
         SolidColorBrush GOOD = new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0x69, 0x7C)); //0
         SolidColorBrush ERR = new SolidColorBrush(Color.FromArgb(0xFF, 0xB4, 0x2A, 0x0C)); //2
-
 
         #region EVENTS
         private void TB_Gems_TextChanged(object sender, TextChangedEventArgs e)

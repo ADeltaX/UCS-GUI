@@ -25,34 +25,10 @@ namespace UCS.UI.UC
             OverEvent = MouseEnterEvent.AddOwner(typeof(Menu));
             RetireEvent = MouseLeaveEvent.AddOwner(typeof(Menu));
 
-            //WireAllControls();
-        }
-
-        private void Menu_Retire(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void WireAllControls()
-        {
-            
-            MouseLeave += CTL_MouseLeave;
-            MouseEnter += CTL_MouseEnter;
-            Icon.MouseEnter += CTL_MouseEnter;
-            Name.MouseEnter += CTL_MouseEnter;
-            Icon.MouseLeave += CTL_MouseLeave;
-            Name.MouseLeave += CTL_MouseLeave;
-        }
-
-        private void CTL_MouseEnter(object sender, MouseEventArgs e)
-        {
-            var m_Color = new SolidColorBrush(Color.FromRgb(0x00, 0x4c, 0x65));
-            Background = m_Color;
-        }
-
-        private void CTL_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Background = Brushes.Transparent;
+            Background = new SolidColorBrush(Color.FromRgb(0x00, 0x77, 0x9F));
+            var RT = new RotateTransform(90);
+            Arrow.RenderTransformOrigin = new Point(0.5, 0.5);
+            Arrow.RenderTransform = RT;
         }
 
         #region Events
@@ -104,6 +80,12 @@ namespace UCS.UI.UC
             set
             {
                 Name.Content = value;
+                if (IsArrowEnabled)
+                {
+                    Name.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                    Arrow.Margin = new Thickness(0, 0, -Name.DesiredSize.Width - 16, 0);
+                    ACAB.Margin = new Thickness(-24, 0, 0, 0);
+                }  
             }
         }
 
@@ -116,6 +98,55 @@ namespace UCS.UI.UC
             set
             {
                 Icon.Source = value;
+            }
+        }
+
+        public ImageSource ImageArrow
+        {
+            get
+            {
+                return Arrow.Source;
+            }
+            set
+            {
+                Arrow.Source = value;
+                IsArrowEnabled = true;
+            }
+        }
+
+        private bool _IsArrowEnabled = false;
+        public bool IsArrowEnabled
+        {
+            get
+            {
+                return _IsArrowEnabled;
+            }
+            set
+            {
+                _IsArrowEnabled = value;
+            }
+        }
+
+        private bool _IsPressed = false;
+        public bool IsPressed
+        {
+            get
+            {
+                return _IsPressed;
+            }
+            set
+            {
+                _IsPressed = value;
+                if (value)
+                {
+                    AnimationLib.RotateImage(Arrow, 180, 0.25);
+                    AnimationLib.ChangeBackgroundColor(this, Color.FromRgb(0x00, 0x4c, 0x65), 0.2);
+                }
+                else
+                {
+                    AnimationLib.RotateImage(Arrow, 90, 0.25);
+                    AnimationLib.ChangeBackgroundColor(this, Color.FromRgb(0x00, 0x77, 0x9F), 0.2);
+                }
             }
         }
     }

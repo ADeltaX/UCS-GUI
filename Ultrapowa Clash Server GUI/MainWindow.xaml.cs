@@ -31,7 +31,7 @@ namespace UCS
         List<string> CommandList;
 
         public bool isBlurEnabled = false;
-        public const int blurValue =30;
+        public const int blurValue = 10;
         public const RenderingBias RenderQuality = RenderingBias.Performance;
 
         public MainWindow()
@@ -77,7 +77,6 @@ namespace UCS
 
         private void ConfUCS_OnServerOnlineEvent(object sender, EventArgs e)
         {
-
             Dispatcher.BeginInvoke((Action)delegate()
             {
                 SolidColorBrush m_Color;
@@ -103,6 +102,170 @@ namespace UCS
 
         }
 
+        #region UC Events
+        private void RTB_Console_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                RTB_Console.ScrollToEnd();
+            }, DispatcherPriority.Render);
+        }
+
+        private void UC_Commands_Click(object sender, RoutedEventArgs e)
+        {
+            if (Grid_Commands.Visibility == Visibility.Visible)
+            {
+                Grid_Commands.Visibility = Visibility.Collapsed;
+                UC_Commands.IsPressed = false;
+            }
+            else
+            {
+                Grid_Commands.Visibility = Visibility.Visible;
+                Grid_Utility.Visibility = Visibility.Collapsed;
+                Grid_Menu.Visibility = Visibility.Collapsed;
+                UC_Utility.IsPressed = false;
+                UC_Commands.IsPressed = true;
+            }
+        }
+
+        private void UC_Utility_Click(object sender, RoutedEventArgs e)
+        {
+            if (Grid_Utility.Visibility == Visibility.Visible)
+            {
+                Grid_Utility.Visibility = Visibility.Collapsed;
+                UC_Utility.IsPressed = false;
+            }
+            else
+            {
+                Grid_Commands.Visibility = Visibility.Collapsed;
+                Grid_Menu.Visibility = Visibility.Collapsed;
+                Grid_Utility.Visibility = Visibility.Visible;
+                UC_Commands.IsPressed = false;
+                UC_Utility.IsPressed = true;
+            }
+        }
+
+        private void UC_Menu_Click(object sender, RoutedEventArgs e)
+        {
+            if (Grid_Menu.Visibility == Visibility.Visible)
+            {
+                Grid_Menu.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                Grid_Commands.Visibility = Visibility.Collapsed;
+                Grid_Menu.Visibility = Visibility.Visible;
+                Grid_Utility.Visibility = Visibility.Collapsed;
+                UC_Utility.IsPressed = false;
+                UC_Commands.IsPressed = false;
+            }
+        }
+
+        private void UC_Restart_Click(object sender, RoutedEventArgs e)
+        {
+            CommandParser.CommandRead("/restart");
+        }
+
+        private void UC_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void UC_Configuration_Click(object sender, RoutedEventArgs e)
+        {
+            Grid_Utility.Visibility = Visibility.Collapsed;
+            UC_Utility.IsPressed = false;
+            IsFocusOk = false;
+            PopupConfiguration PC = new PopupConfiguration();
+            PC.Owner = this;
+            PC.ShowDialog();
+        }
+
+        private void UC_Ban_Click(object sender, RoutedEventArgs e)
+        {
+            Grid_Commands.Visibility = Visibility.Collapsed;
+            UC_Commands.IsPressed = false;
+            SendPopup(Popup.cause.BAN);
+
+        }
+
+        private void UC_Unban_Click(object sender, RoutedEventArgs e)
+        {
+            Grid_Commands.Visibility = Visibility.Collapsed;
+            UC_Commands.IsPressed = false;
+            SendPopup(Popup.cause.UNBAN);
+        }
+
+        private void UC_Kick_Click(object sender, RoutedEventArgs e)
+        {
+            Grid_Commands.Visibility = Visibility.Collapsed;
+            UC_Commands.IsPressed = false;
+            SendPopup(Popup.cause.KICK);
+        }
+
+        private void UC_CheckUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            Grid_Utility.Visibility = Visibility.Collapsed;
+            UC_Utility.IsPressed = false;
+            if (!ChangeUpdatePopup)
+            {
+                IsFocusOk = false;
+                PopupUpdater PopupUpdater = new PopupUpdater();
+                PopupUpdater.Owner = this;
+                PopupUpdater.ShowDialog();
+            }
+        }
+
+        private void UC_PlayerInfo_Click(object sender, RoutedEventArgs e)
+        {
+            Grid_Commands.Visibility = Visibility.Collapsed;
+            Grid_Menu.Visibility = Visibility.Collapsed;
+            Grid_Utility.Visibility = Visibility.Collapsed;
+            UC_Commands.IsPressed = false;
+            UC_Utility.IsPressed = false;
+
+            IsFocusOk = false;
+            var Popup = new PlayerInfo();
+            Popup.Owner = this;
+            Popup.ShowDialog();
+
+        }
+
+        private void UC_MouseEnter(object sender, MouseEventArgs e)
+        {
+            AnimationLib.ChangeBackgroundColor((sender as UI.UC.Menu), Color.FromRgb(0x00, 0x4c, 0x65), 0.2);
+        }
+
+        private void UC_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (!(sender as UI.UC.Menu).IsPressed)
+                AnimationLib.ChangeBackgroundColor((sender as UI.UC.Menu), Color.FromRgb(0x00, 0x77, 0x9F), 0.2);
+        }
+
+
+        //Events for SubCommands
+        private void USC_MouseLeave(object sender, MouseEventArgs e)
+        {
+            AnimationLib.ChangeBackgroundColor((sender as UI.UC.Menu), Color.FromRgb(0x00, 0x77, 0x9F), 0.2);
+            AnimationLib.MoveToTargetXwoMargin((sender as Control), 0, 10, .2);
+        }
+
+        private void USC_MouseEnter(object sender, MouseEventArgs e)
+        {
+            AnimationLib.ChangeBackgroundColor((sender as UI.UC.Menu), Color.FromRgb(0x00, 0x4c, 0x65), 0.2);
+            AnimationLib.MoveToTargetXwoMargin((sender as Control), 10, 0, .2);
+        }
+
+        private void UC_Menu_MouseEnter(object sender, MouseEventArgs e)
+        {
+            AnimationLib.ChangeBackgroundBorderColor(UC_Menu_Background, Color.FromRgb(0x00, 0x4c, 0x65), 0.2);
+        }
+
+        private void UC_Menu_MouseLeave(object sender, MouseEventArgs e)
+        {
+            AnimationLib.ChangeBackgroundBorderColor(UC_Menu_Background, Color.FromRgb(0x00, 0x77, 0x9F), 0.2);
+        }
+        #endregion
 
         #region Events
 
@@ -150,7 +313,6 @@ namespace UCS
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
                 Console.WriteLine(Properties.Resources.GUILoaded);
                 DoAnimation();
 
@@ -163,8 +325,6 @@ namespace UCS
                             LaunchConsoleThread();
                         });
                     }
-
-
         }
 
         private void LaunchConsoleThread()
@@ -225,12 +385,6 @@ namespace UCS
         {
             Application.Current.Shutdown();
         }
-
-        #region UserControl Events
-
- 
-
-        #endregion 
 
         private void CB_Debug_Unchecked(object sender, RoutedEventArgs e)
         {
@@ -297,6 +451,7 @@ namespace UCS
             AnimationLib.MoveToTargetY(img_Internet, DeltaVariation, 0.25, 210);
             AnimationLib.MoveToTargetY(MainRectangle, -DeltaVariation, 0.25, 250);
             AnimationLib.MoveToTargetY(UC_Menu, -DeltaVariation, 0.25, 300);
+            AnimationLib.MoveToTargetY(UC_Menu_Background, -DeltaVariation, 0.25, 300);
             AnimationLib.MoveToTargetY(RBase, -DeltaVariation, 0.25, 325);
             AnimationLib.MoveToTargetY(UC_Commands, -DeltaVariation, 0.25, 350);
             AnimationLib.MoveToTargetY(R1, -DeltaVariation, 0.25, 375);
@@ -333,7 +488,7 @@ namespace UCS
                 myDoubleAnimation.From = 1;
                 myDoubleAnimation.To = 0.2;
                 myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(0.125));
-                this.BeginAnimation(OpacityProperty, myDoubleAnimation);
+                BeginAnimation(OpacityProperty, myDoubleAnimation);
                 return;
             }
             RegisterName("blurEffect", blurEffect);
@@ -349,7 +504,7 @@ namespace UCS
             Storyboard.SetTargetName(myDoubleAnimation, "blurEffect");
             Storyboard.SetTargetProperty(myDoubleAnimation, new PropertyPath(BlurEffect.RadiusProperty));
             myStoryboard.Children.Add(myDoubleAnimation);
-           //myStoryboard.Begin(this);
+            myStoryboard.Begin(this);
         }
 
         private void DeBlur()
@@ -359,7 +514,7 @@ namespace UCS
                 myDoubleAnimation.From = 0.2;
                 myDoubleAnimation.To = 1;
                 myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(0.125));
-                this.BeginAnimation(OpacityProperty, myDoubleAnimation);
+                BeginAnimation(OpacityProperty, myDoubleAnimation);
                 return;
             }
             RegisterName("blurEffect", blurEffect);
@@ -375,165 +530,14 @@ namespace UCS
             Storyboard.SetTargetName(myDoubleAnimation, "blurEffect");
             Storyboard.SetTargetProperty(myDoubleAnimation, new PropertyPath(BlurEffect.RadiusProperty));
             myStoryboard.Children.Add(myDoubleAnimation);
-            //myStoryboard.Begin(this);
+            myStoryboard.Begin(this);
         }
 
         #endregion
 
         #endregion
 
-        #region UC Events
-        private void RTB_Console_TextChanged(object sender, TextChangedEventArgs e)
-        {
-           Dispatcher.BeginInvoke((Action)delegate() 
-           {
-               RTB_Console.ScrollToEnd();
-           }, DispatcherPriority.Input);
-        }
 
-        private void UC_Commands_Click(object sender, RoutedEventArgs e)
-        {
-            if (Grid_Commands.Visibility == Visibility.Visible)
-                Grid_Commands.Visibility = Visibility.Collapsed;
-            else
-            {
-                Grid_Commands.Visibility = Visibility.Visible;
-                Grid_Utility.Visibility = Visibility.Collapsed;
-                Grid_Menu.Visibility = Visibility.Collapsed;
-            }
-            if (sender == UC_Commands_Ban)
-            {
-                MessageBox.Show("Ban");
-            }
-            else if (sender == UC_Commands_Unban)
-            {
-                MessageBox.Show("Unban");
-            }
-            else if (sender == UC_Commands_Kick)
-            {
-                MessageBox.Show("Kick");
-            }
-        }
-
-        private void UC_Utility_Click(object sender, RoutedEventArgs e)
-        {
-            if (Grid_Utility.Visibility == Visibility.Visible)
-                Grid_Utility.Visibility = Visibility.Collapsed;
-            else
-            {
-                Grid_Commands.Visibility = Visibility.Collapsed;
-                Grid_Menu.Visibility = Visibility.Collapsed;
-                Grid_Utility.Visibility = Visibility.Visible;
-            }
-        }
-
-        private void UC_Menu_Click(object sender, RoutedEventArgs e)
-        {
-            if (Grid_Menu.Visibility == Visibility.Visible)
-                Grid_Menu.Visibility = Visibility.Collapsed;
-            else
-            {
-                Grid_Commands.Visibility = Visibility.Collapsed;
-                Grid_Menu.Visibility = Visibility.Visible;
-                Grid_Utility.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void UC_Restart_Click(object sender, RoutedEventArgs e)
-        {
-            CommandParser.CommandRead("/restart");
-        }
-
-        private void UC_Exit_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
-        private void UC_Ban_Click(object sender, RoutedEventArgs e)
-        {
-            Grid_Commands.Visibility = Visibility.Collapsed;
-            SendPopup(Popup.cause.BAN);
-
-        }
-
-        private void UC_Configuration_Click(object sender, RoutedEventArgs e)
-        {
-            Grid_Utility.Visibility = Visibility.Collapsed;
-            IsFocusOk = false;
-            PopupConfiguration PC = new PopupConfiguration();
-            PC.Owner = this;
-            PC.ShowDialog();
-        }
-
-        private void UC_Unban_Click(object sender, RoutedEventArgs e)
-        {
-            Grid_Commands.Visibility = Visibility.Collapsed;
-            SendPopup(Popup.cause.UNBAN);
-        }
-
-        private void UC_Kick_Click(object sender, RoutedEventArgs e)
-        {
-            Grid_Commands.Visibility = Visibility.Collapsed;
-            SendPopup(Popup.cause.KICK);
-
-        }
-
-        private void UC_CheckUpdate_Click(object sender, RoutedEventArgs e)
-        {
-            if (!ChangeUpdatePopup)
-            {
-                IsFocusOk = false;
-                PopupUpdater PopupUpdater = new PopupUpdater();
-                PopupUpdater.Owner = this;
-                PopupUpdater.ShowDialog();
-            }
-            Grid_Utility.Visibility = Visibility.Collapsed;
-        }
-
-        private void UC_PlayerInfo_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void UC_MouseEnter(object sender, MouseEventArgs e)
-        {
-            var m_Color = new SolidColorBrush(Color.FromRgb(0x00, 0x4c, 0x65));
-            (sender as Control).Background = m_Color;
-
-        }
-
-        private void UC_MouseLeave(object sender, MouseEventArgs e)
-        {
-            (sender as Control).Background = Brushes.Transparent;
-        }
-
-
-        //Events for SubCommands
-        private void USC_MouseLeave(object sender, MouseEventArgs e)
-        {
-            var m_Color = new SolidColorBrush(Color.FromRgb(0x00, 0x77, 0x9f));
-            (sender as Control).Background = m_Color;
-            AnimationLib.MoveToTargetXwoMargin((sender as Control), 0,10, .2);
-        }
-
-        private void USC_MouseEnter(object sender, MouseEventArgs e)
-        {
-            var m_Color = new SolidColorBrush(Color.FromRgb(0x00, 0x4c, 0x65));
-            (sender as Control).Background = m_Color;
-            AnimationLib.MoveToTargetXwoMargin((sender as Control), 10, 0, .2);
-        }
-
-        private void UC_Menu_MouseEnter(object sender, MouseEventArgs e)
-        {
-            var m_Color = new SolidColorBrush(Color.FromRgb(0x00, 0x4c, 0x65));
-            UC_Menu_Background.Background = m_Color;
-        }
-
-        private void UC_Menu_MouseLeave(object sender, MouseEventArgs e)
-        {
-            UC_Menu_Background.Background = Brushes.Transparent;
-        }
-        #endregion
 
     }
 

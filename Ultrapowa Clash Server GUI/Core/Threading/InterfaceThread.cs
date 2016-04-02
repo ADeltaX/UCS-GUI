@@ -31,15 +31,10 @@ namespace UCS.Core.Threading
         {
             T = new Thread(() =>
             {
-
                 MainWindow.RemoteWindow.Dispatcher.BeginInvoke((Action)delegate ()
                 {
-                    MainWindow.RemoteWindow.SharedShow();
                     MainWindow.RemoteWindow.Show();
-                });
-
-               
-                
+                });      
             });
             T.SetApartmentState(ApartmentState.STA); //Required running in single thread mode
             T.Start();

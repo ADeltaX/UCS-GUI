@@ -67,7 +67,7 @@ namespace UCS
             cntrl.RenderTransform.BeginAnimation(TranslateTransform.XProperty, DirX);
         }
 
-        public static void MoveToTargetXwoMargin(Control cntrl, double XPos, double FromXPos=0, double TimeSecond=0, double TimeMillisecond = 0)
+        public static void MoveToTargetXwoMargin(UIElement cntrl, double XPos, double FromXPos=0, double TimeSecond=0, double TimeMillisecond = 0)
         {
             QuadraticEase EP = new QuadraticEase();
             EP.EasingMode = EasingMode.EaseOut;
@@ -137,23 +137,67 @@ namespace UCS
             cntrl.BeginAnimation(Window.TopProperty, DirX);
         }
 
-        public static void ChangeForegroundColor(Control cntrl, Color FromColor, Color ToColor, double TimeSecond, double TimeMillisecond = 0)
+        public static void ChangeBackgroundBorderColor(Border cntrl, Color ToColor, double TimeSecond, double TimeMillisecond = 0)
         {
             QuadraticEase EP = new QuadraticEase();
             EP.EasingMode = EasingMode.EaseInOut;
 
+            var solidC = ((SolidColorBrush)cntrl.Background).Color;
+
             var DirColor = new ColorAnimation
             {
                 Duration = new Duration(TimeSpan.FromSeconds(TimeSecond)),
-                From = FromColor,
+                From = solidC,
                 To = ToColor,
                 BeginTime = TimeSpan.FromMilliseconds(TimeMillisecond),
                 EasingFunction = EP,
                 AutoReverse = false
             };
-
-            cntrl.BeginAnimation(SolidColorBrush.ColorProperty,DirColor);
+            cntrl.Background.BeginAnimation(SolidColorBrush.ColorProperty, DirColor);
         }
 
+        public static void ChangeBackgroundColor(Control cntrl, Color ToColor, double TimeSecond, double TimeMillisecond = 0)
+        {
+            QuadraticEase EP = new QuadraticEase();
+            EP.EasingMode = EasingMode.EaseInOut;
+
+            var solidC = ((SolidColorBrush)cntrl.Background).Color;
+
+            var DirColor = new ColorAnimation
+            {
+                Duration = new Duration(TimeSpan.FromSeconds(TimeSecond)),
+                From = solidC,
+                To = ToColor,
+                BeginTime = TimeSpan.FromMilliseconds(TimeMillisecond),
+                EasingFunction = EP,
+                AutoReverse = false
+            };
+            cntrl.Background.BeginAnimation(SolidColorBrush.ColorProperty, DirColor);
+        }
+
+        public static void RotateImage(UIElement cntrl, double ToAngle, double TimeSecond, double TimeMillisecond = 0)
+        {
+            QuadraticEase EP = new QuadraticEase();
+            EP.EasingMode = EasingMode.EaseInOut;
+
+            var CurrentRotation = new RotateTransform();
+            CurrentRotation = (RotateTransform)cntrl.RenderTransform;
+
+            var DirRotation = new DoubleAnimation
+            {
+                Duration = new Duration(TimeSpan.FromSeconds(TimeSecond)),
+                From = CurrentRotation.Angle,
+                To = ToAngle,
+                BeginTime = TimeSpan.FromMilliseconds(TimeMillisecond),
+                EasingFunction = EP,
+                AutoReverse = false
+            };
+            
+            Storyboard.SetTarget(DirRotation, cntrl);
+            Storyboard.SetTargetProperty(DirRotation, new PropertyPath("(UIElement.RenderTransform).(RotateTransform.Angle)"));
+            var ST = new Storyboard();
+            ST.Children.Add(DirRotation);
+            ST.Begin();
+        }
     }
 }

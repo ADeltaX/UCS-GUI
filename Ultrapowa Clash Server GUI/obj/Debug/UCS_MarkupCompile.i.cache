@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\
+C:\Users\ADeltaX\Documents\UCS-GUI\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\
 UCS
 none
 false
 DEBUG;TRACE
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\App.xaml
-71918869305
+C:\Users\ADeltaX\Documents\UCS-GUI\UCS-GUI\Ultrapowa Clash Server GUI\App.xaml
+8-1743678410
 1273916662
-218-1085586932
-32-1786606595
-UI\PopupConfiguration.xaml;MainWindow.xaml;UI\Popup.xaml;UI\PopupUpdater.xaml;UI\SplashScreen.xaml;Styles\Styles.xaml;UI\UC\Menu.xaml;
+220-200754040
+32-347648586
+UI\PlayerInfo.xaml;UI\PopupConfiguration.xaml;MainWindow.xaml;UI\Popup.xaml;UI\PopupUpdater.xaml;UI\SplashScreen.xaml;Styles\Styles.xaml;UI\UC\Menu.xaml;
 
-False
+True
 

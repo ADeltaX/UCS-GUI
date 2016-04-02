@@ -7,8 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="36" d:DesignWidth="200" FontSize="16">
     <Grid HorizontalAlignment="Center" Name="ACAB">
-        <Image x:Name="Icon" HorizontalAlignment="Left" Height="36" VerticalAlignment="Top" Width="36">
-        </Image>
-        <Label x:Name="Name" Content="Name" VerticalAlignment="Top" Margin="36,0,5,0" FontFamily="Segoe UI Light" Foreground="White" FontSize="18.667"/>
+   
+        <Image x:Name="Icon" Grid.Column="0" HorizontalAlignment="Left" Height="36" VerticalAlignment="Top" Width="36" />
+        <Label x:Name="Name" Grid.Column="1" Content="Name" VerticalAlignment="Center" Margin="36,0,0,0" FontFamily="Segoe UI Light" Foreground="White" FontSize="18.667"/>
+        <Image x:Name="Arrow" Grid.Column="2" Height="12" VerticalAlignment="Center" Width="12" Margin="0,0,0,0" />
     </Grid>
 </UserControl>

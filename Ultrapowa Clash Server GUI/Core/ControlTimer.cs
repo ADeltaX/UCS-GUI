@@ -32,6 +32,22 @@ namespace UCS.Core
             throw new NotImplementedException();
         }
 
+        public static void SwitchTimer()
+        {
+            if (ConfUCS.IsConsoleMode)
+            {
+                UpdateInfo.Elapsed += UpdateInfo_Tick;
+                UpdateInfo.Interval = 1000;
+                UpdateInfo.Start();
+            }   
+            else
+            {
+                MainWindow.RemoteWindow.PrepareTimer();
+                MainWindow.RemoteWindow.UpdateInfoGUI.Start();
+            }
+                
+        }
+
         public static void StartUpTimer()
         {
             HighPrecisionUpdateTimer.Start();
@@ -52,8 +68,7 @@ namespace UCS.Core
             PerformanceCounter.Stop();
             TimeSpan PCTS = PerformanceCounter.Elapsed;
             string MeasuredPerformanceTime = string.Format("{0}", PCTS.TotalMilliseconds);
-            Console.WriteLine(Properties.Resources.OperationCompletedIn + " {0} ms", MeasuredPerformanceTime);
-            
+            Console.WriteLine(string.Format(Properties.Resources.OperationCompletedIn + " {0} ms", MeasuredPerformanceTime)); 
         }
 
         public static void UpdateTime()

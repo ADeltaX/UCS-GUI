@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using UCS.UI;
+using UCS.Core;
 
 namespace UCS.Sys
 {

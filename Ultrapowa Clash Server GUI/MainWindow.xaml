@@ -13,7 +13,7 @@
     <Grid Margin="0,0,0,0">
         <Grid Grid.Row="0" Margin="0,0,0,0" Height="36" VerticalAlignment="Top">
             <Rectangle Fill="#ff00779f" x:Name="MainRectangle" Height="36" VerticalAlignment="Top" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5"/>
-            <Border x:Name="UC_Menu_Background" HorizontalAlignment="Left" Width="43">
+            <Border x:Name="UC_Menu_Background" HorizontalAlignment="Left" Width="43" Background="#FF00779F">
                 <Button x:Name="UC_Menu" Height="36" MouseEnter="UC_Menu_MouseEnter" MouseLeave="UC_Menu_MouseLeave" Click="UC_Menu_Click">
                     <Button.Template>
                         <ControlTemplate>
@@ -33,9 +33,9 @@
                     <ColumnDefinition Width="1"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <UControls:Menu x:Name="UC_Commands" Grid.Column="0" ImageLink="UI/Images/Commands.png" NameLabel="{x:Static p:Resources.Commands}" Width="Auto" HorizontalAlignment="Stretch" Height="36" VerticalAlignment="Top" Margin="0,0,0,0" Click="UC_Commands_Click" MouseEnter="UC_MouseEnter"  MouseLeave="UC_MouseLeave"/>
+                <UControls:Menu x:Name="UC_Commands" Grid.Column="0" ImageArrow="UI/Images/Arrow.png" ImageLink="UI/Images/Commands.png" NameLabel="{x:Static p:Resources.Commands}" Width="Auto" HorizontalAlignment="Stretch" Height="36" VerticalAlignment="Top" Margin="0,0,0,0" Click="UC_Commands_Click" MouseEnter="UC_MouseEnter"  MouseLeave="UC_MouseLeave"/>
                 <Rectangle x:Name="R1" Fill="#ff0099cc" Grid.Column="1" Height="24" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" Width="1" Margin="0,6,0,0"/>
-                <UControls:Menu x:Name="UC_Utility" Grid.Column="2" ImageLink="UI/Images/Utility.png" NameLabel="{x:Static p:Resources.Utility}" Width="Auto" HorizontalAlignment="Stretch" Height="36" VerticalAlignment="Top" Margin="0,0,0,0" Click="UC_Utility_Click" MouseEnter="UC_MouseEnter"  MouseLeave="UC_MouseLeave"/>
+                <UControls:Menu x:Name="UC_Utility" Grid.Column="2" ImageArrow="UI/Images/Arrow.png" ImageLink="UI/Images/Utility.png" NameLabel="{x:Static p:Resources.Utility}" Width="Auto" HorizontalAlignment="Stretch" Height="36" VerticalAlignment="Top" Margin="0,0,0,0" Click="UC_Utility_Click" MouseEnter="UC_MouseEnter"  MouseLeave="UC_MouseLeave"/>
                 <Rectangle x:Name="R2" Fill="#ff0099cc" Grid.Column="3" Height="24" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" Width="1" Margin="0,6,0,0"/>
                 <UControls:Menu x:Name="UC_PlayerInfo" Grid.Column="4" ImageLink="UI/Images/Player Info.png" NameLabel="{x:Static p:Resources.PlayerInfo}" Width="Auto" HorizontalAlignment="Stretch" Height="36" VerticalAlignment="Top" Margin="0,0,0,0" Click="UC_PlayerInfo_Click" MouseEnter="UC_MouseEnter"  MouseLeave="UC_MouseLeave"/>
                 <Rectangle x:Name="R3" Fill="#ff0099cc" Grid.Column="5" Height="24" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" Width="1" Margin="0,6,0,0"/>
@@ -66,8 +66,8 @@
             <Label x:Name="LBL_IP" Content="127.0.0.1" HorizontalAlignment="Left" Margin="43,0,0,1" Height="34" VerticalAlignment="Bottom" BorderThickness="1" Foreground="White" FontSize="14" FontFamily="Segoe UI Light">
             </Label>
             <Image x:Name="img_Internet" Source="UI/Images/Internet.png" HorizontalAlignment="Left" Margin="10,0,0,2" Width="36" Height="36" VerticalAlignment="Bottom"/>
-            <Label x:Name="LBL_UpTime" Content="00:00:00:00" Margin="0,0,327,1" Height="34" VerticalAlignment="Bottom" BorderThickness="1" Foreground="White" HorizontalAlignment="Right" VerticalContentAlignment="Top" HorizontalContentAlignment="Left" Width="170" FontSize="14" FontFamily="Segoe UI Light"/>
-            <Image x:Name="img_Timer" Source="UI/Images/Timer.png" HorizontalAlignment="Right" Margin="0,0,492,0" Width="36" Height="36" VerticalAlignment="Bottom"/>
+            <Label x:Name="LBL_UpTime" Content="{x:Static p:Resources.UpTime}" Margin="0,0,348,3" Height="34" VerticalAlignment="Bottom" BorderThickness="1" Foreground="White" HorizontalAlignment="Right" VerticalContentAlignment="Top" HorizontalContentAlignment="Left" Width="170" FontSize="14" FontFamily="Segoe UI Light"/>
+            <Image x:Name="img_Timer" Source="UI/Images/Timer.png" HorizontalAlignment="Right" Margin="0,0,513,2" Width="36" Height="36" VerticalAlignment="Bottom"/>
             <TextBox Template="{StaticResource FlatTextBoxStyle}" CaretBrush="DarkGray" Padding="4" x:Name="CommandLine" TextWrapping="Wrap" Text="" Margin="50,0,238,42" Height="22" VerticalAlignment="Bottom" Background="#acacac" Foreground="Black" KeyDown="CommandLine_KeyDown" BorderBrush="#39c8e2" SelectionBrush="#FF1B60A6">
             </TextBox>
             <Image x:Name="img_Text" Source="UI/Images/Text.png" HorizontalAlignment="Left" Margin="10,0,0,32" Width="35" Height="36" VerticalAlignment="Bottom"/>
@@ -91,8 +91,8 @@
                 <RowDefinition Height="35"/>
             </Grid.RowDefinitions>
             <UControls:Menu x:Name="UC_Commands_Ban" Grid.Row="0" Grid.Column="0" ImageLink="UI/Images/Commands.png" NameLabel="Ban" Width="Auto"  HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" Height="36" VerticalAlignment="Top" Click="UC_Ban_Click" MouseEnter="USC_MouseEnter"  MouseLeave="USC_MouseLeave" Background="#00779f"/>
-            <UControls:Menu x:Name="UC_Commands_Kick" Grid.Row="1" Grid.Column="0" ImageLink="UI/Images/Commands.png" NameLabel="Kick" Width="Auto"  HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" Height="36" VerticalAlignment="Top" Click="UC_Unban_Click" MouseEnter="USC_MouseEnter"  MouseLeave="USC_MouseLeave" Background="#00779f"/>
-            <UControls:Menu x:Name="UC_Commands_Unban" Grid.Row="2" Grid.Column="0" ImageLink="UI/Images/Commands.png" NameLabel="Unban" Width="Auto"  HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" Height="36" VerticalAlignment="Top" Click="UC_Kick_Click" MouseEnter="USC_MouseEnter"  MouseLeave="USC_MouseLeave" Background="#00779f"/>
+            <UControls:Menu x:Name="UC_Commands_Kick" Grid.Row="1" Grid.Column="0" ImageLink="UI/Images/Commands.png" NameLabel="Kick" Width="Auto"  HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" Height="36" VerticalAlignment="Top" Click="UC_Kick_Click" MouseEnter="USC_MouseEnter"  MouseLeave="USC_MouseLeave" Background="#00779f"/>
+            <UControls:Menu x:Name="UC_Commands_Unban" Grid.Row="2" Grid.Column="0" ImageLink="UI/Images/Commands.png" NameLabel="Unban" Width="Auto"  HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" Height="36" VerticalAlignment="Top" Click="UC_Unban_Click" MouseEnter="USC_MouseEnter"  MouseLeave="USC_MouseLeave" Background="#00779f"/>
         </Grid>
         <Grid x:Name="Grid_Utility" Visibility="Collapsed" Margin="44,36,0,0" Height="108" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
@@ -123,7 +123,8 @@
                 <RowDefinition Height="35"/>
             </Grid.RowDefinitions>
             <UControls:Menu x:Name="UC_Menu_About" Grid.Row="0" Grid.Column="0" ImageLink="UI/Images/Utility.png" NameLabel="{x:Static p:Resources.About}" Width="Auto"  HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" Height="36" VerticalAlignment="Top" Click="UC_Menu_Click" MouseEnter="USC_MouseEnter"  MouseLeave="USC_MouseLeave" Background="#00779f"/>
-            <UControls:Menu x:Name="UC_Menu_Exit" Grid.Row="1" Grid.Column="0" ImageLink="UI/Images/Utility.png" NameLabel="{x:Static p:Resources.Exit}" Width="Auto"  HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" Height="36" VerticalAlignment="Top" Click="UC_Exit_Click" MouseEnter="USC_MouseEnter"  MouseLeave="USC_MouseLeave" Background="#00779f"/>
+            <UControls:Menu x:Name="UC_Menu_Plugins" Grid.Row="1" Grid.Column="0" ImageLink="UI/Images/Utility.png" NameLabel="Plugins" Width="Auto"  HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" Height="36" VerticalAlignment="Top" Click="UC_Menu_Click" MouseEnter="USC_MouseEnter"  MouseLeave="USC_MouseLeave" Background="#00779f"/>
+            <UControls:Menu x:Name="UC_Menu_Exit" Grid.Row="2" Grid.Column="0" ImageLink="UI/Images/Utility.png" NameLabel="{x:Static p:Resources.Exit}" Width="Auto"  HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" Height="36" VerticalAlignment="Top" Click="UC_Exit_Click" MouseEnter="USC_MouseEnter"  MouseLeave="USC_MouseLeave" Background="#00779f"/>
         </Grid>
     </Grid>
 </Window>

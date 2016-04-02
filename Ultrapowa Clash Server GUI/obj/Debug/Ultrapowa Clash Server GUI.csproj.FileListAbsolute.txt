@@ -113,10 +113,14 @@ C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\U
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.csproj.GenerateResource.Cache
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UCS.exe
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UCS.pdb
-C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\Ultrapowa Clash Server GUI.csprojResolveAssemblyReference.cache
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\it-IT\UCS.resources.dll
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UCS.Properties.Resources.it-IT.resources
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\it-IT\UCS.resources.dll
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\de-DE\UCS.resources.dll
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UCS.Properties.Resources.de-DE.resources
 C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\de-DE\UCS.resources.dll
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UI\PlayerInfo.g.cs
+C:\Users\ADeltaX\Documents\GitHub\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UI\PlayerInfo.baml
+C:\Users\ADeltaX\Documents\UCS-GUI\UCS-GUI\Ultrapowa Clash Server GUI\bin\Debug\UCS.exe.config
+C:\Users\ADeltaX\Documents\UCS-GUI\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UCS.exe
+C:\Users\ADeltaX\Documents\UCS-GUI\UCS-GUI\Ultrapowa Clash Server GUI\obj\Debug\UCS.pdb
